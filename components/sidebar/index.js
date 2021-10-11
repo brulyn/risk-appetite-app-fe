@@ -18,7 +18,7 @@ export default function SideBar() {
 
       <Transactions />
 
-      <Reports/>
+      <Reports />
     </div>
   );
 }
