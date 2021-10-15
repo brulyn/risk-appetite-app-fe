@@ -2,50 +2,47 @@ import React, { useContext, useState } from "react";
 import { Icon, Table, Label } from "semantic-ui-react";
 import { RatioContext } from "../../contexts/ratioContext";
 
-let data = [
-  {
-    metric: "Current Ratio",
-    category: "liquidity",
-    currentPerformance: "122",
-    previousPerformance: "330",
-    riskTolerance: "200",
-  },
-
-  {
-    metric: "Quick Ratio",
-    category: "liquidity",
-    currentPerformance: "106",
-    previousPerformance: "225",
-    riskTolerance: "100",
-  },
-
-  {
-    metric: "GP Margin",
-    category: "profitability",
-    currentPerformance: "39",
-    previousPerformance: "47",
-    riskTolerance: "50",
-  },
-];
-
-const getRiskScore = (performance, tolerance) => {
-  if (performance / tolerance >= 1 || tolerance === 0) return 0;
-  if (performance / tolerance >= 0.8 && performance / tolerance < 1) return 1;
-  if (performance / tolerance >= 0.5 && performance / tolerance < 0.8) return 2;
-  if (performance / tolerance >= 0.2 && performance / tolerance < 0.5) return 3;
-  if (performance / tolerance < 0.2) return 4;
-};
-
-const getFlagColor = (score) => {
-  if (score === 0) return "green";
-  if (score === 1) return "olive";
-  if (score === 2) return "yellow";
-  if (score === 3) return "orange";
-  if (score === 4) return "red";
-};
-
 function StructuredTable() {
   const { ratios, setRatio } = useContext(RatioContext);
+
+  const getRiskScore = (performance, tolerance) => {
+    if (performance / tolerance >= 1 || tolerance === 0) return 0;
+    if (performance / tolerance >= 0.8 && performance / tolerance < 1) return 1;
+    if (performance / tolerance >= 0.5 && performance / tolerance < 0.8)
+      return 2;
+    if (performance / tolerance >= 0.2 && performance / tolerance < 0.5)
+      return 3;
+    if (performance / tolerance < 0.2) return 4;
+  };
+
+  const getFlagColor = (score) => {
+    if (score === 0) return "green";
+    if (score === 1) return "olive";
+    if (score === 2) return "yellow";
+    if (score === 3) return "orange";
+    if (score === 4) return "red";
+  };
+
+  const getDirectionOfRisk = (
+    currPerformance,
+    prevPerformance,
+    riskTolerance,
+    criteria = "greater"
+  ) => {
+    /**
+     *
+     * if previous performance vs risk tolerance is greater than current performance vd risk tolerance then decresin
+     * else increasing
+     */
+    let prevRiskScore = getRiskScore(prevPerformance, riskTolerance);
+    let currRiskScore = getRiskScore(currPerformance, riskTolerance);
+
+    if (prevRiskScore > currRiskScore) return "Decreasing";
+    else if (prevRiskScore < currRiskScore) return "Increasing";
+    else return "Stable";
+
+    return currRiskScore;
+  };
 
   console.log(ratios);
   return (
@@ -86,7 +83,12 @@ function StructuredTable() {
                         getRiskScore(row.currentPerformance, row.riskTolerance)
                       )}
                     >
-                      Increasing
+                      {getDirectionOfRisk(
+                        row.currentPerformance,
+                        row.previousPerformance,
+                        row.riskTolerance,
+                        "greater"
+                      )}
                     </Label>
                   </Table.Cell>
                   {/* <Table.Cell>3</Table.Cell> */}
@@ -118,7 +120,12 @@ function StructuredTable() {
                         getRiskScore(row.currentPerformance, row.riskTolerance)
                       )}
                     >
-                      Increasing
+                      {getDirectionOfRisk(
+                        row.currentPerformance,
+                        row.previousPerformance,
+                        row.riskTolerance,
+                        "greater"
+                      )}
                     </Label>
                   </Table.Cell>
                   {/* <Table.Cell>3</Table.Cell> */}
@@ -152,7 +159,12 @@ function StructuredTable() {
                         getRiskScore(row.currentPerformance, row.riskTolerance)
                       )}
                     >
-                      Increasing
+                      {getDirectionOfRisk(
+                        row.currentPerformance,
+                        row.previousPerformance,
+                        row.riskTolerance,
+                        "greater"
+                      )}
                     </Label>
                   </Table.Cell>
                   {/* <Table.Cell>3</Table.Cell> */}
@@ -193,7 +205,12 @@ function StructuredTable() {
                         getRiskScore(row.currentPerformance, row.riskTolerance)
                       )}
                     >
-                      Increasing
+                      {getDirectionOfRisk(
+                        row.currentPerformance,
+                        row.previousPerformance,
+                        row.riskTolerance,
+                        "greater"
+                      )}
                     </Label>
                   </Table.Cell>
                   {/* <Table.Cell>3</Table.Cell> */}
@@ -225,7 +242,12 @@ function StructuredTable() {
                         getRiskScore(row.currentPerformance, row.riskTolerance)
                       )}
                     >
-                      Increasing
+                      {getDirectionOfRisk(
+                        row.currentPerformance,
+                        row.previousPerformance,
+                        row.riskTolerance,
+                        "greater"
+                      )}
                     </Label>
                   </Table.Cell>
                   {/* <Table.Cell>3</Table.Cell> */}
@@ -257,7 +279,12 @@ function StructuredTable() {
                         getRiskScore(row.currentPerformance, row.riskTolerance)
                       )}
                     >
-                      Increasing
+                      {getDirectionOfRisk(
+                        row.currentPerformance,
+                        row.previousPerformance,
+                        row.riskTolerance,
+                        "greater"
+                      )}
                     </Label>
                   </Table.Cell>
                   {/* <Table.Cell>3</Table.Cell> */}
