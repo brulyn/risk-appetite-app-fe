@@ -8,6 +8,7 @@
   "dependencies": {
     "@heroicons/react": "^1.0.4",
     "evergreen-ui": "^6.5.1",
+    "lodash": "^4.17.21",
     "next": "latest",
     "react": "^17.0.2",
     "react-datepicker": "^4.2.1",

@@ -40,260 +40,255 @@ function StructuredTable() {
     if (prevRiskScore > currRiskScore) return "Decreasing";
     else if (prevRiskScore < currRiskScore) return "Increasing";
     else return "Stable";
-
-    return currRiskScore;
   };
 
-  console.log(ratios);
   return (
-    ratios[0]["currentPerformance"] && (
-      <Table celled structured compact>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Risk Metric</Table.HeaderCell>
-            <Table.HeaderCell>Current Performance</Table.HeaderCell>
-            <Table.HeaderCell>Previous Performance</Table.HeaderCell>
-            <Table.HeaderCell>Risk Tolerance</Table.HeaderCell>
-            <Table.HeaderCell>Risk Score</Table.HeaderCell>
-            <Table.HeaderCell>Current Risk Flag / Direction</Table.HeaderCell>
-            {/* <Table.HeaderCell rowSpan="2">Direction of risk</Table.HeaderCell> */}
-            {/* <Table.HeaderCell colSpan="3">Risk Tolerance</Table.HeaderCell> */}
-          </Table.Row>
-        </Table.Header>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell colSpan="7">Liquidity</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {ratios.map((row) => {
-            if (row.category === "liquidity")
-              return (
-                <Table.Row key={row.metric}>
-                  <Table.Cell>{row.metric}</Table.Cell>
-                  <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                  <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                  <Table.Cell>{row.riskTolerance}%</Table.Cell>
-                  <Table.Cell>
-                    {getRiskScore(row.currentPerformance, row.riskTolerance)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Label
-                      color={getFlagColor(
-                        getRiskScore(row.currentPerformance, row.riskTolerance)
-                      )}
-                    >
-                      {getDirectionOfRisk(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
-                        "greater"
-                      )}
-                    </Label>
-                  </Table.Cell>
-                  {/* <Table.Cell>3</Table.Cell> */}
-                </Table.Row>
-              );
-          })}
-        </Table.Body>
+    <Table celled structured compact>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Risk Metric</Table.HeaderCell>
+          <Table.HeaderCell>Current Performance</Table.HeaderCell>
+          <Table.HeaderCell>Previous Performance</Table.HeaderCell>
+          <Table.HeaderCell>Risk Tolerance</Table.HeaderCell>
+          <Table.HeaderCell>Risk Score</Table.HeaderCell>
+          <Table.HeaderCell>Current Risk Flag / Direction</Table.HeaderCell>
+          {/* <Table.HeaderCell rowSpan="2">Direction of risk</Table.HeaderCell> */}
+          {/* <Table.HeaderCell colSpan="3">Risk Tolerance</Table.HeaderCell> */}
+        </Table.Row>
+      </Table.Header>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell colSpan="7">Liquidity</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {ratios.map((row) => {
+          if (row.category === "liquidity")
+            return (
+              <Table.Row key={row.metric}>
+                <Table.Cell>{row.metric}</Table.Cell>
+                <Table.Cell>{row.currentPerformance}%</Table.Cell>
+                <Table.Cell>{row.previousPerformance}%</Table.Cell>
+                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>
+                  {getRiskScore(row.currentPerformance, row.riskTolerance)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Label
+                    color={getFlagColor(
+                      getRiskScore(row.currentPerformance, row.riskTolerance)
+                    )}
+                  >
+                    {getDirectionOfRisk(
+                      row.currentPerformance,
+                      row.previousPerformance,
+                      row.riskTolerance,
+                      "greater"
+                    )}
+                  </Label>
+                </Table.Cell>
+                {/* <Table.Cell>3</Table.Cell> */}
+              </Table.Row>
+            );
+        })}
+      </Table.Body>
 
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell colSpan="7">Profitability</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {ratios.map((row) => {
-            if (row.category === "profitability")
-              return (
-                <Table.Row key={row.metric}>
-                  <Table.Cell>{row.metric}</Table.Cell>
-                  <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                  <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                  <Table.Cell>{row.riskTolerance}%</Table.Cell>
-                  <Table.Cell>
-                    {getRiskScore(row.currentPerformance, row.riskTolerance)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Label
-                      color={getFlagColor(
-                        getRiskScore(row.currentPerformance, row.riskTolerance)
-                      )}
-                    >
-                      {getDirectionOfRisk(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
-                        "greater"
-                      )}
-                    </Label>
-                  </Table.Cell>
-                  {/* <Table.Cell>3</Table.Cell> */}
-                </Table.Row>
-              );
-          })}
-        </Table.Body>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell colSpan="7">Profitability</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {ratios.map((row) => {
+          if (row.category === "profitability")
+            return (
+              <Table.Row key={row.metric}>
+                <Table.Cell>{row.metric}</Table.Cell>
+                <Table.Cell>{row.currentPerformance}%</Table.Cell>
+                <Table.Cell>{row.previousPerformance}%</Table.Cell>
+                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>
+                  {getRiskScore(row.currentPerformance, row.riskTolerance)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Label
+                    color={getFlagColor(
+                      getRiskScore(row.currentPerformance, row.riskTolerance)
+                    )}
+                  >
+                    {getDirectionOfRisk(
+                      row.currentPerformance,
+                      row.previousPerformance,
+                      row.riskTolerance,
+                      "greater"
+                    )}
+                  </Label>
+                </Table.Cell>
+                {/* <Table.Cell>3</Table.Cell> */}
+              </Table.Row>
+            );
+        })}
+      </Table.Body>
 
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell colSpan="7">
-              Operational Efficiency
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {ratios.map((row) => {
-            if (row.category === "operationalEfficiency")
-              return (
-                <Table.Row key={row.metric}>
-                  <Table.Cell>{row.metric}</Table.Cell>
-                  <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                  <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                  <Table.Cell>{row.riskTolerance}%</Table.Cell>
-                  <Table.Cell>
-                    {getRiskScore(row.currentPerformance, row.riskTolerance)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Label
-                      color={getFlagColor(
-                        getRiskScore(row.currentPerformance, row.riskTolerance)
-                      )}
-                    >
-                      {getDirectionOfRisk(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
-                        "greater"
-                      )}
-                    </Label>
-                  </Table.Cell>
-                  {/* <Table.Cell>3</Table.Cell> */}
-                </Table.Row>
-              );
-          })}
-        </Table.Body>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell colSpan="7">
+            Operational Efficiency
+          </Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {ratios.map((row) => {
+          if (row.category === "operationalEfficiency")
+            return (
+              <Table.Row key={row.metric}>
+                <Table.Cell>{row.metric}</Table.Cell>
+                <Table.Cell>{row.currentPerformance}%</Table.Cell>
+                <Table.Cell>{row.previousPerformance}%</Table.Cell>
+                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>
+                  {getRiskScore(row.currentPerformance, row.riskTolerance)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Label
+                    color={getFlagColor(
+                      getRiskScore(row.currentPerformance, row.riskTolerance)
+                    )}
+                  >
+                    {getDirectionOfRisk(
+                      row.currentPerformance,
+                      row.previousPerformance,
+                      row.riskTolerance,
+                      "greater"
+                    )}
+                  </Label>
+                </Table.Cell>
+                {/* <Table.Cell>3</Table.Cell> */}
+              </Table.Row>
+            );
+        })}
+      </Table.Body>
 
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell colSpan="7">Credit Risk</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {ratios.map((row) => {
-            if (row.category === "creditRisk")
-              return (
-                <Table.Row key={row.metric}>
-                  <Table.Cell>{row.metric}</Table.Cell>
-                  <Table.Cell>
-                    {row.currentPerformance}{" "}
-                    {row.metric !== "Average Collection Period" && "%"}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {row.previousPerformance}{" "}
-                    {row.metric !== "Average Collection Period" && "%"}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {row.riskTolerance}{" "}
-                    {row.metric !== "Average Collection Period" && "%"}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {getRiskScore(row.currentPerformance, row.riskTolerance)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Label
-                      color={getFlagColor(
-                        getRiskScore(row.currentPerformance, row.riskTolerance)
-                      )}
-                    >
-                      {getDirectionOfRisk(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
-                        "greater"
-                      )}
-                    </Label>
-                  </Table.Cell>
-                  {/* <Table.Cell>3</Table.Cell> */}
-                </Table.Row>
-              );
-          })}
-        </Table.Body>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell colSpan="7">Credit Risk</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {ratios.map((row) => {
+          if (row.category === "creditRisk")
+            return (
+              <Table.Row key={row.metric}>
+                <Table.Cell>{row.metric}</Table.Cell>
+                <Table.Cell>
+                  {row.currentPerformance}{" "}
+                  {row.metric !== "Average Collection Period" && "%"}
+                </Table.Cell>
+                <Table.Cell>
+                  {row.previousPerformance}{" "}
+                  {row.metric !== "Average Collection Period" && "%"}
+                </Table.Cell>
+                <Table.Cell>
+                  {row.riskTolerance}{" "}
+                  {row.metric !== "Average Collection Period" && "%"}
+                </Table.Cell>
+                <Table.Cell>
+                  {getRiskScore(row.currentPerformance, row.riskTolerance)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Label
+                    color={getFlagColor(
+                      getRiskScore(row.currentPerformance, row.riskTolerance)
+                    )}
+                  >
+                    {getDirectionOfRisk(
+                      row.currentPerformance,
+                      row.previousPerformance,
+                      row.riskTolerance,
+                      "greater"
+                    )}
+                  </Label>
+                </Table.Cell>
+                {/* <Table.Cell>3</Table.Cell> */}
+              </Table.Row>
+            );
+        })}
+      </Table.Body>
 
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell colSpan="7">Marketing</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {ratios.map((row) => {
-            if (row.category === "marketing")
-              return (
-                <Table.Row key={row.metric}>
-                  <Table.Cell>{row.metric}</Table.Cell>
-                  <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                  <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                  <Table.Cell>{row.riskTolerance}%</Table.Cell>
-                  <Table.Cell>
-                    {getRiskScore(row.currentPerformance, row.riskTolerance)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Label
-                      color={getFlagColor(
-                        getRiskScore(row.currentPerformance, row.riskTolerance)
-                      )}
-                    >
-                      {getDirectionOfRisk(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
-                        "greater"
-                      )}
-                    </Label>
-                  </Table.Cell>
-                  {/* <Table.Cell>3</Table.Cell> */}
-                </Table.Row>
-              );
-          })}
-        </Table.Body>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell colSpan="7">Marketing</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {ratios.map((row) => {
+          if (row.category === "marketing")
+            return (
+              <Table.Row key={row.metric}>
+                <Table.Cell>{row.metric}</Table.Cell>
+                <Table.Cell>{row.currentPerformance}%</Table.Cell>
+                <Table.Cell>{row.previousPerformance}%</Table.Cell>
+                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>
+                  {getRiskScore(row.currentPerformance, row.riskTolerance)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Label
+                    color={getFlagColor(
+                      getRiskScore(row.currentPerformance, row.riskTolerance)
+                    )}
+                  >
+                    {getDirectionOfRisk(
+                      row.currentPerformance,
+                      row.previousPerformance,
+                      row.riskTolerance,
+                      "greater"
+                    )}
+                  </Label>
+                </Table.Cell>
+                {/* <Table.Cell>3</Table.Cell> */}
+              </Table.Row>
+            );
+        })}
+      </Table.Body>
 
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell colSpan="7">Business Continuity</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {ratios.map((row) => {
-            if (row.category === "businessContinuity")
-              return (
-                <Table.Row key={row.metric}>
-                  <Table.Cell>{row.metric}</Table.Cell>
-                  <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                  <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                  <Table.Cell>{row.riskTolerance}%</Table.Cell>
-                  <Table.Cell>
-                    {getRiskScore(row.currentPerformance, row.riskTolerance)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Label
-                      color={getFlagColor(
-                        getRiskScore(row.currentPerformance, row.riskTolerance)
-                      )}
-                    >
-                      {getDirectionOfRisk(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
-                        "greater"
-                      )}
-                    </Label>
-                  </Table.Cell>
-                  {/* <Table.Cell>3</Table.Cell> */}
-                </Table.Row>
-              );
-          })}
-        </Table.Body>
-      </Table>
-    )
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell colSpan="7">Business Continuity</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {ratios.map((row) => {
+          if (row.category === "businessContinuity")
+            return (
+              <Table.Row key={row.metric}>
+                <Table.Cell>{row.metric}</Table.Cell>
+                <Table.Cell>{row.currentPerformance}%</Table.Cell>
+                <Table.Cell>{row.previousPerformance}%</Table.Cell>
+                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>
+                  {getRiskScore(row.currentPerformance, row.riskTolerance)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Label
+                    color={getFlagColor(
+                      getRiskScore(row.currentPerformance, row.riskTolerance)
+                    )}
+                  >
+                    {getDirectionOfRisk(
+                      row.currentPerformance,
+                      row.previousPerformance,
+                      row.riskTolerance,
+                      "greater"
+                    )}
+                  </Label>
+                </Table.Cell>
+                {/* <Table.Cell>3</Table.Cell> */}
+              </Table.Row>
+            );
+        })}
+      </Table.Body>
+    </Table>
   );
 }
 

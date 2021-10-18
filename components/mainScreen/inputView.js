@@ -8,6 +8,7 @@ import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { CornerDialog } from "evergreen-ui";
 import ToleranceInput from "../common/toleranceInput";
+import { UserContext } from "../../contexts/userContext";
 
 export default function InputView() {
   const [startDate, setStartDate] = useState(new Date());
@@ -26,99 +27,205 @@ export default function InputView() {
   const [presetValues, setPresetValues] = useState({});
   const { ratios, setRatios } = useContext(RatioContext);
   const { loaded, setLoaded } = useContext(DataLoadedContext);
+  const { user, setUser } = useContext(UserContext);
+  const host = "http://localhost:3001";
 
   const saveData = () => {
-    console.log(ratios);
+    console.log(prevBalancesheetFigures);
   };
 
   useEffect(() => {
     Promise.all([
       //Operational Efficiency -- 0
-      fetch(
-        `http://localhost:3001/operationalEfficiency/${currentFigures["currentOperatingProfit"]}/${currentFigures["currentTotalRevenues"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/operationalEfficiency/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          operatingProfit: currentFigures["currentOperatingProfit"],
+          totalRevenues: currentFigures["currentTotalRevenues"],
+          period: "current",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       // 1
-      fetch(
-        `http://localhost:3001/operationalEfficiency/${previousFigures["prevOperatingProfit"]}/${previousFigures["prevTotalRevenues"]}`,
-        {
-          method: "GET",
-        }
-      ),
-
+      fetch(`${host}/operationalEfficiency/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          operatingProfit: previousFigures["prevOperatingProfit"],
+          totalRevenues: previousFigures["prevTotalRevenues"],
+          period: "previous",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //Liquidity --2
-      fetch(
-        `http://localhost:3001/liquidity/${currBalancesheetFigures["currentTotalCurrentAssets"]}/${currBalancesheetFigures["currentTotalCurrentLiabilities"]}/${currBalancesheetFigures["currentInventories"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/liquidity/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currentAsset: currBalancesheetFigures["currentTotalCurrentAssets"],
+          currentLiability:
+            currBalancesheetFigures["currentTotalCurrentLiabilities"],
+          inventory: currBalancesheetFigures["currentInventories"],
+          period: "current",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       // --3
-      fetch(
-        `http://localhost:3001/liquidity/${prevBalancesheetFigures["previousTotalCurrentAssets"]}/${prevBalancesheetFigures["previousTotalCurrentLiabilities"]}/${prevBalancesheetFigures["previousInventories"]}`,
-        {
-          method: "GET",
-        }
-      ),
-
+      fetch(`${host}/liquidity/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currentAsset: prevBalancesheetFigures["previousTotalCurrentAssets"],
+          currentLiability:
+            prevBalancesheetFigures["previousTotalCurrentLiabilities"],
+          inventory: prevBalancesheetFigures["previousInventories"],
+          period: "previous",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //Profitability -- 4
-      fetch(
-        `http://localhost:3001/profitability/${currentFigures["currentGrossProfit"]}/${currentFigures["currentTotalRevenues"]}/${currentFigures["currentEBITDA"]}/${currentFigures["currentNetProfit"]}/${currBalancesheetFigures["currentTotalCapitalAndReserves"]}/${currBalancesheetFigures["currentTotalAssets"]}/`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/profitability/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          grossProfit: currentFigures["currentGrossProfit"],
+          totalRevenues: currentFigures["currentTotalRevenues"],
+          ebitda: currentFigures["currentEBITDA"],
+          netProfit: currentFigures["currentNetProfit"],
+          totalEquityAndReserve:
+            currBalancesheetFigures["currentTotalCapitalAndReserves"],
+          totalAssets: currBalancesheetFigures["currentTotalAssets"],
+          period: "current",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //--5
-      fetch(
-        `http://localhost:3001/profitability/${previousFigures["prevGrossProfit"]}/${previousFigures["prevTotalRevenues"]}/${previousFigures["prevEBITDA"]}/${previousFigures["prevNetProfit"]}/${prevBalancesheetFigures["previousTotalCapitalAndReserves"]}/${prevBalancesheetFigures["previousTotalAssets"]}/`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/profitability/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          grossProfit: previousFigures["prevGrossProfit"],
+          totalRevenues: previousFigures["prevTotalRevenues"],
+          ebitda: previousFigures["prevEBITDA"],
+          netProfit: previousFigures["prevNetProfit"],
+          totalEquityAndReserve:
+            prevBalancesheetFigures["previousTotalCapitalAndReserves"],
+          totalAssets: prevBalancesheetFigures["previousTotalAssets"],
+          period: "previous",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //Credit Risk -- 6
-      fetch(
-        `http://localhost:3001/creditRisk/${currentFigures["currentTotalRevenues"]}/${currBalancesheetFigures["currentTotalReceivables"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/creditRisk/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          totalRevenues: currentFigures["currentTotalRevenues"],
+          totalReceivables: currBalancesheetFigures["currentTotalReceivables"],
+          period: "current",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //--7
-      fetch(
-        `http://localhost:3001/creditRisk/${previousFigures["prevTotalRevenues"]}/${prevBalancesheetFigures["previousTotalReceivables"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/creditRisk/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          totalRevenues: previousFigures["prevTotalRevenues"],
+          totalReceivables: prevBalancesheetFigures["previousTotalReceivables"],
+          period: "previous",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //Marketing -- 8
-      fetch(
-        `http://localhost:3001/marketing/${currentFigures["currentTotalRevenues"]}/${ytdFigures["ytdTotalRevenues"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/marketing/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currentTotalRevenues: currentFigures["currentTotalRevenues"],
+          ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
+          period: "current",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //Marketing -- 9
-      fetch(
-        `http://localhost:3001/marketing/${previousFigures["prevTotalRevenues"]}/${ytdFigures["ytdTotalRevenues"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/marketing/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currentTotalRevenues: previousFigures["prevTotalRevenues"],
+          ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
+          period: "previous",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //Business Continuity -- 10
-      fetch(
-        `http://localhost:3001/businessContinuity/${currentFigures["currentNetProfit"]}/${currentFigures["currentDepreciation"]}/${currBalancesheetFigures["currentTotalNonCurrentLiabilites"]}/${currBalancesheetFigures["currentTotalCurrentLiabilities"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/businessContinuity/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          netProfit: currentFigures["currentNetProfit"],
+          totalDepreciation: currentFigures["currentDepreciation"],
+          nonCurrentLiabilities:
+            currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
+          currentLiabilities:
+            currBalancesheetFigures["currentTotalCurrentLiabilities"],
+          period: "current",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
       //Business Continuity -- 11
-      fetch(
-        `http://localhost:3001/businessContinuity/${previousFigures["prevNetProfit"]}/${previousFigures["prevDepreciation"]}/${prevBalancesheetFigures["previousTotalNonCurrentLiabilities"]}/${prevBalancesheetFigures["previousTotalCurrentLiabilities"]}`,
-        {
-          method: "GET",
-        }
-      ),
+      fetch(`${host}/businessContinuity/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          netProfit: previousFigures["prevNetProfit"],
+          totalDepreciation: previousFigures["prevDepreciation"],
+          nonCurrentLiabilities:
+            prevBalancesheetFigures["previousTotalNonCurrentLiabilities"],
+          currentLiabilities:
+            prevBalancesheetFigures["previousTotalCurrentLiabilities"],
+          period: "previous",
+          username: user.username,
+          company: user.companyName,
+        }),
+      }),
     ])
       .then(function (responses) {
         // Get a JSON object from each of the responses
@@ -261,8 +368,15 @@ export default function InputView() {
           },
         ];
         setRatios(_ratios);
-      });
-  }, [loaded, currentFigures, currBalancesheetFigures, presetValues]);
+      })
+      .catch((err) => console.log(err));
+  }, [
+    loaded,
+    currentFigures,
+    currBalancesheetFigures,
+    prevBalancesheetFigures,
+    presetValues,
+  ]);
 
   return (
     <div className="flex flex-col">
