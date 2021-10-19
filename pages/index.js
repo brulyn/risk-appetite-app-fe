@@ -46,16 +46,16 @@ export default function Index() {
         </div>
         {/* Form with email and passord */}
         <input
-          className="border-2 border-gray-300 py-3 w-3/4 px-3 rounded-md focus:border-blue-300 mt-6 text-md text-gray-600"
+          className="border-none py-3 w-3/4 px-3 rounded-md focus:border-none focus:ring-2 mt-6 text-md text-gray-600 shadow-md"
           placeholder="email@company.example"
-          type="email"
+          // type="email"
           onChange={(e) => {
             setEmail(e.target.value);
           }}
         />
 
         <input
-          className="border-2 border-gray-300 py-3 w-3/4 px-3 rounded-md focus:border-blue-300 mt-6 text-md text-gray-700"
+          className="border-none py-3 w-3/4 px-3 rounded-md focus:border-none focus:ring-2 mt-6 text-md text-gray-600 shadow-md"
           placeholder="password"
           type="password"
           onChange={(e) => {

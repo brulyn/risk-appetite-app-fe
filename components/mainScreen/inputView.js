@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import readXlsxFile from "read-excel-file";
-import { Button } from "semantic-ui-react";
+import { Button, Dropdown } from "semantic-ui-react";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { CornerDialog } from "evergreen-ui";
@@ -25,10 +25,38 @@ export default function InputView() {
   const [dialogIsShown, setDialogIsShown] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
   const [presetValues, setPresetValues] = useState({});
+  const [quater, setQuater] = useState("Q1");
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [quaterYear, setQuaterYear] = useState("");
   const { ratios, setRatios } = useContext(RatioContext);
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { user, setUser } = useContext(UserContext);
   const host = "http://localhost:3001";
+
+  const quaterList = [
+    {
+      qtext: "Quater 1",
+      abbr: "Q1",
+    },
+    {
+      qtext: "Quater 2",
+      abbr: "Q2",
+    },
+    {
+      qtext: "Quater 3",
+      abbr: "Q3",
+    },
+    {
+      qtext: "Quater 4",
+      abbr: "Q4",
+    },
+  ];
+
+  const quaterOptions = _.map(quaterList, (quater, index) => ({
+    key: quaterList[index].abbr,
+    text: quaterList[index].qtext,
+    value: quaterList[index].abbr,
+  }));
 
   const saveData = () => {
     console.log(prevBalancesheetFigures);
@@ -48,6 +76,7 @@ export default function InputView() {
           period: "current",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       // 1
@@ -62,6 +91,7 @@ export default function InputView() {
           period: "previous",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //Liquidity --2
@@ -78,6 +108,7 @@ export default function InputView() {
           period: "current",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       // --3
@@ -94,6 +125,7 @@ export default function InputView() {
           period: "previous",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //Profitability -- 4
@@ -113,6 +145,7 @@ export default function InputView() {
           period: "current",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //--5
@@ -132,6 +165,7 @@ export default function InputView() {
           period: "previous",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //Credit Risk -- 6
@@ -146,6 +180,7 @@ export default function InputView() {
           period: "current",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //--7
@@ -160,6 +195,7 @@ export default function InputView() {
           period: "previous",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //Marketing -- 8
@@ -174,6 +210,7 @@ export default function InputView() {
           period: "current",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //Marketing -- 9
@@ -188,6 +225,7 @@ export default function InputView() {
           period: "previous",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //Business Continuity -- 10
@@ -206,6 +244,7 @@ export default function InputView() {
           period: "current",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
       //Business Continuity -- 11
@@ -224,6 +263,7 @@ export default function InputView() {
           period: "previous",
           username: user.username,
           company: user.companyName,
+          quater: quaterYear,
         }),
       }),
     ])
@@ -393,8 +433,8 @@ export default function InputView() {
       {/* Input form */}
       <div className="mt-10 mb-10">
         <form>
-          <div className="flex flex-col w-1/2 mt-2 mr-5">
-            <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+          <div className="flex flex-row w-2/5 mt-2 mr-5">
+            {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
               Reporting Date
             </label>
             <DatePicker
@@ -403,7 +443,39 @@ export default function InputView() {
               onChange={(date) => setStartDate(date)}
               placeholderText="Reporting Date"
               showPopperArrow={false}
-            />
+            /> */}
+
+            <div class="flex flex-col mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Quater
+              </label>
+              <Dropdown
+                placeholder="Quater"
+                search
+                selection
+                options={quaterOptions}
+                onChange={(e, { value }) => {
+                  setQuater(value);
+                  setQuaterYear(quater + year);
+                }}
+              />
+            </div>
+
+            <div class="flex flex-col mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Year
+              </label>
+              <input
+                className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
+                value={year}
+                type="number"
+                onChange={(e) => {
+                  setYear(e.target.value);
+                  setQuaterYear(quater + year);
+                  alert(quaterYear);
+                }}
+              />
+            </div>
           </div>
 
           <ToleranceInput setPresetValues={setPresetValues} />
