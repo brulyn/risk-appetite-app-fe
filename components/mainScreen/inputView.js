@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import readXlsxFile from "read-excel-file";
-import { Button } from "semantic-ui-react";
+import { Button, Dropdown } from "semantic-ui-react";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { CornerDialog } from "evergreen-ui";
@@ -25,358 +25,397 @@ export default function InputView() {
   const [dialogIsShown, setDialogIsShown] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
   const [presetValues, setPresetValues] = useState({});
+  const [quater, setQuater] = useState("Q1");
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [quaterYear, setQuaterYear] = useState("");
   const { ratios, setRatios } = useContext(RatioContext);
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { user, setUser } = useContext(UserContext);
   const host = "http://localhost:3001";
 
+  const quaterList = [
+    {
+      qtext: "Quater 1",
+      abbr: "Q1",
+    },
+    {
+      qtext: "Quater 2",
+      abbr: "Q2",
+    },
+    {
+      qtext: "Quater 3",
+      abbr: "Q3",
+    },
+    {
+      qtext: "Quater 4",
+      abbr: "Q4",
+    },
+  ];
+
+  const quaterOptions = _.map(quaterList, (quater, index) => ({
+    key: quaterList[index].abbr,
+    text: quaterList[index].qtext,
+    value: quaterList[index].abbr,
+  }));
+
   const saveData = () => {
-    console.log(prevBalancesheetFigures);
+    if (loaded) {
+      Promise.all([
+        //Operational Efficiency Current-- 0
+        fetch(`${host}/operationalEfficiency/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            operatingProfit: currentFigures["currentOperatingProfit"],
+            totalRevenues: currentFigures["currentTotalRevenues"],
+            period: "current",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        // Operational Efficiency Previous 1
+        fetch(`${host}/operationalEfficiency/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            operatingProfit: previousFigures["prevOperatingProfit"],
+            totalRevenues: previousFigures["prevTotalRevenues"],
+            period: "previous",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Liquidity current --2
+        fetch(`${host}/liquidity/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentAsset: currBalancesheetFigures["currentTotalCurrentAssets"],
+            currentLiability:
+              currBalancesheetFigures["currentTotalCurrentLiabilities"],
+            inventory: currBalancesheetFigures["currentInventories"],
+            period: "current",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //liquidity Previous --3
+        fetch(`${host}/liquidity/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentAsset: prevBalancesheetFigures["previousTotalCurrentAssets"],
+            currentLiability:
+              prevBalancesheetFigures["previousTotalCurrentLiabilities"],
+            inventory: prevBalancesheetFigures["previousInventories"],
+            period: "previous",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Profitability  Current-- 4
+        fetch(`${host}/profitability/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            grossProfit: currentFigures["currentGrossProfit"],
+            totalRevenues: currentFigures["currentTotalRevenues"],
+            ebitda: currentFigures["currentEBITDA"],
+            netProfit: currentFigures["currentNetProfit"],
+            totalEquityAndReserve:
+              currBalancesheetFigures["currentTotalCapitalAndReserves"],
+            totalAssets: currBalancesheetFigures["currentTotalAssets"],
+            period: "current",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Profitability Previous--5
+        fetch(`${host}/profitability/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            grossProfit: previousFigures["prevGrossProfit"],
+            totalRevenues: previousFigures["prevTotalRevenues"],
+            ebitda: previousFigures["prevEBITDA"],
+            netProfit: previousFigures["prevNetProfit"],
+            totalEquityAndReserve:
+              prevBalancesheetFigures["previousTotalCapitalAndReserves"],
+            totalAssets: prevBalancesheetFigures["previousTotalAssets"],
+            period: "previous",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Credit Risk Current -- 6
+        fetch(`${host}/creditRisk/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            totalRevenues: currentFigures["currentTotalRevenues"],
+            totalReceivables:
+              currBalancesheetFigures["currentTotalReceivables"],
+            period: "current",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Credit Risk Previous--7
+        fetch(`${host}/creditRisk/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            totalRevenues: previousFigures["prevTotalRevenues"],
+            totalReceivables:
+              prevBalancesheetFigures["previousTotalReceivables"],
+            period: "previous",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Marketing Current-- 8
+        fetch(`${host}/marketing/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentTotalRevenues: currentFigures["currentTotalRevenues"],
+            ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
+            period: "current",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Marketing Previous-- 9
+        fetch(`${host}/marketing/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentTotalRevenues: previousFigures["prevTotalRevenues"],
+            ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
+            period: "previous",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Business Continuity Current-- 10
+        fetch(`${host}/businessContinuity/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            netProfit: currentFigures["currentNetProfit"],
+            totalDepreciation: currentFigures["currentDepreciation"],
+            nonCurrentLiabilities:
+              currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
+            currentLiabilities:
+              currBalancesheetFigures["currentTotalCurrentLiabilities"],
+            period: "current",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+        //Business Continuity Previous-- 11
+        fetch(`${host}/businessContinuity/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            netProfit: previousFigures["prevNetProfit"],
+            totalDepreciation: previousFigures["prevDepreciation"],
+            nonCurrentLiabilities:
+              prevBalancesheetFigures["previousTotalNonCurrentLiabilities"],
+            currentLiabilities:
+              prevBalancesheetFigures["previousTotalCurrentLiabilities"],
+            period: "previous",
+            username: user.username,
+            company: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+      ])
+        .then(function (responses) {
+          // Get a JSON object from each of the responses
+          return Promise.all(
+            responses.map(function (response) {
+              return response.json();
+            })
+          );
+        })
+        .then(function (data) {
+          // Log the data to the console
+          // You would do something with both sets of data here
+          let _ratios = [
+            {
+              metric: "Operating Expenses",
+              category: "operationalEfficiency",
+              currentPerformance: data[0].operatingExpenses,
+              previousPerformance: data[1].operatingExpenses, //TODO
+              riskTolerance: presetValues["operatingExpenses"],
+            },
+            {
+              metric: "System Uptime",
+              category: "operationalEfficiency",
+              currentPerformance: data[0].systemUptime,
+              previousPerformance: data[1].systemUptime, //TODO
+              riskTolerance: presetValues["systemUptime"],
+            },
+            {
+              metric: "Machinery Uptime",
+              category: "operationalEfficiency",
+              currentPerformance: data[0].machineryUptime,
+              previousPerformance: data[1].machineryUptime, //TODO
+              riskTolerance: presetValues["machineryUptime"],
+            },
+            {
+              metric: "Current Ratio",
+              category: "liquidity",
+              currentPerformance: data[2].currentRatio,
+              previousPerformance: data[3].currentRatio,
+              riskTolerance: presetValues["currentRatio"],
+            },
+            {
+              metric: "Quick Ratio",
+              category: "liquidity",
+              currentPerformance: data[2].quickRatio,
+              previousPerformance: data[3].quickRatio, //TODO
+              riskTolerance: presetValues["quickRatio"],
+            },
+            {
+              metric: "GP Margin",
+              category: "profitability",
+              currentPerformance: data[4].gpMargin,
+              previousPerformance: data[5].gpMargin, //TODO
+              riskTolerance: presetValues["gpMargin"],
+            },
+
+            {
+              metric: "EBITDA Margin",
+              category: "profitability",
+              currentPerformance: data[4].ebitdaMargin,
+              previousPerformance: data[5].ebitdaMargin, //TODO
+              riskTolerance: presetValues["ebitda"],
+            },
+            {
+              metric: "Return On Equity",
+              category: "profitability",
+              currentPerformance: data[4].returnOnEquity,
+              previousPerformance: data[5].returnOnEquity, //TODO
+              riskTolerance: presetValues["roe"],
+            },
+            {
+              metric: "Return On Assets",
+              category: "profitability",
+              currentPerformance: data[4].returnOnAsset,
+              previousPerformance: data[5].returnOnAsset,
+              riskTolerance: presetValues["roa"],
+            },
+            {
+              metric: "Net Profit Margin",
+              category: "profitability",
+              currentPerformance: data[4].netProfitMargin,
+              previousPerformance: data[5].netProfitMargin, //TODO
+              riskTolerance: presetValues["netProfitMargin"],
+            },
+            {
+              metric: "Average Collection Period",
+              category: "creditRisk",
+              currentPerformance: data[6].averageCollectionPeriod,
+              previousPerformance: data[7].averageCollectionPeriod, //TODO
+              riskTolerance: presetValues["averageCollectionPeriod"],
+            },
+            {
+              metric: "Total Receivables/Sales",
+              category: "creditRisk",
+              currentPerformance: data[6].totalReceivablePerSales,
+              previousPerformance: data[7].totalReceivablePerSales, //TODO
+              riskTolerance: presetValues["totalReceivablePerSales"],
+            },
+            {
+              metric: "Revenue Growth",
+              category: "marketing",
+              currentPerformance: data[8].revenueGrowth,
+              previousPerformance: data[9].revenueGrowth, //TODO
+              riskTolerance: presetValues["revenueGrowth"],
+            },
+            {
+              metric: "Market Share",
+              category: "marketing",
+              currentPerformance: data[8].marketShare,
+              previousPerformance: data[9].marketShare, //TODO
+              riskTolerance: presetValues["marketShare"],
+            },
+            {
+              metric: "New Customers",
+              category: "marketing",
+              currentPerformance: data[8].newCustomers,
+              previousPerformance: data[9].newCustomers, //TODO
+              riskTolerance: presetValues["newCustomers"],
+            },
+            {
+              metric: "Employee Turnover",
+              category: "businessContinuity",
+              currentPerformance: data[10].employeeTurnover,
+              previousPerformance: data[11].employeeTurnover, //TODO
+              riskTolerance: presetValues["employeeTurnover"],
+            },
+            {
+              metric: "Loss on major Upheaval",
+              category: "businessContinuity",
+              currentPerformance: data[10].lossOnMajorUpheaval,
+              previousPerformance: data[11].lossOnMajorUpheaval, //TODO
+              riskTolerance: presetValues["lossOnMajorUpheaval"],
+            },
+            {
+              metric: "Solvency Ratio",
+              category: "businessContinuity",
+              currentPerformance: data[10].solvencyRatioMetric,
+              previousPerformance: data[11].solvencyRatioMetric, //TODO
+              riskTolerance: presetValues["solvencyRatio"],
+            },
+          ];
+          setRatios(_ratios);
+
+          setErrorMessage("Data successfully read. Check the Output Section.");
+          setDialogIsShown(true);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
-  useEffect(() => {
-    Promise.all([
-      //Operational Efficiency -- 0
-      fetch(`${host}/operationalEfficiency/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          operatingProfit: currentFigures["currentOperatingProfit"],
-          totalRevenues: currentFigures["currentTotalRevenues"],
-          period: "current",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      // 1
-      fetch(`${host}/operationalEfficiency/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          operatingProfit: previousFigures["prevOperatingProfit"],
-          totalRevenues: previousFigures["prevTotalRevenues"],
-          period: "previous",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //Liquidity --2
-      fetch(`${host}/liquidity/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          currentAsset: currBalancesheetFigures["currentTotalCurrentAssets"],
-          currentLiability:
-            currBalancesheetFigures["currentTotalCurrentLiabilities"],
-          inventory: currBalancesheetFigures["currentInventories"],
-          period: "current",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      // --3
-      fetch(`${host}/liquidity/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          currentAsset: prevBalancesheetFigures["previousTotalCurrentAssets"],
-          currentLiability:
-            prevBalancesheetFigures["previousTotalCurrentLiabilities"],
-          inventory: prevBalancesheetFigures["previousInventories"],
-          period: "previous",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //Profitability -- 4
-      fetch(`${host}/profitability/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          grossProfit: currentFigures["currentGrossProfit"],
-          totalRevenues: currentFigures["currentTotalRevenues"],
-          ebitda: currentFigures["currentEBITDA"],
-          netProfit: currentFigures["currentNetProfit"],
-          totalEquityAndReserve:
-            currBalancesheetFigures["currentTotalCapitalAndReserves"],
-          totalAssets: currBalancesheetFigures["currentTotalAssets"],
-          period: "current",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //--5
-      fetch(`${host}/profitability/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          grossProfit: previousFigures["prevGrossProfit"],
-          totalRevenues: previousFigures["prevTotalRevenues"],
-          ebitda: previousFigures["prevEBITDA"],
-          netProfit: previousFigures["prevNetProfit"],
-          totalEquityAndReserve:
-            prevBalancesheetFigures["previousTotalCapitalAndReserves"],
-          totalAssets: prevBalancesheetFigures["previousTotalAssets"],
-          period: "previous",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //Credit Risk -- 6
-      fetch(`${host}/creditRisk/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          totalRevenues: currentFigures["currentTotalRevenues"],
-          totalReceivables: currBalancesheetFigures["currentTotalReceivables"],
-          period: "current",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //--7
-      fetch(`${host}/creditRisk/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          totalRevenues: previousFigures["prevTotalRevenues"],
-          totalReceivables: prevBalancesheetFigures["previousTotalReceivables"],
-          period: "previous",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //Marketing -- 8
-      fetch(`${host}/marketing/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          currentTotalRevenues: currentFigures["currentTotalRevenues"],
-          ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
-          period: "current",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //Marketing -- 9
-      fetch(`${host}/marketing/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          currentTotalRevenues: previousFigures["prevTotalRevenues"],
-          ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
-          period: "previous",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //Business Continuity -- 10
-      fetch(`${host}/businessContinuity/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          netProfit: currentFigures["currentNetProfit"],
-          totalDepreciation: currentFigures["currentDepreciation"],
-          nonCurrentLiabilities:
-            currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
-          currentLiabilities:
-            currBalancesheetFigures["currentTotalCurrentLiabilities"],
-          period: "current",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-      //Business Continuity -- 11
-      fetch(`${host}/businessContinuity/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          netProfit: previousFigures["prevNetProfit"],
-          totalDepreciation: previousFigures["prevDepreciation"],
-          nonCurrentLiabilities:
-            prevBalancesheetFigures["previousTotalNonCurrentLiabilities"],
-          currentLiabilities:
-            prevBalancesheetFigures["previousTotalCurrentLiabilities"],
-          period: "previous",
-          username: user.username,
-          company: user.companyName,
-        }),
-      }),
-    ])
-      .then(function (responses) {
-        // Get a JSON object from each of the responses
-        return Promise.all(
-          responses.map(function (response) {
-            return response.json();
-          })
-        );
-      })
-      .then(function (data) {
-        // Log the data to the console
-        // You would do something with both sets of data here
-        let _ratios = [
-          {
-            metric: "Operating Expenses",
-            category: "operationalEfficiency",
-            currentPerformance: data[0].operatingExpenses,
-            previousPerformance: data[1].operatingExpenses, //TODO
-            riskTolerance: presetValues["operatingExpenses"],
-          },
-          {
-            metric: "System Uptime",
-            category: "operationalEfficiency",
-            currentPerformance: data[0].systemUptime,
-            previousPerformance: data[1].systemUptime, //TODO
-            riskTolerance: presetValues["systemUptime"],
-          },
-          {
-            metric: "Machinery Uptime",
-            category: "operationalEfficiency",
-            currentPerformance: data[0].machineryUptime,
-            previousPerformance: data[1].machineryUptime, //TODO
-            riskTolerance: presetValues["machineryUptime"],
-          },
-          {
-            metric: "Current Ratio",
-            category: "liquidity",
-            currentPerformance: data[2].currentRatio,
-            previousPerformance: data[3].currentRatio,
-            riskTolerance: presetValues["currentRatio"],
-          },
-          {
-            metric: "Quick Ratio",
-            category: "liquidity",
-            currentPerformance: data[2].quickRatio,
-            previousPerformance: data[3].quickRatio, //TODO
-            riskTolerance: presetValues["quickRatio"],
-          },
-          {
-            metric: "GP Margin",
-            category: "profitability",
-            currentPerformance: data[4].gpMargin,
-            previousPerformance: data[5].gpMargin, //TODO
-            riskTolerance: presetValues["gpMargin"],
-          },
-
-          {
-            metric: "EBITDA Margin",
-            category: "profitability",
-            currentPerformance: data[4].ebitdaMargin,
-            previousPerformance: data[5].ebitdaMargin, //TODO
-            riskTolerance: presetValues["ebitda"],
-          },
-          {
-            metric: "Return On Equity",
-            category: "profitability",
-            currentPerformance: data[4].returnOnEquity,
-            previousPerformance: data[5].returnOnEquity, //TODO
-            riskTolerance: presetValues["roe"],
-          },
-          {
-            metric: "Return On Assets",
-            category: "profitability",
-            currentPerformance: data[4].returnOnAsset,
-            previousPerformance: data[5].returnOnAsset,
-            riskTolerance: presetValues["roa"],
-          },
-          {
-            metric: "Net Profit Margin",
-            category: "profitability",
-            currentPerformance: data[4].netProfitMargin,
-            previousPerformance: data[5].netProfitMargin, //TODO
-            riskTolerance: presetValues["netProfitMargin"],
-          },
-          {
-            metric: "Average Collection Period",
-            category: "creditRisk",
-            currentPerformance: data[6].averageCollectionPeriod,
-            previousPerformance: data[7].averageCollectionPeriod, //TODO
-            riskTolerance: presetValues["averageCollectionPeriod"],
-          },
-          {
-            metric: "Total Receivables/Sales",
-            category: "creditRisk",
-            currentPerformance: data[6].totalReceivablePerSales,
-            previousPerformance: data[7].totalReceivablePerSales, //TODO
-            riskTolerance: presetValues["totalReceivablePerSales"],
-          },
-          {
-            metric: "Revenue Growth",
-            category: "marketing",
-            currentPerformance: data[8].revenueGrowth,
-            previousPerformance: data[9].revenueGrowth, //TODO
-            riskTolerance: presetValues["revenueGrowth"],
-          },
-          {
-            metric: "Market Share",
-            category: "marketing",
-            currentPerformance: data[8].marketShare,
-            previousPerformance: data[9].marketShare, //TODO
-            riskTolerance: presetValues["marketShare"],
-          },
-          {
-            metric: "New Customers",
-            category: "marketing",
-            currentPerformance: data[8].newCustomers,
-            previousPerformance: data[9].newCustomers, //TODO
-            riskTolerance: presetValues["newCustomers"],
-          },
-          {
-            metric: "Employee Turnover",
-            category: "businessContinuity",
-            currentPerformance: data[10].employeeTurnover,
-            previousPerformance: data[11].employeeTurnover, //TODO
-            riskTolerance: presetValues["employeeTurnover"],
-          },
-          {
-            metric: "Loss on major Upheaval",
-            category: "businessContinuity",
-            currentPerformance: data[10].lossOnMajorUpheaval,
-            previousPerformance: data[11].lossOnMajorUpheaval, //TODO
-            riskTolerance: presetValues["lossOnMajorUpheaval"],
-          },
-          {
-            metric: "Solvency Ratio",
-            category: "businessContinuity",
-            currentPerformance: data[10].solvencyRatioMetric,
-            previousPerformance: data[11].solvencyRatioMetric, //TODO
-            riskTolerance: presetValues["solvencyRatio"],
-          },
-        ];
-        setRatios(_ratios);
-      })
-      .catch((err) => console.log(err));
-  }, [
-    loaded,
-    currentFigures,
-    currBalancesheetFigures,
-    prevBalancesheetFigures,
-    presetValues,
-  ]);
+  // useEffect(() => {}, [loaded, currentFigures]);
 
   return (
     <div className="flex flex-col">
@@ -393,8 +432,8 @@ export default function InputView() {
       {/* Input form */}
       <div className="mt-10 mb-10">
         <form>
-          <div className="flex flex-col w-1/2 mt-2 mr-5">
-            <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+          <div className="flex flex-row w-2/5 mt-2 mr-5">
+            {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
               Reporting Date
             </label>
             <DatePicker
@@ -403,7 +442,38 @@ export default function InputView() {
               onChange={(date) => setStartDate(date)}
               placeholderText="Reporting Date"
               showPopperArrow={false}
-            />
+            /> */}
+
+            <div class="flex flex-col mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Quater
+              </label>
+              <Dropdown
+                placeholder="Quater"
+                search
+                selection
+                options={quaterOptions}
+                onChange={(e, { value }) => {
+                  setQuater(value);
+                  setQuaterYear(value + year);
+                }}
+              />
+            </div>
+
+            <div class="flex flex-col mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Year
+              </label>
+              <input
+                className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
+                value={year}
+                type="number"
+                onChange={(e) => {
+                  setYear(e.target.value);
+                  setQuaterYear(quater + e.target.value);
+                }}
+              />
+            </div>
           </div>
 
           <ToleranceInput setPresetValues={setPresetValues} />
@@ -585,9 +655,7 @@ export default function InputView() {
                           previousTotalCapitalAndReserves,
                         };
                         setMessageTitle("Success!");
-                        setErrorMessage(
-                          "Data successfully read. Check the Output Section."
-                        );
+                        setErrorMessage("INPUT 2 Data successfully read.");
                         setDialogIsShown(true);
 
                         setPrevBalancesheetFigures(previousBalancesheetFigures);
