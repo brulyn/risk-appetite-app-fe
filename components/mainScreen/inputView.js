@@ -27,7 +27,9 @@ export default function InputView() {
   const [presetValues, setPresetValues] = useState({});
   const [quater, setQuater] = useState("Q1");
   const [year, setYear] = useState(new Date().getFullYear());
-  const [quaterYear, setQuaterYear] = useState("");
+  const [quaterYear, setQuaterYear] = useState(
+    `Q1+${new Date().getFullYear()}`
+  );
   const { ratios, setRatios } = useContext(RatioContext);
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { user, setUser } = useContext(UserContext);
@@ -270,6 +272,7 @@ export default function InputView() {
           // Get a JSON object from each of the responses
           return Promise.all(
             responses.map(function (response) {
+              console.log(response);
               return response.json();
             })
           );
@@ -412,6 +415,8 @@ export default function InputView() {
           setDialogIsShown(true);
         })
         .catch((err) => console.log(err));
+    } else {
+      console.log("No data loaded");
     }
   };
 
@@ -452,6 +457,7 @@ export default function InputView() {
                 placeholder="Quater"
                 search
                 selection
+                value={quater}
                 options={quaterOptions}
                 onChange={(e, { value }) => {
                   setQuater(value);
@@ -676,7 +682,7 @@ export default function InputView() {
           </div>
         </form>
         <div className="pt-5">
-          <Button onClick={() => saveData()} color="blue">
+          <Button disabled={!loaded} onClick={() => saveData()} color="blue">
             Save
           </Button>
         </div>
