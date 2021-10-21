@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/dist/client/router";
-import { Spinner } from "evergreen-ui";
+import { Spinner, CornerDialog } from "evergreen-ui";
 import { UserContext } from "../contexts/userContext";
 import _ from "lodash";
 
@@ -9,6 +9,9 @@ export default function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(UserContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [dialogIsShown, setDialogIsShown] = useState(false);
+  const [messageTitle, setMessageTitle] = useState("");
 
   let router = useRouter();
 
@@ -31,11 +34,27 @@ export default function Index() {
         });
 
         router.push("main");
+      })
+      .catch((err) => {
+        setDialogIsShown(true);
+        setMessageTitle("Connection Error");
+        setErrorMessage(
+          "Could not connect to the server. Please make sure the server is up!"
+        );
+        setLoading(false);
       });
     // setLoading(false);
   };
   return (
     <div className="flex justify-center items-center h-screen">
+      <CornerDialog
+        title={messageTitle}
+        hasFooter={false}
+        isShown={dialogIsShown}
+        onCloseComplete={() => setDialogIsShown(false)}
+      >
+        {errorMessage}
+      </CornerDialog>
       <form
         onSubmit={onSubmit}
         className="flex flex-col justify-center items-center w-1/5 mb-36 bg-gray-50 py-32 shadow-md"
