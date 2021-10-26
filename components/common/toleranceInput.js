@@ -68,7 +68,7 @@ export default function ToleranceInput({ setPresetValues }) {
     <div className="mt-5">
       <ToleranceTitle title="Liquidity" />
 
-      <div className="flex flex-row w-2/5">
+      <div className="flex flex-row w-3/5">
         <ToleranceMetric
           name="Current Ratio (%)"
           setValue={setCurrentRatio}
@@ -83,7 +83,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Profitability Tolerance" />
 
-      <div className="flex flex-row w-2/5">
+      <div className="flex flex-row w-3/5">
         <ToleranceMetric
           name="GP Margin (%)"
           setValue={setGpMargin}
@@ -99,7 +99,7 @@ export default function ToleranceInput({ setPresetValues }) {
         <ToleranceMetric name="ROE (%)" setValue={setRoe} value={roe} />
       </div>
 
-      <div className="flex flex-row w-2/5">
+      <div className="flex flex-row w-3/5">
         <ToleranceMetric name="ROA (%)" setValue={setRoa} value={roa} />
         <ToleranceMetric
           name="Net Profit Margin (%)"
@@ -110,7 +110,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Operational Efficiency Tolerance" />
 
-      <div className="flex flex-row w-2/5">
+      <div className="flex flex-row w-3/5">
         <ToleranceMetric
           name="Operating Expenses (%)"
           setValue={setOperatingExpenses}
@@ -130,7 +130,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Credit Risk Tolerance" />
 
-      <div className="flex flex-row w-2/5">
+      <div className="flex flex-row w-3/5">
         <ToleranceMetric
           name="Average Collection Period"
           setValue={setAverageCollectionPeriod}
@@ -145,7 +145,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Marketing Tolerance" />
 
-      <div className="flex flex-row w-2/5">
+      <div className="flex flex-row w-3/5">
         <ToleranceMetric
           name="Revenue Growth (%)"
           setValue={setRevenueGrowth}
@@ -165,7 +165,7 @@ export default function ToleranceInput({ setPresetValues }) {
       </div>
 
       <ToleranceTitle title="Business Continuity Tolerance" />
-      <div className="flex flex-row w-2/5">
+      <div className="flex flex-row w-3/5">
         <ToleranceMetric
           name="Employee Turnover (%)"
           setValue={setEmployeeTurnover}

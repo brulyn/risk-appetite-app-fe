@@ -3,12 +3,14 @@ import React, { useState, useEffect, useContext } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import readXlsxFile from "read-excel-file";
-import { Button, Dropdown } from "semantic-ui-react";
+import { Accordion, Button, Dropdown, Icon } from "semantic-ui-react";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { CornerDialog } from "evergreen-ui";
 import ToleranceInput from "../common/toleranceInput";
 import { UserContext } from "../../contexts/userContext";
+import QualitativeInput from "../common/qualitativeInput";
+import ToleranceTitle from "../common/toleranceTitle";
 
 export default function InputView() {
   const [startDate, setStartDate] = useState(new Date());
@@ -25,15 +27,37 @@ export default function InputView() {
   const [dialogIsShown, setDialogIsShown] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
   const [presetValues, setPresetValues] = useState({});
+
+  //Strategic Values
+  const [pdctDev, setPdctDev] = useState(0);
+  const [investNewTech, setInvestNewTech] = useState(0);
+  const [businessCont, setBusinessCont] = useState(0);
+  const [expToNewMarket, setExpToNewMarket] = useState(0);
+  const [brandRisk, setBrandRisk] = useState(0);
+
+  //Operational Values
+  const [disruptionOp, setDisruptionOp] = useState(0);
+  const [lossOfKeyStaff, setLossOfKeyStaff] = useState(0);
+  const [compromisePrdt, setCompromisePrdt] = useState(0);
+  const [serviceDelays, setServiceDelays] = useState(0);
+  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState(0);
+
+  //Financial Values
+  const [customerDefaultRisk, setCustomerDefaultRisk] = useState(0);
+  const [cashFlowConstraints, setcashFlowConstraints] = useState(0);
+  const [fraudAndCorruption, setFraudAndCorruption] = useState(0);
+  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState(0);
+  const [underUtilCapital, setUnderUtilCapital] = useState(0);
+
   const [quater, setQuater] = useState("Q1");
   const [year, setYear] = useState(new Date().getFullYear());
-  const [quaterYear, setQuaterYear] = useState(
-    `Q1+${new Date().getFullYear()}`
-  );
+  const [quaterYear, setQuaterYear] = useState(`Q1${new Date().getFullYear()}`);
   const { ratios, setRatios } = useContext(RatioContext);
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { user, setUser } = useContext(UserContext);
   const host = "http://localhost:3001";
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const quaterList = [
     {
@@ -61,6 +85,18 @@ export default function InputView() {
   }));
 
   const saveData = () => {
+    fetch(`${host}/riskTolerance/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        companyName: user.companyName,
+        username: user.username,
+        riskToleranceValues: presetValues,
+      }),
+    });
+
     if (loaded) {
       Promise.all([
         //Operational Efficiency Current-- 0
@@ -410,8 +446,7 @@ export default function InputView() {
             },
           ];
           setRatios(_ratios);
-
-          setErrorMessage("Data successfully read. Check the Output Section.");
+          setErrorMessage("Data successfully saved.");
           setDialogIsShown(true);
         })
         .catch((err) => console.log(err));
@@ -420,25 +455,34 @@ export default function InputView() {
     }
   };
 
-  // useEffect(() => {}, [loaded, currentFigures]);
+  useEffect(() => {
+    setLoaded(false);
+  }, []);
 
+  const handleExpand = (e, titleProps) => {
+    const { index } = titleProps;
+    const newIndex = activeIndex === index ? -1 : index;
+
+    setActiveIndex(newIndex);
+  };
   return (
-    <div className="flex flex-col">
-      <CornerDialog
-        title={messageTitle}
-        hasFooter={false}
-        isShown={dialogIsShown}
-        onCloseComplete={() => setDialogIsShown(false)}
-      >
-        {errorMessage}
-      </CornerDialog>
-      {/* Title */}
-      <div className="font-semibold text-gray-600">Input</div>
-      {/* Input form */}
-      <div className="mt-10 mb-10">
-        <form>
-          <div className="flex flex-row w-2/5 mt-2 mr-5">
-            {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+    <div className="flex flex-row">
+      <div className="flex flex-col w-1/2">
+        <CornerDialog
+          title={messageTitle}
+          hasFooter={false}
+          isShown={dialogIsShown}
+          onCloseComplete={() => setDialogIsShown(false)}
+        >
+          {errorMessage}
+        </CornerDialog>
+        {/* Title */}
+        <div className="font-semibold text-gray-600">Input</div>
+        {/* Input form */}
+        <div className="mt-10 mb-10">
+          <form>
+            <div className="flex flex-row w-2/5 mt-2 mr-5">
+              {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
               Reporting Date
             </label>
             <DatePicker
@@ -449,243 +493,379 @@ export default function InputView() {
               showPopperArrow={false}
             /> */}
 
-            <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-                Quater
-              </label>
-              <Dropdown
-                placeholder="Quater"
-                search
-                selection
-                value={quater}
-                options={quaterOptions}
-                onChange={(e, { value }) => {
-                  setQuater(value);
-                  setQuaterYear(value + year);
-                }}
-              />
-            </div>
-
-            <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-                Year
-              </label>
-              <input
-                className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
-                value={year}
-                type="number"
-                onChange={(e) => {
-                  setYear(e.target.value);
-                  setQuaterYear(quater + e.target.value);
-                }}
-              />
-            </div>
-          </div>
-
-          <ToleranceInput setPresetValues={setPresetValues} />
-
-          <div className="flex flex-row w-3/5">
-            <div className="flex h-16 pt-5 mr-10">
-              <label className="w-36 flex flex-row justify-center items-center bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-400 hover:text-white">
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                </svg>
-                <span className="pl-2 text-sm font-semibold leading-normal">
-                  {fileName}
-                </span>
-                <input
-                  type="file"
-                  className="hidden"
-                  webkitdirectory
-                  directory
-                  multiple
-                  // value={fileName}
-                  onChange={(e) => {
-                    setFileName("Done!");
-                    readXlsxFile(e.target.files[0])
-                      .then((rows) => {
-                        // console.log(rows);
-                        //previous quater figures
-                        let prevTotalRevenues = rows[12][10];
-                        let prevDepreciation = rows[17][10];
-                        let prevGrossProfit = rows[21][10];
-                        let prevOperatingProfit = rows[27][10];
-                        let prevNetProfit = rows[32][10];
-                        let prevEBITDA = rows[34][10];
-
-                        setPreviousFigures({
-                          prevTotalRevenues,
-                          prevDepreciation,
-                          prevGrossProfit,
-                          prevOperatingProfit,
-                          prevNetProfit,
-                          prevEBITDA,
-                        });
-                        //current quater figures
-                        let currentTotalRevenues = rows[12][15];
-                        let currentDepreciation = rows[17][15];
-                        let currentGrossProfit = rows[21][15];
-                        let currentOperatingProfit = rows[27][15];
-                        let currentNetProfit = rows[32][15];
-                        let currentEBITDA = rows[34][15];
-
-                        setCurrentFigures({
-                          currentTotalRevenues,
-                          currentDepreciation,
-                          currentGrossProfit,
-                          currentOperatingProfit,
-                          currentNetProfit,
-                          currentEBITDA,
-                        });
-
-                        //YTD figures
-                        let ytdTotalRevenues = rows[12][16];
-                        let ytdDepreciation = rows[17][16];
-                        let ytdGrossProfit = rows[21][16];
-                        let ytdOperatingProfit = rows[27][16];
-                        let ytdNetProfit = rows[32][16];
-                        let ytdEBITDA = rows[34][16];
-
-                        setYtdFigures({
-                          ytdTotalRevenues,
-                          ytdDepreciation,
-                          ytdGrossProfit,
-                          ytdOperatingProfit,
-                          ytdNetProfit,
-                          ytdEBITDA,
-                        });
-
-                        setMessageTitle("Success!");
-                        setErrorMessage(
-                          "INPUT 1 Data successfully read. Please Upload INPUT 2 data also."
-                        );
-                        setDialogIsShown(true);
-                        setFile1Uploaded(true);
-                      })
-                      .catch((err) => {
-                        setFileName2("Error!");
-                        setMessageTitle("File format Issue!");
-                        setErrorMessage(
-                          "There was an issue uploading the file. Please check the file format against the template excel template!"
-                        );
-                        setDialogIsShown(true);
-                      });
+              <div class="flex flex-col mr-5">
+                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                  Quater
+                </label>
+                <Dropdown
+                  placeholder="Quater"
+                  search
+                  selection
+                  value={quater}
+                  options={quaterOptions}
+                  onChange={(e, { value }) => {
+                    setQuater(value);
+                    setQuaterYear(value + year);
                   }}
                 />
-              </label>
+              </div>
+
+              <div class="flex flex-col mr-5">
+                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                  Year
+                </label>
+                <input
+                  className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
+                  value={year}
+                  type="number"
+                  onChange={(e) => {
+                    setYear(e.target.value);
+                    setQuaterYear(quater + e.target.value);
+                  }}
+                />
+              </div>
             </div>
 
-            <div className="flex h-16 pt-5 mr-10">
-              <label
-                className={
-                  file1Uploaded
-                    ? "w-36 flex flex-row justify-center items-center bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-400 hover:text-white"
-                    : "w-36 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
-                }
+            <div className="font-semibold text-gray-600 mt-10">
+              Quantitative Metrics
+            </div>
+
+            <div className="flex flex-row w-3/5">
+              <div className="flex h-16 pt-5 mr-10">
+                <label className="w-36 flex flex-row justify-center items-center bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-400 hover:text-white">
+                  <svg
+                    className="w-6 h-6"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span className="pl-2 text-sm font-semibold leading-normal">
+                    {fileName}
+                  </span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    webkitdirectory
+                    directory
+                    multiple
+                    // value={fileName}
+                    onChange={(e) => {
+                      setFileName("Done!");
+                      readXlsxFile(e.target.files[0])
+                        .then((rows) => {
+                          // console.log(rows);
+                          //previous quater figures
+                          let prevTotalRevenues = rows[12][10];
+                          let prevDepreciation = rows[17][10];
+                          let prevGrossProfit = rows[21][10];
+                          let prevOperatingProfit = rows[27][10];
+                          let prevNetProfit = rows[32][10];
+                          let prevEBITDA = rows[34][10];
+
+                          setPreviousFigures({
+                            prevTotalRevenues,
+                            prevDepreciation,
+                            prevGrossProfit,
+                            prevOperatingProfit,
+                            prevNetProfit,
+                            prevEBITDA,
+                          });
+                          //current quater figures
+                          let currentTotalRevenues = rows[12][15];
+                          let currentDepreciation = rows[17][15];
+                          let currentGrossProfit = rows[21][15];
+                          let currentOperatingProfit = rows[27][15];
+                          let currentNetProfit = rows[32][15];
+                          let currentEBITDA = rows[34][15];
+
+                          setCurrentFigures({
+                            currentTotalRevenues,
+                            currentDepreciation,
+                            currentGrossProfit,
+                            currentOperatingProfit,
+                            currentNetProfit,
+                            currentEBITDA,
+                          });
+
+                          //YTD figures
+                          let ytdTotalRevenues = rows[12][16];
+                          let ytdDepreciation = rows[17][16];
+                          let ytdGrossProfit = rows[21][16];
+                          let ytdOperatingProfit = rows[27][16];
+                          let ytdNetProfit = rows[32][16];
+                          let ytdEBITDA = rows[34][16];
+
+                          setYtdFigures({
+                            ytdTotalRevenues,
+                            ytdDepreciation,
+                            ytdGrossProfit,
+                            ytdOperatingProfit,
+                            ytdNetProfit,
+                            ytdEBITDA,
+                          });
+
+                          setMessageTitle("Success!");
+                          setErrorMessage(
+                            "INPUT 1 Data successfully read. Please Upload INPUT 2 data also."
+                          );
+                          setDialogIsShown(true);
+                          setFile1Uploaded(true);
+                        })
+                        .catch((err) => {
+                          setFileName2("Error!");
+                          setMessageTitle("File format Issue!");
+                          setErrorMessage(
+                            "There was an issue uploading the file. Please check the file format against the template excel template!"
+                          );
+                          setDialogIsShown(true);
+                        });
+                    }}
+                  />
+                </label>
+              </div>
+
+              <div className="flex h-16 pt-5 mr-10">
+                <label
+                  className={
+                    file1Uploaded
+                      ? "w-36 flex flex-row justify-center items-center bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-400 hover:text-white"
+                      : "w-36 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
+                  }
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span className="pl-2 text-sm font-semibold leading-normal">
+                    {fileName2}
+                  </span>
+                  <input
+                    disabled={!file1Uploaded}
+                    type="file"
+                    className="hidden"
+                    webkitdirectory
+                    directory
+                    multiple
+                    // value={fileName}
+                    onChange={(e) => {
+                      setFileName2("Done!");
+                      readXlsxFile(e.target.files[0])
+                        .then((rows) => {
+                          let currentTotalNonCurrentAssets = rows[11][2];
+                          let currentTotalCurrentAssets = rows[18][2];
+                          let currentTotalAssets = rows[19][2];
+                          let currentTradeReceivables = rows[14][2];
+                          let currentRelatedPartyReceivables = rows[16][2];
+                          let currentTotalReceivables =
+                            currentTradeReceivables +
+                            currentRelatedPartyReceivables;
+                          let currentTotalNonCurrentLiabilites = rows[32][2];
+                          let currentTotalCurrentLiabilities = rows[39][2];
+                          let currentInventories = rows[13][2];
+                          let currentTotalCapitalAndReserves = rows[28][2];
+
+                          let currentBalancesheetFigures = {
+                            currentTotalNonCurrentAssets,
+                            currentTotalCurrentAssets,
+                            currentTotalAssets,
+                            currentTotalReceivables,
+                            currentTotalNonCurrentLiabilites,
+                            currentTotalCurrentLiabilities,
+                            currentInventories,
+                            currentTotalCapitalAndReserves,
+                          };
+
+                          setCurrBalancesheetFigures(
+                            currentBalancesheetFigures
+                          );
+
+                          let previousTotalNonCurrentAssets = rows[11][3];
+                          let previousTotalCurrentAssets = rows[18][3];
+                          let previousTotalAssets = rows[19][3];
+                          let previousTradeReceivables = rows[14][3];
+                          let previousRelatedPartyReceivables = rows[16][3];
+                          let previousTotalReceivables =
+                            previousTradeReceivables +
+                            previousRelatedPartyReceivables;
+                          let previousTotalNonCurrentLiabilities = rows[32][3];
+                          let previousTotalCurrentLiabilities = rows[39][3];
+                          let previousInventories = rows[13][3];
+                          let previousTotalCapitalAndReserves = rows[28][3];
+
+                          let previousBalancesheetFigures = {
+                            previousTotalNonCurrentAssets,
+                            previousTotalCurrentAssets,
+                            previousTotalAssets,
+                            previousTotalReceivables,
+                            previousTotalNonCurrentLiabilities,
+                            previousTotalCurrentLiabilities,
+                            previousInventories,
+                            previousTotalCapitalAndReserves,
+                          };
+                          setMessageTitle("Success!");
+                          setErrorMessage("INPUT 2 Data successfully read.");
+                          setDialogIsShown(true);
+
+                          setPrevBalancesheetFigures(
+                            previousBalancesheetFigures
+                          );
+                          setLoaded(true);
+                        })
+                        .catch((err) => {
+                          setFileName2("Error!");
+                          setMessageTitle("File format Issue!");
+                          setErrorMessage(
+                            "There was an issue uploading the file. Please check the file format against the excel template!"
+                          );
+                          setDialogIsShown(true);
+                        });
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="font-semibold text-gray-600 mt-10">
+              Qualitative Metrics
+            </div>
+            <Accordion>
+              <Accordion.Title
+                active={activeIndex === 0}
+                index={0}
+                onClick={handleExpand}
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                </svg>
-                <span className="pl-2 text-sm font-semibold leading-normal">
-                  {fileName2}
-                </span>
-                <input
-                  disabled={!file1Uploaded}
-                  type="file"
-                  className="hidden"
-                  webkitdirectory
-                  directory
-                  multiple
-                  // value={fileName}
-                  onChange={(e) => {
-                    setFileName2("Done!");
-                    readXlsxFile(e.target.files[0])
-                      .then((rows) => {
-                        let currentTotalNonCurrentAssets = rows[11][2];
-                        let currentTotalCurrentAssets = rows[18][2];
-                        let currentTotalAssets = rows[19][2];
-                        let currentTradeReceivables = rows[14][2];
-                        let currentRelatedPartyReceivables = rows[16][2];
-                        let currentTotalReceivables =
-                          currentTradeReceivables +
-                          currentRelatedPartyReceivables;
-                        let currentTotalNonCurrentLiabilites = rows[32][2];
-                        let currentTotalCurrentLiabilities = rows[39][2];
-                        let currentInventories = rows[13][2];
-                        let currentTotalCapitalAndReserves = rows[28][2];
-
-                        let currentBalancesheetFigures = {
-                          currentTotalNonCurrentAssets,
-                          currentTotalCurrentAssets,
-                          currentTotalAssets,
-                          currentTotalReceivables,
-                          currentTotalNonCurrentLiabilites,
-                          currentTotalCurrentLiabilities,
-                          currentInventories,
-                          currentTotalCapitalAndReserves,
-                        };
-
-                        setCurrBalancesheetFigures(currentBalancesheetFigures);
-
-                        let previousTotalNonCurrentAssets = rows[11][3];
-                        let previousTotalCurrentAssets = rows[18][3];
-                        let previousTotalAssets = rows[19][3];
-                        let previousTradeReceivables = rows[14][3];
-                        let previousRelatedPartyReceivables = rows[16][3];
-                        let previousTotalReceivables =
-                          previousTradeReceivables +
-                          previousRelatedPartyReceivables;
-                        let previousTotalNonCurrentLiabilities = rows[32][3];
-                        let previousTotalCurrentLiabilities = rows[39][3];
-                        let previousInventories = rows[13][3];
-                        let previousTotalCapitalAndReserves = rows[28][3];
-
-                        let previousBalancesheetFigures = {
-                          previousTotalNonCurrentAssets,
-                          previousTotalCurrentAssets,
-                          previousTotalAssets,
-                          previousTotalReceivables,
-                          previousTotalNonCurrentLiabilities,
-                          previousTotalCurrentLiabilities,
-                          previousInventories,
-                          previousTotalCapitalAndReserves,
-                        };
-                        setMessageTitle("Success!");
-                        setErrorMessage("INPUT 2 Data successfully read.");
-                        setDialogIsShown(true);
-
-                        setPrevBalancesheetFigures(previousBalancesheetFigures);
-                        setLoaded(true);
-                      })
-                      .catch((err) => {
-                        setFileName2("Error!");
-                        setMessageTitle("File format Issue!");
-                        setErrorMessage(
-                          "There was an issue uploading the file. Please check the file format against the excel template!"
-                        );
-                        setDialogIsShown(true);
-                      });
-                  }}
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Strategic" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 0}>
+                <QualitativeInput
+                  title="Product dev. and innovation"
+                  setQualValues={setPdctDev}
+                  value={pdctDev}
                 />
-              </label>
-            </div>
+                <QualitativeInput
+                  title="Investment in new Technologies"
+                  setQualValues={setInvestNewTech}
+                  value={investNewTech}
+                />
+                <QualitativeInput
+                  title="Business continuity and disaster recovery"
+                  setQualValues={setBusinessCont}
+                  value={businessCont}
+                />
+                <QualitativeInput
+                  title="Expansion to new markets"
+                  setQualValues={setExpToNewMarket}
+                  value={expToNewMarket}
+                />
+                <QualitativeInput
+                  title="Brand/reputation risk"
+                  setQualValues={setBrandRisk}
+                  value={brandRisk}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 1}
+                index={1}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Operational" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 1}>
+                <QualitativeInput
+                  title="Disruption of operations"
+                  setQualValues={setDisruptionOp}
+                  value={disruptionOp}
+                />
+                <QualitativeInput
+                  title="Loss of key staff"
+                  setQualValues={setLossOfKeyStaff}
+                  value={lossOfKeyStaff}
+                />
+                <QualitativeInput
+                  title="Compromise of product and service quality"
+                  setQualValues={setCompromisePrdt}
+                  value={compromisePrdt}
+                />
+                <QualitativeInput
+                  title="Service delays"
+                  setQualValues={setServiceDelays}
+                  value={serviceDelays}
+                />
+                <QualitativeInput
+                  title="Disruptions to supply chain"
+                  setQualValues={setDisruptionSupplyChain}
+                  value={disruptionSupplyChain}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 2}
+                index={2}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Financial" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 2}>
+                <QualitativeInput
+                  title="Customer default risk"
+                  setQualValues={setCustomerDefaultRisk}
+                  value={customerDefaultRisk}
+                />
+                <QualitativeInput
+                  title="Cash-flow constraints"
+                  setQualValues={setcashFlowConstraints}
+                  value={cashFlowConstraints}
+                />
+                <QualitativeInput
+                  title="Fraud and corruption"
+                  setQualValues={setFraudAndCorruption}
+                  value={fraudAndCorruption}
+                />
+                <QualitativeInput
+                  title="Errors and misstatements"
+                  setQualValues={setErrorsAndMisstatements}
+                  value={errorsAndMisstatements}
+                />
+                <QualitativeInput
+                  title="Under-utilization of capital"
+                  setQualValues={setUnderUtilCapital}
+                  value={underUtilCapital}
+                />
+              </Accordion.Content>
+            </Accordion>
+          </form>
+          <div className="pt-5">
+            <Button disabled={!loaded} onClick={() => saveData()} color="blue">
+              Save
+            </Button>
           </div>
-        </form>
-        <div className="pt-5">
-          <Button disabled={!loaded} onClick={() => saveData()} color="blue">
-            Save
-          </Button>
         </div>
+      </div>
+
+      <div className="flex flex-col w-1/2">
+        <ToleranceInput setPresetValues={setPresetValues} />
       </div>
     </div>
   );

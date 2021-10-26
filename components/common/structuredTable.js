@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Icon, Table, Label } from "semantic-ui-react";
 import { RatioContext } from "../../contexts/ratioContext";
 
 function StructuredTable() {
-  const { ratios, setRatio } = useContext(RatioContext);
+  const { ratios, setRatios } = useContext(RatioContext);
 
   const getRiskScore = (performance, tolerance) => {
     if (performance / tolerance >= 1 || tolerance === 0) return 0;
@@ -41,6 +41,11 @@ function StructuredTable() {
     else if (prevRiskScore < currRiskScore) return "Increasing";
     else return "Stable";
   };
+
+  // useEffect(() => {
+  //   setRatios(ratios ? ratios : []);
+  //   console.log(ratios);
+  // }, [ratios]);
 
   return (
     <Table celled structured compact>
