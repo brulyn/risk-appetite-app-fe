@@ -13,7 +13,7 @@ import Settings from "./menuSections/settings";
 
 export default function SideBar() {
   return (
-    <div className="min-h-full w-1/12 bg-white flex flex-col items-center py-5">
+    <div className="min-h-full w-1/12 bg-gray-50 flex flex-col items-center py-5">
       <div className="font-bold pb-10">RISK APPETITE</div>
 
       <Dashboard />

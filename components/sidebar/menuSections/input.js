@@ -9,7 +9,7 @@ export default function Input() {
       onClick={() => {
         setView("input");
       }}
-      className="flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer mb-10 border-t-2 pt-10"
+      className="flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer mb-10 pt-10"
     >
       <div className="pl-4 w-1/3">
         <DocumentAddIcon className="h-8 w-8 text-gray-600" />
