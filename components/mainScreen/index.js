@@ -7,6 +7,7 @@ import ReportsView from "./ReportsView";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { UserContext } from "../../contexts/userContext";
+import SettingsView from "./settingsView";
 
 export default function MainScreen() {
   const { view, setView } = useContext(ViewContext);
@@ -59,6 +60,7 @@ export default function MainScreen() {
         </RatioContext.Provider>
       )}
       {view === "reports" && <ReportsView />}
+      {view === "settings" && <SettingsView />}
     </div>
   );
 }

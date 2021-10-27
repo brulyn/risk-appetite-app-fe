@@ -1,16 +1,15 @@
 "use strict";
 import React, { useState, useEffect, useContext } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import readXlsxFile from "read-excel-file";
 import { Accordion, Button, Dropdown, Icon } from "semantic-ui-react";
-import { RatioContext } from "../../contexts/ratioContext";
-import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { CornerDialog } from "evergreen-ui";
-import ToleranceInput from "../common/toleranceInput";
-import { UserContext } from "../../contexts/userContext";
 import QualitativeInput from "../common/qualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
+
+import { RatioContext } from "../../contexts/ratioContext";
+import { DataLoadedContext } from "../../contexts/dataLoadedContext";
+import { UserContext } from "../../contexts/userContext";
 
 export default function InputView() {
   const [startDate, setStartDate] = useState(new Date());
@@ -26,28 +25,33 @@ export default function InputView() {
   const [errorMessage, setErrorMessage] = useState("");
   const [dialogIsShown, setDialogIsShown] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
-  const [presetValues, setPresetValues] = useState({});
 
   //Strategic Values
-  const [pdctDev, setPdctDev] = useState(0);
-  const [investNewTech, setInvestNewTech] = useState(0);
-  const [businessCont, setBusinessCont] = useState(0);
-  const [expToNewMarket, setExpToNewMarket] = useState(0);
-  const [brandRisk, setBrandRisk] = useState(0);
+  const [pdctDev, setPdctDev] = useState(40);
+  const [investNewTech, setInvestNewTech] = useState(15);
+  const [businessCont, setBusinessCont] = useState(40);
+  const [expToNewMarket, setExpToNewMarket] = useState(40);
+  const [brandRisk, setBrandRisk] = useState(15);
 
   //Operational Values
-  const [disruptionOp, setDisruptionOp] = useState(0);
-  const [lossOfKeyStaff, setLossOfKeyStaff] = useState(0);
-  const [compromisePrdt, setCompromisePrdt] = useState(0);
-  const [serviceDelays, setServiceDelays] = useState(0);
-  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState(0);
+  const [disruptionOp, setDisruptionOp] = useState(40);
+  const [lossOfKeyStaff, setLossOfKeyStaff] = useState(40);
+  const [compromisePrdt, setCompromisePrdt] = useState(15);
+  const [serviceDelays, setServiceDelays] = useState(40);
+  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState(40);
 
   //Financial Values
-  const [customerDefaultRisk, setCustomerDefaultRisk] = useState(0);
-  const [cashFlowConstraints, setcashFlowConstraints] = useState(0);
-  const [fraudAndCorruption, setFraudAndCorruption] = useState(0);
-  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState(0);
-  const [underUtilCapital, setUnderUtilCapital] = useState(0);
+  const [customerDefaultRisk, setCustomerDefaultRisk] = useState(60);
+  const [cashFlowConstraints, setcashFlowConstraints] = useState(40);
+  const [fraudAndCorruption, setFraudAndCorruption] = useState(15);
+  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState(10);
+  const [underUtilCapital, setUnderUtilCapital] = useState(40);
+
+  //Compliance
+  const [tax, setTax] = useState(15);
+  const [contract, setContract] = useState(15);
+  const [financialReporting, setFinancialReporting] = useState(15);
+  const [govLicence, setGovLicence] = useState(15);
 
   const [quater, setQuater] = useState("Q1");
   const [year, setYear] = useState(new Date().getFullYear());
@@ -85,18 +89,6 @@ export default function InputView() {
   }));
 
   const saveData = () => {
-    fetch(`${host}/riskTolerance/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        companyName: user.companyName,
-        username: user.username,
-        riskToleranceValues: presetValues,
-      }),
-    });
-
     if (loaded) {
       Promise.all([
         //Operational Efficiency Current-- 0
@@ -449,7 +441,11 @@ export default function InputView() {
           setErrorMessage("Data successfully saved.");
           setDialogIsShown(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setMessageTitle("Operation Failed!");
+          setErrorMessage(`An error occured : ${err}`);
+          setDialogIsShown(true);
+        });
     } else {
       console.log("No data loaded");
     }
@@ -732,7 +728,7 @@ export default function InputView() {
             </div>
 
             <div className="font-semibold text-gray-600 mt-10">
-              Qualitative Metrics
+              Qualitative Metrics (Implementation Level)
             </div>
             <Accordion>
               <Accordion.Title
@@ -854,6 +850,41 @@ export default function InputView() {
                   value={underUtilCapital}
                 />
               </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 3}
+                index={3}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Compliance" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 3}>
+                <QualitativeInput
+                  title="Tax compliance"
+                  setQualValues={setTax}
+                  value={tax}
+                />
+                <QualitativeInput
+                  title="Contract compliance"
+                  setQualValues={setContract}
+                  value={contract}
+                />
+                <QualitativeInput
+                  title="Financial reporting compliance"
+                  setQualValues={setFinancialReporting}
+                  value={financialReporting}
+                />
+                <QualitativeInput
+                  title="Government licenses and regulations"
+                  setQualValues={setGovLicence}
+                  value={govLicence}
+                />
+              </Accordion.Content>
             </Accordion>
           </form>
           <div className="pt-5">
@@ -862,10 +893,6 @@ export default function InputView() {
             </Button>
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-col w-1/2">
-        <ToleranceInput setPresetValues={setPresetValues} />
       </div>
     </div>
   );

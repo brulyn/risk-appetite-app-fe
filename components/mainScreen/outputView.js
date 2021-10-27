@@ -11,7 +11,9 @@ export default function OutputView() {
       {loaded && (
         <div className="flex flex-col">
           {/* Title */}
-          <div className="font-semibold text-gray-500">Output</div>
+          <div className="font-semibold text-gray-500">
+            Risk Appetite Monitoring
+          </div>
           <div className="flex flex-col mr-4 mt-5 mb-10">
             <StructuredTable />
           </div>

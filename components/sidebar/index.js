@@ -9,6 +9,7 @@ import Dashboard from "./menuSections/dashboard";
 import Input from "./menuSections/input";
 import Output from "./menuSections/output";
 import Reports from "./menuSections/reports";
+import Settings from "./menuSections/settings";
 
 export default function SideBar() {
   return (
@@ -19,6 +20,7 @@ export default function SideBar() {
       <Input />
       <Output />
       <Reports />
+      <Settings />
     </div>
   );
 }
