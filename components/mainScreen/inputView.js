@@ -56,6 +56,8 @@ export default function InputView() {
   const [quater, setQuater] = useState("Q1");
   const [year, setYear] = useState(new Date().getFullYear());
   const [quaterYear, setQuaterYear] = useState(`Q1${new Date().getFullYear()}`);
+  const [presetValues, setPresetValues] = useState({});
+
   const { ratios, setRatios } = useContext(RatioContext);
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { user, setUser } = useContext(UserContext);
@@ -89,6 +91,19 @@ export default function InputView() {
   }));
 
   const saveData = () => {
+    console.log(
+      JSON.stringify({
+        pdctDev,
+        investNewTech,
+        businessCont,
+        expToNewMarket,
+        brandRisk,
+        period: "previous",
+        username: user.username,
+        company: user.companyName,
+        quater: quaterYear,
+      })
+    );
     if (loaded) {
       Promise.all([
         //Operational Efficiency Current-- 0
@@ -295,6 +310,78 @@ export default function InputView() {
             quater: quaterYear,
           }),
         }),
+
+        //Qualitative Values
+        fetch(`${host}/strategic/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pdctDev,
+            investNewTech,
+            businessCont,
+            expToNewMarket,
+            brandRisk,
+            period: "previous",
+            username: user.username,
+            companyName: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+
+        fetch(`${host}/operational/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            disruptionOp,
+            lossOfKeyStaff,
+            compromisePrdt,
+            serviceDelays,
+            disruptionSupplyChain,
+            period: "previous",
+            username: user.username,
+            companyName: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+
+        fetch(`${host}/financial/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customerDefaultRisk,
+            cashFlowConstraints,
+            fraudAndCorruption,
+            errorsAndMisstatements,
+            underUtilCapital,
+            period: "previous",
+            username: user.username,
+            companyName: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
+
+        fetch(`${host}/compliance/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tax,
+            contract,
+            financialReporting,
+            govLicence,
+            period: "previous",
+            username: user.username,
+            companyName: user.companyName,
+            quater: quaterYear,
+          }),
+        }),
       ])
         .then(function (responses) {
           // Get a JSON object from each of the responses
@@ -308,136 +395,136 @@ export default function InputView() {
         .then(function (data) {
           // Log the data to the console
           // You would do something with both sets of data here
-          let _ratios = [
-            {
-              metric: "Operating Expenses",
-              category: "operationalEfficiency",
-              currentPerformance: data[0].operatingExpenses,
-              previousPerformance: data[1].operatingExpenses, //TODO
-              riskTolerance: presetValues["operatingExpenses"],
-            },
-            {
-              metric: "System Uptime",
-              category: "operationalEfficiency",
-              currentPerformance: data[0].systemUptime,
-              previousPerformance: data[1].systemUptime, //TODO
-              riskTolerance: presetValues["systemUptime"],
-            },
-            {
-              metric: "Machinery Uptime",
-              category: "operationalEfficiency",
-              currentPerformance: data[0].machineryUptime,
-              previousPerformance: data[1].machineryUptime, //TODO
-              riskTolerance: presetValues["machineryUptime"],
-            },
-            {
-              metric: "Current Ratio",
-              category: "liquidity",
-              currentPerformance: data[2].currentRatio,
-              previousPerformance: data[3].currentRatio,
-              riskTolerance: presetValues["currentRatio"],
-            },
-            {
-              metric: "Quick Ratio",
-              category: "liquidity",
-              currentPerformance: data[2].quickRatio,
-              previousPerformance: data[3].quickRatio, //TODO
-              riskTolerance: presetValues["quickRatio"],
-            },
-            {
-              metric: "GP Margin",
-              category: "profitability",
-              currentPerformance: data[4].gpMargin,
-              previousPerformance: data[5].gpMargin, //TODO
-              riskTolerance: presetValues["gpMargin"],
-            },
+          // let _ratios = [
+          //   {
+          //     metric: "Operating Expenses",
+          //     category: "operationalEfficiency",
+          //     currentPerformance: data[0].operatingExpenses,
+          //     previousPerformance: data[1].operatingExpenses, //TODO
+          //     riskTolerance: presetValues["operatingExpenses"],
+          //   },
+          //   {
+          //     metric: "System Uptime",
+          //     category: "operationalEfficiency",
+          //     currentPerformance: data[0].systemUptime,
+          //     previousPerformance: data[1].systemUptime, //TODO
+          //     riskTolerance: presetValues["systemUptime"],
+          //   },
+          //   {
+          //     metric: "Machinery Uptime",
+          //     category: "operationalEfficiency",
+          //     currentPerformance: data[0].machineryUptime,
+          //     previousPerformance: data[1].machineryUptime, //TODO
+          //     riskTolerance: presetValues["machineryUptime"],
+          //   },
+          //   {
+          //     metric: "Current Ratio",
+          //     category: "liquidity",
+          //     currentPerformance: data[2].currentRatio,
+          //     previousPerformance: data[3].currentRatio,
+          //     riskTolerance: presetValues["currentRatio"],
+          //   },
+          //   {
+          //     metric: "Quick Ratio",
+          //     category: "liquidity",
+          //     currentPerformance: data[2].quickRatio,
+          //     previousPerformance: data[3].quickRatio, //TODO
+          //     riskTolerance: presetValues["quickRatio"],
+          //   },
+          //   {
+          //     metric: "GP Margin",
+          //     category: "profitability",
+          //     currentPerformance: data[4].gpMargin,
+          //     previousPerformance: data[5].gpMargin, //TODO
+          //     riskTolerance: presetValues["gpMargin"],
+          //   },
 
-            {
-              metric: "EBITDA Margin",
-              category: "profitability",
-              currentPerformance: data[4].ebitdaMargin,
-              previousPerformance: data[5].ebitdaMargin, //TODO
-              riskTolerance: presetValues["ebitda"],
-            },
-            {
-              metric: "Return On Equity",
-              category: "profitability",
-              currentPerformance: data[4].returnOnEquity,
-              previousPerformance: data[5].returnOnEquity, //TODO
-              riskTolerance: presetValues["roe"],
-            },
-            {
-              metric: "Return On Assets",
-              category: "profitability",
-              currentPerformance: data[4].returnOnAsset,
-              previousPerformance: data[5].returnOnAsset,
-              riskTolerance: presetValues["roa"],
-            },
-            {
-              metric: "Net Profit Margin",
-              category: "profitability",
-              currentPerformance: data[4].netProfitMargin,
-              previousPerformance: data[5].netProfitMargin, //TODO
-              riskTolerance: presetValues["netProfitMargin"],
-            },
-            {
-              metric: "Average Collection Period",
-              category: "creditRisk",
-              currentPerformance: data[6].averageCollectionPeriod,
-              previousPerformance: data[7].averageCollectionPeriod, //TODO
-              riskTolerance: presetValues["averageCollectionPeriod"],
-            },
-            {
-              metric: "Total Receivables/Sales",
-              category: "creditRisk",
-              currentPerformance: data[6].totalReceivablePerSales,
-              previousPerformance: data[7].totalReceivablePerSales, //TODO
-              riskTolerance: presetValues["totalReceivablePerSales"],
-            },
-            {
-              metric: "Revenue Growth",
-              category: "marketing",
-              currentPerformance: data[8].revenueGrowth,
-              previousPerformance: data[9].revenueGrowth, //TODO
-              riskTolerance: presetValues["revenueGrowth"],
-            },
-            {
-              metric: "Market Share",
-              category: "marketing",
-              currentPerformance: data[8].marketShare,
-              previousPerformance: data[9].marketShare, //TODO
-              riskTolerance: presetValues["marketShare"],
-            },
-            {
-              metric: "New Customers",
-              category: "marketing",
-              currentPerformance: data[8].newCustomers,
-              previousPerformance: data[9].newCustomers, //TODO
-              riskTolerance: presetValues["newCustomers"],
-            },
-            {
-              metric: "Employee Turnover",
-              category: "businessContinuity",
-              currentPerformance: data[10].employeeTurnover,
-              previousPerformance: data[11].employeeTurnover, //TODO
-              riskTolerance: presetValues["employeeTurnover"],
-            },
-            {
-              metric: "Loss on major Upheaval",
-              category: "businessContinuity",
-              currentPerformance: data[10].lossOnMajorUpheaval,
-              previousPerformance: data[11].lossOnMajorUpheaval, //TODO
-              riskTolerance: presetValues["lossOnMajorUpheaval"],
-            },
-            {
-              metric: "Solvency Ratio",
-              category: "businessContinuity",
-              currentPerformance: data[10].solvencyRatioMetric,
-              previousPerformance: data[11].solvencyRatioMetric, //TODO
-              riskTolerance: presetValues["solvencyRatio"],
-            },
-          ];
-          setRatios(_ratios);
+          //   {
+          //     metric: "EBITDA Margin",
+          //     category: "profitability",
+          //     currentPerformance: data[4].ebitdaMargin,
+          //     previousPerformance: data[5].ebitdaMargin, //TODO
+          //     riskTolerance: presetValues["ebitda"],
+          //   },
+          //   {
+          //     metric: "Return On Equity",
+          //     category: "profitability",
+          //     currentPerformance: data[4].returnOnEquity,
+          //     previousPerformance: data[5].returnOnEquity, //TODO
+          //     riskTolerance: presetValues["roe"],
+          //   },
+          //   {
+          //     metric: "Return On Assets",
+          //     category: "profitability",
+          //     currentPerformance: data[4].returnOnAsset,
+          //     previousPerformance: data[5].returnOnAsset,
+          //     riskTolerance: presetValues["roa"],
+          //   },
+          //   {
+          //     metric: "Net Profit Margin",
+          //     category: "profitability",
+          //     currentPerformance: data[4].netProfitMargin,
+          //     previousPerformance: data[5].netProfitMargin, //TODO
+          //     riskTolerance: presetValues["netProfitMargin"],
+          //   },
+          //   {
+          //     metric: "Average Collection Period",
+          //     category: "creditRisk",
+          //     currentPerformance: data[6].averageCollectionPeriod,
+          //     previousPerformance: data[7].averageCollectionPeriod, //TODO
+          //     riskTolerance: presetValues["averageCollectionPeriod"],
+          //   },
+          //   {
+          //     metric: "Total Receivables/Sales",
+          //     category: "creditRisk",
+          //     currentPerformance: data[6].totalReceivablePerSales,
+          //     previousPerformance: data[7].totalReceivablePerSales, //TODO
+          //     riskTolerance: presetValues["totalReceivablePerSales"],
+          //   },
+          //   {
+          //     metric: "Revenue Growth",
+          //     category: "marketing",
+          //     currentPerformance: data[8].revenueGrowth,
+          //     previousPerformance: data[9].revenueGrowth, //TODO
+          //     riskTolerance: presetValues["revenueGrowth"],
+          //   },
+          //   {
+          //     metric: "Market Share",
+          //     category: "marketing",
+          //     currentPerformance: data[8].marketShare,
+          //     previousPerformance: data[9].marketShare, //TODO
+          //     riskTolerance: presetValues["marketShare"],
+          //   },
+          //   {
+          //     metric: "New Customers",
+          //     category: "marketing",
+          //     currentPerformance: data[8].newCustomers,
+          //     previousPerformance: data[9].newCustomers, //TODO
+          //     riskTolerance: presetValues["newCustomers"],
+          //   },
+          //   {
+          //     metric: "Employee Turnover",
+          //     category: "businessContinuity",
+          //     currentPerformance: data[10].employeeTurnover,
+          //     previousPerformance: data[11].employeeTurnover, //TODO
+          //     riskTolerance: presetValues["employeeTurnover"],
+          //   },
+          //   {
+          //     metric: "Loss on major Upheaval",
+          //     category: "businessContinuity",
+          //     currentPerformance: data[10].lossOnMajorUpheaval,
+          //     previousPerformance: data[11].lossOnMajorUpheaval, //TODO
+          //     riskTolerance: presetValues["lossOnMajorUpheaval"],
+          //   },
+          //   {
+          //     metric: "Solvency Ratio",
+          //     category: "businessContinuity",
+          //     currentPerformance: data[10].solvencyRatioMetric,
+          //     previousPerformance: data[11].solvencyRatioMetric, //TODO
+          //     riskTolerance: presetValues["solvencyRatio"],
+          //   },
+          // ];
+          // setRatios(_ratios);
           setErrorMessage("Data successfully saved.");
           setDialogIsShown(true);
         })

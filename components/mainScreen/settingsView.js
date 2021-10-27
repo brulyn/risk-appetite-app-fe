@@ -63,7 +63,7 @@ export default function SettingsView() {
         }),
       }),
 
-      fetch(`${host}/strategic/`, {
+      fetch(`${host}/strategicTolerance/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export default function SettingsView() {
         }),
       }),
 
-      fetch(`${host}/operational/`, {
+      fetch(`${host}/operationalTolerance/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export default function SettingsView() {
         }),
       }),
 
-      fetch(`${host}/financial/`, {
+      fetch(`${host}/financialTolerance/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export default function SettingsView() {
         }),
       }),
 
-      fetch(`${host}/compliance/`, {
+      fetch(`${host}/complianceTolerance/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
