@@ -43,7 +43,7 @@ export default function MainScreen() {
       });
   }, [view]);
   return (
-    <div className="min-h-full flex-1 bg-gray-50 pt-5 pl-5">
+    <div className="min-h-full flex-1 bg-white pt-5 pl-5">
       {view === "dashboard" && <DashboardView />}
       {view === "input" && (
         <RatioContext.Provider value={{ ratios, setRatios }}>
