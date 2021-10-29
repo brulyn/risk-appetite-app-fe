@@ -1,12 +1,19 @@
+// import "element-theme-default";
 import "tailwindcss/tailwind.css";
 import { useState } from "react";
 import { UserContext } from "../contexts/userContext";
+import { QuaterContext } from "../contexts/quaterContext";
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState({});
+  const [globalQuater, setGlobalQuater] = useState(
+    `Q1 ${new Date().getFullYear()}`
+  );
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <Component {...pageProps} />
+      <QuaterContext.Provider value={{ globalQuater, setGlobalQuater }}>
+        <Component {...pageProps} />
+      </QuaterContext.Provider>
     </UserContext.Provider>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import ToleranceInput from "../common/toleranceInput";
 import { Button, Accordion, Icon } from "semantic-ui-react";
 import QualitativeInput from "../common/qualitativeInput";
+import TolQualitativeInput from "../common/tolqualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
 import { UserContext } from "../../contexts/userContext";
 import { CornerDialog } from "evergreen-ui";
@@ -187,27 +188,32 @@ export default function SettingsView() {
               </div>
             </Accordion.Title>
             <Accordion.Content active={activeIndex === 0}>
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Product dev. and innovation"
                 setQualValues={setPdctDev}
                 value={pdctDev}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Investment in new Technologies"
                 setQualValues={setInvestNewTech}
                 value={investNewTech}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Business continuity and disaster recovery"
                 setQualValues={setBusinessCont}
                 value={businessCont}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Expansion to new markets"
                 setQualValues={setExpToNewMarket}
                 value={expToNewMarket}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Brand/reputation risk"
                 setQualValues={setBrandRisk}
                 value={brandRisk}
@@ -227,27 +233,32 @@ export default function SettingsView() {
               </div>
             </Accordion.Title>
             <Accordion.Content active={activeIndex === 1}>
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Disruption of operations"
                 setQualValues={setDisruptionOp}
                 value={disruptionOp}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Loss of key staff"
                 setQualValues={setLossOfKeyStaff}
                 value={lossOfKeyStaff}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Compromise of product and service quality"
                 setQualValues={setCompromisePrdt}
                 value={compromisePrdt}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Service delays"
                 setQualValues={setServiceDelays}
                 value={serviceDelays}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Disruptions to supply chain"
                 setQualValues={setDisruptionSupplyChain}
                 value={disruptionSupplyChain}
@@ -267,27 +278,32 @@ export default function SettingsView() {
               </div>
             </Accordion.Title>
             <Accordion.Content active={activeIndex === 2}>
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Customer default risk"
                 setQualValues={setCustomerDefaultRisk}
                 value={customerDefaultRisk}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Cash-flow constraints"
                 setQualValues={setcashFlowConstraints}
                 value={cashFlowConstraints}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Fraud and corruption"
                 setQualValues={setFraudAndCorruption}
                 value={fraudAndCorruption}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Errors and misstatements"
                 setQualValues={setErrorsAndMisstatements}
                 value={errorsAndMisstatements}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Under-utilization of capital"
                 setQualValues={setUnderUtilCapital}
                 value={underUtilCapital}
@@ -307,22 +323,26 @@ export default function SettingsView() {
               </div>
             </Accordion.Title>
             <Accordion.Content active={activeIndex === 3}>
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Tax compliance"
                 setQualValues={setTax}
                 value={tax}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Contract compliance"
                 setQualValues={setContract}
                 value={contract}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Financial reporting compliance"
                 setQualValues={setFinancialReporting}
                 value={financialReporting}
               />
-              <QualitativeInput
+              <TolQualitativeInput
+                direction="lesser"
                 title="Government licenses and regulations"
                 setQualValues={setGovLicence}
                 value={govLicence}

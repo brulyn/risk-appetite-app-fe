@@ -18,7 +18,7 @@ export default function DetailsScreen() {
     setCompany(user.companyName);
   }, [user]);
   return (
-    <div className="flex flex-row min-h-full w-2/12 bg-white justify-start">
+    <div className="flex flex-row min-h-full w-2/12 bg-gray-50 justify-start">
       <div className="mt-5">
         {/* Title */}
         <div className="text-gray-500 mx-2">

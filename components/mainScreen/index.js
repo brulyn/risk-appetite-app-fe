@@ -6,42 +6,55 @@ import OutputView from "./outputView";
 import ReportsView from "./ReportsView";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
+import { QuaterContext } from "../../contexts/quaterContext";
 import { UserContext } from "../../contexts/userContext";
 import SettingsView from "./settingsView";
 
 export default function MainScreen() {
   const { view, setView } = useContext(ViewContext);
   const { user, setUser } = useContext(UserContext);
+  const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
   const [ratios, setRatios] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     console.log(view);
+    console.log(globalQuater);
   }, [view]);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/allFigures/${user.companyName}/Q12021`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        console.log(response);
-        console.log(Object.keys(response).length);
-        if (response && Object.keys(response).length === 0) {
-        } else {
-          setLoaded(true);
-          setRatios(response);
+    console.log(globalQuater);
+    if (globalQuater.length === 7) {
+      fetch(
+        `http://localhost:3001/allFigures/${user.companyName}/${globalQuater}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [view]);
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          console.log(response);
+          console.log(Object.keys(response).length);
+          if (response && Object.keys(response).length === 0) {
+            setLoaded(false);
+            setRatios([]);
+          } else {
+            setLoaded(true);
+            setRatios(response);
+          }
+        })
+        .catch((err) => {
+          setLoaded(false);
+          setRatios([]);
+          console.log(err);
+        });
+    }
+  }, [view, globalQuater]);
   return (
     <div className="min-h-full flex-1 bg-white pt-5 pl-5">
       {view === "dashboard" && <DashboardView />}
