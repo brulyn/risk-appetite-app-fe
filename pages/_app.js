@@ -6,9 +6,7 @@ import { QuaterContext } from "../contexts/quaterContext";
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState({});
-  const [globalQuater, setGlobalQuater] = useState(
-    `Q1 ${new Date().getFullYear()}`
-  );
+  const [globalQuater, setGlobalQuater] = useState(`Q1 2011`);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <QuaterContext.Provider value={{ globalQuater, setGlobalQuater }}>

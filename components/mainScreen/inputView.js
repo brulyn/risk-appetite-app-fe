@@ -231,6 +231,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         // Operational Efficiency Previous 1
@@ -246,6 +247,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Liquidity current --2
@@ -263,6 +265,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //liquidity Previous --3
@@ -280,6 +283,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Profitability  Current-- 4
@@ -300,6 +304,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Profitability Previous--5
@@ -320,6 +325,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Credit Risk Current -- 6
@@ -336,6 +342,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Credit Risk Previous--7
@@ -352,6 +359,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Marketing Current-- 8
@@ -367,6 +375,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Marketing Previous-- 9
@@ -382,6 +391,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Business Continuity Current-- 10
@@ -401,6 +411,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Business Continuity Previous-- 11
@@ -420,6 +431,7 @@ export default function InputView() {
             username: user.username,
             company: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
 
@@ -439,6 +451,7 @@ export default function InputView() {
             username: user.username,
             companyName: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
 
@@ -457,6 +470,7 @@ export default function InputView() {
             username: user.username,
             companyName: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
 
@@ -475,6 +489,7 @@ export default function InputView() {
             username: user.username,
             companyName: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
 
@@ -492,6 +507,7 @@ export default function InputView() {
             username: user.username,
             companyName: user.companyName,
             quater: quaterYear,
+            year: year,
           }),
         }),
       ])
@@ -778,12 +794,14 @@ export default function InputView() {
                               .then((rows) => {
                                 console.log(rows);
                                 let quaterLastYear = quater + " " + (year - 1);
-                                let ytdCurrent = "YTD Budget " + year;
+                                let ytdCurrent = "YTD " + year;
+                                let ytdPrevious = "YTD " + (year - 1);
 
                                 try {
                                   let currentQuaterColIndex = -1;
                                   let previousQuaterColIndex = -1;
                                   let ytdColIndex = -1;
+                                  let ytdPrevColIndex = -1;
 
                                   //get both quater columns and YTD column
                                   rows.map((row) => {
@@ -794,13 +812,13 @@ export default function InputView() {
                                     if (indexFound !== -1)
                                       currentQuaterColIndex = indexFound;
 
-                                    indexFound = row.findIndex(
-                                      (element) =>
-                                        toUpper(trim(element)) ===
-                                        quaterLastYear
-                                    );
-                                    if (indexFound !== -1)
-                                      previousQuaterColIndex = indexFound;
+                                    // indexFound = row.findIndex(
+                                    //   (element) =>
+                                    //     toUpper(trim(element)) ===
+                                    //     quaterLastYear
+                                    // );
+                                    // if (indexFound !== -1)
+                                    //   previousQuaterColIndex = indexFound;
 
                                     indexFound = row.findIndex(
                                       (element) =>
@@ -809,16 +827,27 @@ export default function InputView() {
                                     );
                                     if (indexFound !== -1)
                                       ytdColIndex = indexFound;
+
+                                    indexFound = row.findIndex(
+                                      (element) =>
+                                        toUpper(trim(element)) ===
+                                        toUpper(trim(ytdPrevious))
+                                    );
+                                    if (indexFound !== -1)
+                                      ytdPrevColIndex = indexFound;
                                   });
 
                                   if (currentQuaterColIndex === -1)
                                     throw "No data for " + quaterYear;
 
-                                  if (previousQuaterColIndex === -1)
-                                    throw "No data for " + quaterLastYear;
+                                  // if (previousQuaterColIndex === -1)
+                                  //   throw "No data for " + quaterLastYear;
 
                                   if (ytdColIndex === -1)
                                     throw "No data for " + ytdCurrent;
+
+                                  if (ytdPrevColIndex === -1)
+                                    throw "No data for " + ytdPrevious;
                                   //get rows for each section
                                   sociDataStructures.map((section) => {
                                     rows.map((row, rowIndex) => {
@@ -834,12 +863,10 @@ export default function InputView() {
                                       let ytdValue = 0;
                                       if (titleIndex !== -1) {
                                         currentValue =
-                                          rows[rowIndex][currentQuaterColIndex];
+                                          rows[rowIndex][ytdColIndex];
 
                                         previousValue =
-                                          rows[rowIndex][
-                                            previousQuaterColIndex
-                                          ];
+                                          rows[rowIndex][ytdPrevColIndex];
 
                                         ytdValue = rows[rowIndex][ytdColIndex];
 

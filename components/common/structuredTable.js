@@ -252,7 +252,7 @@ function StructuredTable() {
                 </Table.Cell>
                 <Table.Cell>
                   {row.metric !== "Average Collection Period"
-                    ? getRiskScoreGB(row.currentPerformance, row.riskTolerance)
+                    ? getRiskScoreLB(row.currentPerformance, row.riskTolerance)
                     : getRiskScoreLB(row.currentPerformance, row.riskTolerance)}
                 </Table.Cell>
                 <Table.Cell>
@@ -260,7 +260,7 @@ function StructuredTable() {
                     color={
                       row.metric !== "Average Collection Period"
                         ? getFlagColor(
-                            getRiskScoreGB(
+                            getRiskScoreLB(
                               row.currentPerformance,
                               row.riskTolerance
                             )
@@ -274,7 +274,7 @@ function StructuredTable() {
                     }
                   >
                     {row.metric !== "Average Collection Period"
-                      ? getDirectionOfRiskGB(
+                      ? getDirectionOfRiskLB(
                           row.currentPerformance,
                           row.previousPerformance,
                           row.riskTolerance,

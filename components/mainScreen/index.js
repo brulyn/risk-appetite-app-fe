@@ -18,8 +18,8 @@ export default function MainScreen() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    console.log(view);
-    console.log(globalQuater);
+    // console.log(view);
+    // console.log(globalQuater);
   }, [view]);
 
   useEffect(() => {
@@ -38,8 +38,8 @@ export default function MainScreen() {
           return response.json();
         })
         .then((response) => {
-          console.log(response);
-          console.log(Object.keys(response).length);
+          // console.log(response);
+          // console.log(Object.keys(response).length);
           if (response && Object.keys(response).length === 0) {
             setLoaded(false);
             setRatios([]);
