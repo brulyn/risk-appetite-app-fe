@@ -3,6 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import { Spinner, CornerDialog } from "evergreen-ui";
 import { UserContext } from "../contexts/userContext";
 import _ from "lodash";
+import Image from "next/image";
 
 export default function Index() {
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,7 @@ export default function Index() {
     // setLoading(false);
   };
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen bg-gray-50">
       <CornerDialog
         title={messageTitle}
         hasFooter={false}
@@ -55,17 +56,17 @@ export default function Index() {
       >
         {errorMessage}
       </CornerDialog>
+
       <form
         onSubmit={onSubmit}
-        className="flex flex-col justify-center items-center w-1/5 mb-36 bg-gray-50 py-32 shadow-md"
+        className="flex flex-col justify-center items-center w-1/5 mb-36 bg-white py-32 shadow-md"
       >
+        <Image height="50" width="140" src="/logo.png" />
         {/* Title or Logo */}
-        <div className="text-lg font-bold uppercase text-gray-700">
-          Login - CVL Risk APP
-        </div>
+        {/* <div className="text-lg font-bold uppercase text-gray-700">Login </div> */}
         {/* Form with email and passord */}
         <input
-          className="border-none py-3 w-3/4 px-3 rounded-md focus:border-none focus:ring-2 mt-6 text-md text-gray-600 shadow-md"
+          className="focus:outline-none border-2 py-1 w-3/4 px-3 rounded-md focus:border-blue-300 mt-6 text-sm text-gray-600 shadow-inner"
           placeholder="email@company.example"
           // type="email"
           onChange={(e) => {
@@ -74,7 +75,7 @@ export default function Index() {
         />
 
         <input
-          className="border-none py-3 w-3/4 px-3 rounded-md focus:border-none focus:ring-2 mt-6 text-md text-gray-600 shadow-md"
+          className="focus:outline-none border-2 py-1 w-3/4 px-3 rounded-md focus:border-blue-300 mt-6 text-sm text-gray-600 shadow-inner"
           placeholder="password"
           type="password"
           onChange={(e) => {

@@ -156,10 +156,10 @@ export default function SettingsView() {
       >
         {errorMessage}
       </CornerDialog>
-      <div className="font-semibold text-gray-500">Settings</div>
+      {/* <div className="font-semibold text-gray-500">Settings</div> */}
       <div className="flex flex-row">
         <div className="flex flex-col w-1/2">
-          <div className="font-semibold text-gray-600 mt-10">
+          <div className="font-semibold text-gray-600 mt-5">
             Quantitative Metrics
           </div>
           <ToleranceInput setPresetValues={setPresetValues} />
@@ -171,7 +171,7 @@ export default function SettingsView() {
         </div>
 
         <div className="flex flex-col w-1/2">
-          <div className="font-semibold text-gray-600 mt-10">
+          <div className="font-semibold text-gray-600 mt-5">
             Qualitative Metrics
           </div>
           <Accordion>

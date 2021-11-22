@@ -4,6 +4,7 @@ import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { QuaterContext } from "../../contexts/quaterContext";
 import { Tab, Dropdown } from "semantic-ui-react";
+import StructuredTableQual from "../common/structuredTableQual";
 
 export default function OutputView() {
   const { loaded, setLoaded } = useContext(DataLoadedContext);
@@ -48,6 +49,68 @@ export default function OutputView() {
     {
       menuItem: "Quantitative Metrics",
       render: () => (
+        <div className="mr-5 h-full">
+          <div className="flex flex-row w-2/5 mt-2 mr-5">
+            <div class="flex flex-col mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Quater
+              </label>
+              <Dropdown
+                placeholder="Quater"
+                search
+                selection
+                value={quater}
+                options={quaterOptions}
+                onChange={(e, { value }) => {
+                  setQuater(value);
+                  // setQuaterYear(value + " " + year);
+                  setGlobalQuater(value + " " + year);
+                }}
+              />
+            </div>
+
+            <div class="flex flex-col mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Year
+              </label>
+              <input
+                className="focus:outline-none border-2 border-gray-200 focus:border-blue-300 py-2 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
+                value={year}
+                type="number"
+                onChange={(e) => {
+                  setYear(e.target.value);
+                  // setQuaterYear(quater + " " + e.target.value);
+                  setGlobalQuater(quater + " " + e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <div>
+            {loaded && (
+              <div className="flex flex-col">
+                {/* Title */}
+
+                <div className="flex flex-col mr-4 mt-2 mb-10">
+                  <StructuredTable />
+                </div>
+              </div>
+            )}
+
+            {!loaded && (
+              <div className="flex flex-col h-screen justify-center items-center">
+                <ExclamationIcon className="text-gray-600 h-32 w-32" />
+                <div className="text-gray-500 text-lg">
+                  Hmmm.... It's empty in here. Please load the relevant data.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ),
+    },
+    {
+      menuItem: "Qualitative Metrics",
+      render: () => (
         <div className="mr-5 mb-5">
           <div className="flex flex-row w-2/5 mt-2 mr-5">
             <div class="flex flex-col mr-5">
@@ -73,7 +136,7 @@ export default function OutputView() {
                 Year
               </label>
               <input
-                className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
+                className="focus:outline-none border-2 border-gray-200 focus:border-blue-300 py-2 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
                 value={year}
                 type="number"
                 onChange={(e) => {
@@ -84,38 +147,26 @@ export default function OutputView() {
               />
             </div>
           </div>
-          <Tab.Pane attached={false}>
-            <div>
-              {loaded && (
-                <div className="flex flex-col">
-                  {/* Title */}
+          {loaded && (
+            <div className="flex flex-col">
+              {/* Title */}
 
-                  <div className="flex flex-col mr-4 mt-5 mb-10">
-                    <StructuredTable />
-                  </div>
-                </div>
-              )}
-
-              {!loaded && (
-                <div className="flex flex-col h-screen justify-center items-center">
-                  <ExclamationIcon className="text-gray-600 h-32 w-32" />
-                  <div className="text-gray-500 text-lg">
-                    Hmmm.... It's empty in here. Please load the relevant data.
-                  </div>
-                </div>
-              )}
+              <div className="flex flex-col mr-4 mt-2 mb-10">
+                <StructuredTableQual />
+              </div>
             </div>
-          </Tab.Pane>
+          )}
+
+          {!loaded && (
+            <div className="flex flex-col h-screen justify-center items-center">
+              <ExclamationIcon className="text-gray-600 h-32 w-32" />
+              <div className="text-gray-500 text-lg">
+                Hmmm.... It's empty in here. Please load the relevant data.
+              </div>
+            </div>
+          )}
         </div>
       ),
-    },
-    {
-      menuItem: "Qualitative Metrics",
-      render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane>,
-    },
-    {
-      menuItem: "Tab 3",
-      render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>,
     },
   ];
 

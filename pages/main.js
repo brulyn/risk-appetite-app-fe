@@ -8,6 +8,7 @@ import { UserContext } from "../contexts/userContext";
 import { useRouter } from "next/dist/client/router";
 
 import "semantic-ui-css/semantic.min.css";
+import Navbar from "../components/nav/navbar";
 
 export default function Home() {
   const [view, setView] = useState("dashboard");
@@ -19,12 +20,15 @@ export default function Home() {
     if (!user.username) router.push("/");
   }, [user]);
   return (
-    <div className="flex min-h-screen">
+    <div className="flex flex-col h-screen">
       {user.username && (
         <ViewContext.Provider value={{ view, setView }}>
-          <SideBar />
-          <MainScreen />
-          <DetailsScreen />
+          <Navbar />
+          <div className="flex flex-row h-full bg-gray-50">
+            <SideBar />
+            <MainScreen />
+            {/* <DetailsScreen /> */}
+          </div>
         </ViewContext.Provider>
       )}
     </div>

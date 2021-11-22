@@ -17,7 +17,7 @@ export default function RiskMap({
 
       <div className="flex flex-row">
         <div className="flex flex-col w-1/2">
-          <div className="flex-row bg-yellow-600 h-44 mb-1 rounded-tl-2xl shadow-md p-2">
+          <div className="flex-row bg-yellow-600 mb-1 rounded-tl-2xl shadow-lg p-2">
             <div className="text-center font-bold text-gray-800 text-xl">
               High
             </div>
@@ -57,7 +57,7 @@ export default function RiskMap({
             )}
           </div>
 
-          <div className="flex-row bg-green-500 h-44 rounded-bl-2xl shadow-md p-2">
+          <div className="flex-row bg-green-500 rounded-bl-2xl shadow-lg p-2">
             <div className="text-center font-bold text-gray-800 text-xl">
               Low
             </div>
@@ -100,7 +100,7 @@ export default function RiskMap({
         </div>
 
         <div className="flex flex-col w-1/2 ml-1">
-          <div className="flex-row bg-red-500 h-44 mb-1 rounded-tr-2xl shadow-md p-2">
+          <div className="flex-row bg-red-500 mb-1 rounded-tr-2xl shadow-lg p-2">
             <div className="text-center font-bold text-gray-800 text-xl">
               Extreme
             </div>
@@ -140,7 +140,7 @@ export default function RiskMap({
             )}
           </div>
 
-          <div className="flex-row bg-yellow-300 h-44 rounded-br-2xl shadow-md p-2">
+          <div className="flex-row bg-yellow-300 rounded-br-2xl shadow-lg p-2">
             <div className="text-center font-bold text-gray-800 text-xl cursor-help">
               Moderate
             </div>
@@ -180,8 +180,6 @@ export default function RiskMap({
             )}
           </div>
         </div>
-
-        {/* Column 2 (Extreme and Moderate) */}
       </div>
     </div>
   );

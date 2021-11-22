@@ -316,7 +316,7 @@ export default function DashboardView() {
   }, []);
 
   return (
-    <div>
+    <div className="mb-6 mr-5">
       <div className="flex mt-2 mr-5">
         <div class="flex flex-col mr-5">
           <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
@@ -341,7 +341,7 @@ export default function DashboardView() {
             Year
           </label>
           <input
-            className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
+            className="focus:outline-none border-2 border-gray-200 focus:border-blue-300 py-2 px-3 text-sm text-gray-500 shadow-inner rounded-lg "
             value={year}
             type="number"
             onChange={(e) => {
@@ -353,8 +353,20 @@ export default function DashboardView() {
         </div>
       </div>
 
-      <div className="flex flex-row ml-5">
-        <div className="flex flex-row w-1/4">
+      <div className="grid grid-cols-1 md:grid-cols-4 mr-5">
+        <RiskMap
+          businessContScore={businessContScore}
+          companyName={user.companyName}
+          creditRiskScore={creditRiskScore}
+          liquidityScore={liquidityScore}
+          marketingScore={marketingScore}
+          operationalEffScore={operationalEffScore}
+          profitabilityScore={profitabilityScore}
+        />
+      </div>
+
+      <div className="flex flex-row">
+        <div className="flex flex-row">
           <div className="flex-1">
             {/* {(businessContScore !== 0 ||
               creditRiskScore !== 0 ||
@@ -373,7 +385,7 @@ export default function DashboardView() {
               />
             )} */}
 
-            <RiskMap
+            {/* <RiskMap
               businessContScore={businessContScore}
               companyName={user.companyName}
               creditRiskScore={creditRiskScore}
@@ -381,14 +393,14 @@ export default function DashboardView() {
               marketingScore={marketingScore}
               operationalEffScore={operationalEffScore}
               profitabilityScore={profitabilityScore}
-            />
+            /> */}
           </div>
         </div>
       </div>
 
-      <div className="flex mt-10 ml-5">
+      <div class="grid grid-cols-1 md:grid-cols-4 mt-5 mr-5 gap-5">
         {/* Liquidity */}
-        <div className="bg-gray-50 p-2 rounded-md shadow-md mr-5 cursor-pointer">
+        <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
           <div className="text-sm font-semibold text-gray-600 uppercase">
             Liquidity
           </div>
@@ -404,7 +416,7 @@ export default function DashboardView() {
             <Tooltip />
             <Legend />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="currentRatio"
               stroke="#8884d8"
               dot={false}
@@ -412,7 +424,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="quickRatio"
               stroke="#82ca9d"
               dot={false}
@@ -423,7 +435,7 @@ export default function DashboardView() {
         </div>
 
         {/* Profitability */}
-        <div className="bg-gray-50 p-2 rounded-md shadow-md mr-5 cursor-pointer">
+        <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
           <div className="text-sm font-semibold text-gray-600 uppercase">
             Profitability
           </div>
@@ -439,7 +451,7 @@ export default function DashboardView() {
             <Tooltip />
             <Legend />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="gpMargin"
               stroke="#8884d8"
               dot={false}
@@ -447,7 +459,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="ebitdaMargin"
               stroke="#82ca9d"
               dot={false}
@@ -455,7 +467,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="returnOnEquity"
               stroke="#8c2020"
               dot={false}
@@ -463,7 +475,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="returnOnAsset"
               stroke="#0b501f"
               dot={false}
@@ -471,7 +483,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="netProfitMargin"
               stroke="#d8a040"
               dot={false}
@@ -482,7 +494,7 @@ export default function DashboardView() {
         </div>
 
         {/* Operational Efficiency */}
-        <div className="bg-gray-50 p-2 rounded-md shadow-md mr-5 cursor-pointer">
+        <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
           <div className="text-sm font-semibold text-gray-600 uppercase">
             Operational Efficiency
           </div>
@@ -499,7 +511,7 @@ export default function DashboardView() {
             <Tooltip />
             <Legend />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="operatingExpenses"
               stroke="#8884d8"
               dot={false}
@@ -507,7 +519,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="systemUptime"
               stroke="#82ca9d"
               dot={false}
@@ -515,7 +527,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="machineryUptime"
               stroke="#8c2020"
               dot={false}
@@ -526,7 +538,7 @@ export default function DashboardView() {
         </div>
 
         {/* Operational Efficiency */}
-        <div className="bg-gray-50 p-2 rounded-md shadow-md cursor-pointer">
+        <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
           <div className="text-sm font-semibold text-gray-600 uppercase">
             Credit Risk
           </div>
@@ -543,7 +555,7 @@ export default function DashboardView() {
             <Tooltip />
             <Legend />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="averageCollectionPeriod"
               stroke="#82ca9d"
               dot={false}
@@ -551,7 +563,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="totalReceivablePerSales"
               stroke="#8c2020"
               dot={false}
@@ -560,11 +572,9 @@ export default function DashboardView() {
             />
           </LineChart>
         </div>
-      </div>
 
-      <div className="flex mt-10 ml-5">
         {/* Marketing */}
-        <div className="bg-gray-50 p-2 rounded-md shadow-md mr-5 cursor-pointer">
+        <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
           <div className="text-sm font-semibold text-gray-600 uppercase">
             Marketing
           </div>
@@ -581,7 +591,7 @@ export default function DashboardView() {
             <Tooltip />
             <Legend />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="revenueGrowth"
               stroke="#82ca9d"
               dot={false}
@@ -589,7 +599,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="marketShare"
               stroke="#8c2020"
               dot={false}
@@ -597,7 +607,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="newCustomers"
               stroke="#8884d8"
               dot={false}
@@ -608,7 +618,7 @@ export default function DashboardView() {
         </div>
 
         {/* Business Continuity */}
-        <div className="bg-gray-50 p-2 rounded-md shadow-md cursor-pointer">
+        <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
           <div className="text-sm font-semibold text-gray-600 uppercase">
             Business Continuity
           </div>
@@ -625,7 +635,7 @@ export default function DashboardView() {
             <Tooltip />
             <Legend />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="employeeTurnover"
               stroke="#82ca9d"
               dot={false}
@@ -633,7 +643,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="lossOnMajorUpheaval"
               stroke="#8c2020"
               dot={false}
@@ -641,7 +651,7 @@ export default function DashboardView() {
               isAnimationActive={false}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="solvencyRatioMetric"
               stroke="#8884d8"
               dot={false}

@@ -10,6 +10,7 @@ import * as _ from "lodash";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { UserContext } from "../../contexts/userContext";
+import { ToleranceContext } from "../../contexts/toleranceContext";
 import { QuaterContext } from "../../contexts/quaterContext";
 import { toUpper, trim } from "lodash";
 
@@ -18,6 +19,7 @@ export default function InputView() {
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { user, setUser } = useContext(UserContext);
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
+  const { toleranceValues, setToleranceValues } = useContext(ToleranceContext);
 
   const [startDate, setStartDate] = useState(new Date());
   const [fetchingData, setfetchingData] = useState(false);
@@ -536,6 +538,13 @@ export default function InputView() {
 
   useEffect(() => {
     setLoaded(false);
+    if (!toleranceValues) {
+      setDmessageTitle("Tolerance values missing!");
+      setDerrorMessage(
+        "You can not upload or set the perfomance data before setting the Tolerance Values!"
+      );
+      setDdialogIsShown(true);
+    }
   }, []);
 
   const handleExpand = (e, titleProps) => {
@@ -545,7 +554,7 @@ export default function InputView() {
     setActiveIndex(newIndex);
   };
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row h-full">
       <div className="flex flex-col w-1/2">
         <CornerDialog
           title={messageTitle}
@@ -562,14 +571,14 @@ export default function InputView() {
           intent="danger"
           hasCancel={false}
           onConfirm={() => setDdialogIsShown(false)}
-          confirmLabel="I'll check the file"
+          confirmLabel="Ok, i'll fix it"
         >
           {dErrorMessage}
         </Dialog>
         {/* Title */}
-        <div className="font-semibold text-gray-600">Input</div>
+        {/* <div className="font-semibold text-gray-600">Input</div> */}
         {/* Input form */}
-        <div className="mt-10 mb-10">
+        <div className="mt-1 mb-10">
           <form>
             <div className="flex flex-row w-2/5 mt-2 mr-5">
               {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
@@ -606,7 +615,7 @@ export default function InputView() {
                   Year
                 </label>
                 <input
-                  className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
+                  className="focus:outline-none border-2 border-gray-200 focus:border-blue-300 py-2 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
                   value={year}
                   type="number"
                   onChange={(e) => {
@@ -978,6 +987,10 @@ export default function InputView() {
                                       ".Their values are currently set to 0. Please check and update the section titles and upload again."
                                     );
 
+                                  if (!toleranceValues) {
+                                    throw "No tolerance Data set for your company. Please set them first!";
+                                  }
+
                                   setFileName2("Success 👍");
                                   setMessageTitle("Success!");
                                   setErrorMessage(
@@ -1192,7 +1205,7 @@ export default function InputView() {
           </form>
           <div className="pt-5">
             <Button
-              disabled={!dataUploaded}
+              disabled={!dataUploaded || !toleranceValues}
               onClick={() => saveData()}
               color="blue"
             >
