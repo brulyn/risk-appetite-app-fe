@@ -401,7 +401,7 @@ export default function DashboardView() {
       <div class="grid grid-cols-1 md:grid-cols-4 mt-5 mr-5 gap-5">
         {/* Liquidity */}
         <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
-          <div className="text-sm font-semibold text-gray-600 uppercase">
+          <div className="text-md font-semibold text-gray-600 uppercase">
             Liquidity
           </div>
           <LineChart
@@ -436,7 +436,7 @@ export default function DashboardView() {
 
         {/* Profitability */}
         <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
-          <div className="text-sm font-semibold text-gray-600 uppercase">
+          <div className="text-md font-semibold text-gray-600 uppercase">
             Profitability
           </div>
           <LineChart
@@ -495,7 +495,7 @@ export default function DashboardView() {
 
         {/* Operational Efficiency */}
         <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
-          <div className="text-sm font-semibold text-gray-600 uppercase">
+          <div className="text-md font-semibold text-gray-600 uppercase">
             Operational Efficiency
           </div>
           <LineChart
@@ -539,7 +539,7 @@ export default function DashboardView() {
 
         {/* Operational Efficiency */}
         <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
-          <div className="text-sm font-semibold text-gray-600 uppercase">
+          <div className="text-md font-semibold text-gray-600 uppercase">
             Credit Risk
           </div>
           <LineChart
@@ -575,7 +575,7 @@ export default function DashboardView() {
 
         {/* Marketing */}
         <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
-          <div className="text-sm font-semibold text-gray-600 uppercase">
+          <div className="text-md font-semibold text-gray-600 uppercase">
             Marketing
           </div>
           <LineChart
@@ -619,7 +619,7 @@ export default function DashboardView() {
 
         {/* Business Continuity */}
         <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
-          <div className="text-sm font-semibold text-gray-600 uppercase">
+          <div className="text-md font-semibold text-gray-600 uppercase">
             Business Continuity
           </div>
           <LineChart
