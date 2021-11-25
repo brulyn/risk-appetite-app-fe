@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import StructuredTable from "../common/structuredTable";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
-import { ExclamationIcon } from "@heroicons/react/outline";
+import { DocumentSearchIcon } from "@heroicons/react/outline";
 import { QuaterContext } from "../../contexts/quaterContext";
 import { Tab, Dropdown } from "semantic-ui-react";
 import StructuredTableQual from "../common/structuredTableQual";
@@ -98,7 +98,7 @@ export default function OutputView() {
 
             {!loaded && (
               <div className="flex flex-col h-screen justify-center items-center">
-                <ExclamationIcon className="text-gray-600 h-32 w-32" />
+                <DocumentSearchIcon className="text-gray-300 h-32 w-32" />
                 <div className="text-gray-500 text-lg">
                   Hmmm.... It's empty in here. Please load the relevant data.
                 </div>
@@ -159,7 +159,7 @@ export default function OutputView() {
 
           {!loaded && (
             <div className="flex flex-col h-screen justify-center items-center">
-              <ExclamationIcon className="text-gray-600 h-32 w-32" />
+              <DocumentSearchIcon className="text-gray-300 h-32 w-32" />
               <div className="text-gray-500 text-lg">
                 Hmmm.... It's empty in here. Please load the relevant data.
               </div>
