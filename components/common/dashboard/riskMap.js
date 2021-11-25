@@ -10,89 +10,89 @@ export default function RiskMap({
   businessContScore,
 }) {
   return (
-    <div className="flex flex-col mr-3">
+    <div className="flex flex-col m-1 col-span-2 bg-white p-3 rounded-lg shadow-md">
       <div className="text-center font-bold text-gray-800 text-lg my-3">
         {companyName} - Risk Appetite Map
       </div>
 
       <div className="flex flex-row">
         <div className="flex flex-col w-1/2">
-          <div className="flex-row bg-yellow-600 mb-1 rounded-tl-2xl shadow-lg p-2">
+          <div className="flex-row bg-yellow-600 mb-1 rounded-tl-2xl p-7">
             <div className="text-center font-bold text-gray-800 text-xl">
               High
             </div>
             {liquidityScore === 3 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore === 3 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore === 3 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore === 3 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore === 3 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore === 3 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Business Continuity : {businessContScore}
               </div>
             )}
           </div>
 
-          <div className="flex-row bg-green-500 rounded-bl-2xl shadow-lg p-2">
+          <div className="flex-row bg-green-500 rounded-bl-2xl p-7">
             <div className="text-center font-bold text-gray-800 text-xl">
               Low
             </div>
 
             {liquidityScore <= 1 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore <= 1 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore <= 1 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore <= 1 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore <= 1 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore <= 1 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Business Continuity : {businessContScore}
               </div>
             )}
@@ -100,81 +100,81 @@ export default function RiskMap({
         </div>
 
         <div className="flex flex-col w-1/2 ml-1">
-          <div className="flex-row bg-red-500 mb-1 rounded-tr-2xl shadow-lg p-2">
+          <div className="flex-row bg-red-500 mb-1 rounded-tr-2xl p-7">
             <div className="text-center font-bold text-gray-800 text-xl">
               Extreme
             </div>
             {liquidityScore >= 4 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore >= 4 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore >= 4 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore >= 4 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore >= 4 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore >= 4 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Business Continuity : {businessContScore}
               </div>
             )}
           </div>
 
-          <div className="flex-row bg-yellow-300 rounded-br-2xl shadow-lg p-2">
+          <div className="flex-row bg-yellow-300 rounded-br-2xl p-7">
             <div className="text-center font-bold text-gray-800 text-xl cursor-help">
               Moderate
             </div>
             {liquidityScore === 2 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore === 2 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore === 2 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore === 2 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore === 2 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore === 2 && (
-              <div className="font-bold text-gray-800 text-sm cursor-pointer">
+              <div className="font-bold text-gray-800 text-base cursor-pointer">
                 Business Continuity : {businessContScore}
               </div>
             )}
