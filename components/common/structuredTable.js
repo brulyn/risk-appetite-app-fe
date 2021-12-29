@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Icon, Table, Label } from "semantic-ui-react";
 import { RatioContext } from "../../contexts/ratioContext";
+import _ from "lodash";
 
 function StructuredTable() {
   const { ratios, setRatios } = useContext(RatioContext);
@@ -101,22 +102,28 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
-                  {getRiskScoreGB(row.currentPerformance, row.riskTolerance)}
+                  {getRiskScoreGB(
+                    _.round(row.currentPerformance, 2),
+                    _.round(row.riskTolerance, 2)
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                   <Label
                     color={getFlagColor(
-                      getRiskScoreGB(row.currentPerformance, row.riskTolerance)
+                      getRiskScoreGB(
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.riskTolerance, 2)
+                      )
                     )}
                   >
                     {getDirectionOfRiskGB(
-                      row.currentPerformance,
-                      row.previousPerformance,
-                      row.riskTolerance,
+                      _.round(row.currentPerformance, 2),
+                      _.round(row.previousPerformance, 2),
+                      _.round(row.riskTolerance, 2),
                       "greater"
                     )}
                   </Label>
@@ -138,22 +145,28 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
-                  {getRiskScoreGB(row.currentPerformance, row.riskTolerance)}
+                  {getRiskScoreGB(
+                    _.round(row.currentPerformance, 2),
+                    _.round(row.riskTolerance, 2)
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                   <Label
                     color={getFlagColor(
-                      getRiskScoreGB(row.currentPerformance, row.riskTolerance)
+                      getRiskScoreGB(
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.riskTolerance, 2)
+                      )
                     )}
                   >
                     {getDirectionOfRiskGB(
-                      row.currentPerformance,
-                      row.previousPerformance,
-                      row.riskTolerance,
+                      _.round(row.currentPerformance, 2),
+                      _.round(row.previousPerformance, 2),
+                      _.round(row.riskTolerance, 2),
                       "greater"
                     )}
                   </Label>
@@ -177,14 +190,20 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
                   {row.metric === "Operating Expenses" &&
-                    getRiskScoreLB(row.currentPerformance, row.riskTolerance)}
+                    getRiskScoreLB(
+                      _.round(row.currentPerformance, 2),
+                      _.round(row.riskTolerance, 2)
+                    )}
                   {row.metric !== "Operating Expenses" &&
-                    getRiskScoreGB(row.currentPerformance, row.riskTolerance)}
+                    getRiskScoreGB(
+                      _.round(row.currentPerformance, 2),
+                      _.round(row.riskTolerance, 2)
+                    )}
                 </Table.Cell>
                 <Table.Cell>
                   <Label
@@ -192,31 +211,31 @@ function StructuredTable() {
                       row.metric !== "Operating Expenses"
                         ? getFlagColor(
                             getRiskScoreGB(
-                              row.currentPerformance,
-                              row.riskTolerance
+                              _.round(row.currentPerformance, 2),
+                              _.round(row.riskTolerance, 2)
                             )
                           )
                         : getFlagColor(
                             getRiskScoreLB(
-                              row.currentPerformance,
-                              row.riskTolerance
+                              _.round(row.currentPerformance, 2),
+                              _.round(row.riskTolerance, 2)
                             )
                           )
                     }
                   >
                     {row.metric !== "Operating Expenses" &&
                       getDirectionOfRiskGB(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.previousPerformance, 2),
+                        _.round(row.riskTolerance, 2),
                         "greater"
                       )}
 
                     {row.metric === "Operating Expenses" &&
                       getDirectionOfRiskLB(
-                        row.currentPerformance,
-                        row.previousPerformance,
-                        row.riskTolerance,
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.previousPerformance, 2),
+                        _.round(row.riskTolerance, 2),
                         "greater"
                       )}
                   </Label>
@@ -239,21 +258,27 @@ function StructuredTable() {
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
                 <Table.Cell>
-                  {row.currentPerformance}{" "}
+                  {_.round(row.currentPerformance, 2)}{" "}
                   {row.metric !== "Average Collection Period" && "%"}
                 </Table.Cell>
                 <Table.Cell>
-                  {row.previousPerformance}{" "}
+                  {_.round(row.previousPerformance, 2)}{" "}
                   {row.metric !== "Average Collection Period" && "%"}
                 </Table.Cell>
                 <Table.Cell>
-                  {row.riskTolerance}
+                  {_.round(row.riskTolerance, 2)}
                   {row.metric !== "Average Collection Period" && "%"}
                 </Table.Cell>
                 <Table.Cell>
                   {row.metric !== "Average Collection Period"
-                    ? getRiskScoreLB(row.currentPerformance, row.riskTolerance)
-                    : getRiskScoreLB(row.currentPerformance, row.riskTolerance)}
+                    ? getRiskScoreLB(
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.riskTolerance, 2)
+                      )
+                    : getRiskScoreLB(
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.riskTolerance, 2)
+                      )}
                 </Table.Cell>
                 <Table.Cell>
                   <Label
@@ -261,29 +286,29 @@ function StructuredTable() {
                       row.metric !== "Average Collection Period"
                         ? getFlagColor(
                             getRiskScoreLB(
-                              row.currentPerformance,
-                              row.riskTolerance
+                              _.round(row.currentPerformance, 2),
+                              _.round(row.riskTolerance, 2)
                             )
                           )
                         : getFlagColor(
                             getRiskScoreLB(
-                              row.currentPerformance,
-                              row.riskTolerance
+                              _.round(row.currentPerformance, 2),
+                              _.round(row.riskTolerance, 2)
                             )
                           )
                     }
                   >
                     {row.metric !== "Average Collection Period"
                       ? getDirectionOfRiskLB(
-                          row.currentPerformance,
-                          row.previousPerformance,
-                          row.riskTolerance,
+                          _.round(row.currentPerformance, 2),
+                          _.round(row.previousPerformance, 2),
+                          _.round(row.riskTolerance, 2),
                           "greater"
                         )
                       : getDirectionOfRiskLB(
-                          row.currentPerformance,
-                          row.previousPerformance,
-                          row.riskTolerance,
+                          _.round(row.currentPerformance, 2),
+                          _.round(row.previousPerformance, 2),
+                          _.round(row.riskTolerance, 2),
                           "greater"
                         )}
                   </Label>
@@ -305,22 +330,28 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
-                  {getRiskScoreGB(row.currentPerformance, row.riskTolerance)}
+                  {getRiskScoreGB(
+                    _.round(row.currentPerformance, 2),
+                    _.round(row.riskTolerance, 2)
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                   <Label
                     color={getFlagColor(
-                      getRiskScoreGB(row.currentPerformance, row.riskTolerance)
+                      getRiskScoreGB(
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.riskTolerance, 2)
+                      )
                     )}
                   >
                     {getDirectionOfRiskGB(
-                      row.currentPerformance,
-                      row.previousPerformance,
-                      row.riskTolerance,
+                      _.round(row.currentPerformance, 2),
+                      _.round(row.previousPerformance, 2),
+                      _.round(row.riskTolerance, 2),
                       "greater"
                     )}
                   </Label>
@@ -342,13 +373,19 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{row.currentPerformance}%</Table.Cell>
-                <Table.Cell>{row.previousPerformance}%</Table.Cell>
-                <Table.Cell>{row.riskTolerance}%</Table.Cell>
+                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
+                <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
                   {row.metric !== "Loss on major Upheaval"
-                    ? getRiskScoreGB(row.currentPerformance, row.riskTolerance)
-                    : getRiskScoreGB(row.currentPerformance, row.riskTolerance)}
+                    ? getRiskScoreGB(
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.riskTolerance, 2)
+                      )
+                    : getRiskScoreGB(
+                        _.round(row.currentPerformance, 2),
+                        _.round(row.riskTolerance, 2)
+                      )}
                 </Table.Cell>
                 <Table.Cell>
                   <Label
@@ -356,29 +393,29 @@ function StructuredTable() {
                       row.metric !== "Loss on major Upheaval"
                         ? getFlagColor(
                             getRiskScoreGB(
-                              row.currentPerformance,
-                              row.riskTolerance
+                              _.round(row.currentPerformance, 2),
+                              _.round(row.riskTolerance, 2)
                             )
                           )
                         : getFlagColor(
                             getRiskScoreLB(
-                              row.currentPerformance,
-                              row.riskTolerance
+                              _.round(row.currentPerformance, 2),
+                              _.round(row.riskTolerance, 2)
                             )
                           )
                     }
                   >
                     {row.metric !== "Loss on major Upheaval"
                       ? getDirectionOfRiskGB(
-                          row.currentPerformance,
-                          row.previousPerformance,
-                          row.riskTolerance,
+                          _.round(row.currentPerformance, 2),
+                          _.round(row.previousPerformance, 2),
+                          _.round(row.riskTolerance, 2),
                           "greater"
                         )
                       : getDirectionOfRiskLB(
-                          row.currentPerformance,
-                          row.previousPerformance,
-                          row.riskTolerance,
+                          _.round(row.currentPerformance, 2),
+                          _.round(row.previousPerformance, 2),
+                          _.round(row.riskTolerance, 2),
                           "greater"
                         )}
                   </Label>

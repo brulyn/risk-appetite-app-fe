@@ -17,14 +17,17 @@ export default function Home() {
 
   useEffect(() => {
     console.log(user);
-    if (!user.username) router.push("/");
-  }, [user]);
+    let storedUser = window.localStorage.getItem("user");
+    let jsonStoreUser = JSON.parse(storedUser);
+
+    if (!user.username && !jsonStoreUser?.username) router.push("/");
+  }, []);
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen overflow-hidden">
       {user.username && (
         <ViewContext.Provider value={{ view, setView }}>
           <Navbar />
-          <div className="flex flex-row h-full bg-gray-50">
+          <div className="flex flex-row bg-gray-50">
             <SideBar />
             <MainScreen />
             {/* <DetailsScreen /> */}

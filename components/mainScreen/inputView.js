@@ -21,6 +21,8 @@ export default function InputView() {
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
   const { toleranceValues, setToleranceValues } = useContext(ToleranceContext);
 
+  const [queryCompany, setQueryCompany] = useState(user.selectedCompany);
+
   const [startDate, setStartDate] = useState(new Date());
   const [fetchingData, setfetchingData] = useState(false);
   const [fileName, setFileName] = useState("INPUT 1");
@@ -104,6 +106,69 @@ export default function InputView() {
     text: quaterList[index].qtext,
     value: quaterList[index].abbr,
   }));
+
+  const companyOptions = [
+    {
+      key: "CVL",
+      value: "CVL",
+      text: "CVL",
+    },
+    {
+      key: "INYANGE",
+      value: "INYANGE",
+      text: "INYANGE",
+    },
+    {
+      key: "ISCO",
+      value: "ISCO",
+      text: "ISCO",
+    },
+    {
+      key: "NPD",
+      value: "NPD",
+      text: "NPD",
+    },
+    {
+      key: "REAL",
+      value: "REAL",
+      text: "REAL",
+    },
+    {
+      key: "EAGI",
+      value: "EAGI",
+      text: "EAGI",
+    },
+    {
+      key: "STONECRAFT",
+      value: "STONECRAFT",
+      text: "STONECRAFT",
+    },
+    {
+      key: "MUKAMIRA",
+      value: "MUKAMIRA",
+      text: "MUKAMIRA",
+    },
+    {
+      key: "RULIBA",
+      value: "RULIBA",
+      text: "RULIBA",
+    },
+    {
+      key: "CONSTRUCK",
+      value: "CONSTRUCK",
+      text: "CONSTRUCK",
+    },
+    {
+      key: "INTARE",
+      value: "INTARE",
+      text: "INTARE",
+    },
+    {
+      key: "SAWMIL",
+      value: "SAWMIL",
+      text: "SAWMIL",
+    },
+  ];
 
   const sofpDataStructure = [
     {
@@ -231,7 +296,7 @@ export default function InputView() {
             totalRevenues: currentFigures["currentTotalRevenues"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -247,7 +312,7 @@ export default function InputView() {
             totalRevenues: previousFigures["prevTotalRevenues"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -265,7 +330,7 @@ export default function InputView() {
             inventory: currBalancesheetFigures["currentInventories"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -283,7 +348,7 @@ export default function InputView() {
             inventory: prevBalancesheetFigures["previousInventories"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -304,7 +369,7 @@ export default function InputView() {
             totalAssets: currBalancesheetFigures["currentTotalAssets"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -325,7 +390,7 @@ export default function InputView() {
             totalAssets: prevBalancesheetFigures["previousTotalAssets"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -342,7 +407,7 @@ export default function InputView() {
               currBalancesheetFigures["currentTotalReceivables"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -359,7 +424,7 @@ export default function InputView() {
               prevBalancesheetFigures["previousTotalReceivables"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -375,7 +440,7 @@ export default function InputView() {
             ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -391,7 +456,7 @@ export default function InputView() {
             ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -411,7 +476,7 @@ export default function InputView() {
               currBalancesheetFigures["currentTotalCurrentLiabilities"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -431,7 +496,7 @@ export default function InputView() {
               prevBalancesheetFigures["previousTotalCurrentLiabilities"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -449,9 +514,9 @@ export default function InputView() {
             businessCont,
             expToNewMarket,
             brandRisk,
-            period: "previous",
+            period: "current",
             username: user.username,
-            companyName: user.companyName,
+            companyName: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -468,9 +533,9 @@ export default function InputView() {
             compromisePrdt,
             serviceDelays,
             disruptionSupplyChain,
-            period: "previous",
+            period: "current",
             username: user.username,
-            companyName: user.companyName,
+            companyName: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -487,9 +552,9 @@ export default function InputView() {
             fraudAndCorruption,
             errorsAndMisstatements,
             underUtilCapital,
-            period: "previous",
+            period: "current",
             username: user.username,
-            companyName: user.companyName,
+            companyName: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -505,9 +570,9 @@ export default function InputView() {
             contract,
             financialReporting,
             govLicence,
-            period: "previous",
+            period: "current",
             username: user.username,
-            companyName: user.companyName,
+            companyName: queryCompany,
             quater: quaterYear,
             year: year,
           }),
@@ -554,7 +619,7 @@ export default function InputView() {
     setActiveIndex(newIndex);
   };
   return (
-    <div className="flex flex-row h-full">
+    <div className="flex flex-row overflow-y-auto h-screen">
       <div className="flex flex-col w-1/2">
         <CornerDialog
           title={messageTitle}
@@ -615,7 +680,7 @@ export default function InputView() {
                   Year
                 </label>
                 <input
-                  className="focus:outline-none border-2 border-gray-200 focus:border-blue-300 py-2 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
+                  className="focus:outline-none border-2 border-gray-200 focus:border-blue-cvl-400 py-2.5 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
                   value={year}
                   type="number"
                   onChange={(e) => {
@@ -625,6 +690,27 @@ export default function InputView() {
                   }}
                 />
               </div>
+
+              {user.profile === "Admin" && (
+                <div class="flex flex-col mr-5">
+                  <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                    Company
+                  </label>
+                  <Dropdown
+                    placeholder="Company"
+                    search
+                    selection
+                    value={queryCompany}
+                    options={companyOptions}
+                    onChange={(e, { value }) => {
+                      setQueryCompany(value);
+                      let _user = { ...user };
+                      _user.companyName = value;
+                      setUser(_user);
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="font-semibold text-gray-600 mt-10">
@@ -636,7 +722,7 @@ export default function InputView() {
                 <label
                   className={
                     file1Uploaded
-                      ? "w-44 flex flex-row justify-center items-center bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-400 hover:text-white"
+                      ? "w-44 flex flex-row justify-center items-center bg-white text-blue-cvl-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue-cvl-900 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-cvl-900 hover:text-white"
                       : "w-44 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
                   }
                 >

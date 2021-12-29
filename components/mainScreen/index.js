@@ -10,6 +10,7 @@ import { QuaterContext } from "../../contexts/quaterContext";
 import { UserContext } from "../../contexts/userContext";
 import { ToleranceContext } from "../../contexts/toleranceContext";
 import SettingsView from "./settingsView";
+import UsersView from "./usersView";
 const host = "http://localhost:3001";
 
 export default function MainScreen() {
@@ -27,7 +28,7 @@ export default function MainScreen() {
 
   useEffect(() => {
     if (globalQuater.length === 7) {
-      fetch(`${host}/riskTolerance/${user.companyName}`, {
+      fetch(`${host}/riskTolerance/${user.selectedCompany}`, {
         method: "GET",
       })
         .then((response) => {
@@ -37,7 +38,7 @@ export default function MainScreen() {
           setToleranceValues(response[0]);
         });
 
-      fetch(`${host}/allFigures/${user.companyName}/${globalQuater}`, {
+      fetch(`${host}/allFigures/${user.selectedCompany}/${globalQuater}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -64,11 +65,11 @@ export default function MainScreen() {
           console.log(err);
         });
     }
-  }, [view]);
+  }, [view, user]);
 
   useEffect(() => {
     if (globalQuater.length === 7) {
-      fetch(`${host}/riskTolerance/${user.companyName}`, {
+      fetch(`${host}/riskTolerance/${user.selectedCompany}`, {
         method: "GET",
       })
         .then((response) => {
@@ -78,7 +79,7 @@ export default function MainScreen() {
           setToleranceValues(response[0]);
         });
 
-      fetch(`${host}/allFigures/${user.companyName}/${globalQuater}`, {
+      fetch(`${host}/allFigures/${user.selectedCompany}/${globalQuater}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -107,24 +108,16 @@ export default function MainScreen() {
   }, [globalQuater]);
 
   return (
-    <div className="flex-1 bg-gray-50 pt-5 pl-5">
-      {view === "dashboard" && <DashboardView />}
-      {view === "input" && (
-        <RatioContext.Provider value={{ ratios, setRatios }}>
-          <DataLoadedContext.Provider value={{ loaded, setLoaded }}>
-            <InputView />
-          </DataLoadedContext.Provider>
-        </RatioContext.Provider>
-      )}
-      {view === "output" && (
-        <RatioContext.Provider value={{ ratios, setRatios }}>
-          <DataLoadedContext.Provider value={{ loaded, setLoaded }}>
-            <OutputView />
-          </DataLoadedContext.Provider>
-        </RatioContext.Provider>
-      )}
-      {view === "reports" && <ReportsView />}
-      {view === "settings" && <SettingsView />}
+    <div className="flex-1 bg-gray-50 pt-5 pl-5 ">
+      <RatioContext.Provider value={{ ratios, setRatios }}>
+        <DataLoadedContext.Provider value={{ loaded, setLoaded }}>
+          {view === "dashboard" && <DashboardView />}
+          {view === "input" && <InputView />}
+          {view === "output" && <OutputView />}
+          {view === "users" && <UsersView />}
+          {view === "settings" && <SettingsView />}
+        </DataLoadedContext.Provider>
+      </RatioContext.Provider>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { DocumentSearchIcon } from "@heroicons/react/outline";
 import { QuaterContext } from "../../contexts/quaterContext";
 import { Tab, Dropdown } from "semantic-ui-react";
 import StructuredTableQual from "../common/structuredTableQual";
-
+import Image from "next/dist/client/image";
 export default function OutputView() {
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
@@ -49,7 +49,7 @@ export default function OutputView() {
     {
       menuItem: "Quantitative Metrics",
       render: () => (
-        <div className="mr-5 h-full">
+        <div className="mr-5">
           <div className="flex flex-row w-2/5 mt-2 mr-5">
             <div class="flex flex-col mr-5">
               <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
@@ -74,7 +74,7 @@ export default function OutputView() {
                 Year
               </label>
               <input
-                className="focus:outline-none border-2 border-gray-200 focus:border-blue-300 py-2 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
+                className="focus:outline-none border-2 border-gray-200 focus:border-blue-cvl-300 py-2.5 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
                 value={year}
                 type="number"
                 onChange={(e) => {
@@ -97,11 +97,10 @@ export default function OutputView() {
             )}
 
             {!loaded && (
-              <div className="flex flex-col h-screen justify-center items-center">
-                <DocumentSearchIcon className="text-gray-300 h-32 w-32" />
-                <div className="text-gray-500 text-lg">
-                  Hmmm.... It's empty in here. Please load the relevant data.
-                </div>
+              <div className="flex flex-col h-full justify-center items-center">
+                {/* <DocumentSearchIcon className="text-gray-300 h-32 w-32" /> */}
+                <Image height="300" width="300" src="/nodata1.svg" />
+                <div className="text-gray-500 text-lg">No data!</div>
               </div>
             )}
           </div>
@@ -136,7 +135,7 @@ export default function OutputView() {
                 Year
               </label>
               <input
-                className="focus:outline-none border-2 border-gray-200 focus:border-blue-300 py-2 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
+                className="focus:outline-none border-2 border-gray-200 focus:border-blue-cvl-300 py-2.5 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
                 value={year}
                 type="number"
                 onChange={(e) => {
@@ -158,11 +157,10 @@ export default function OutputView() {
           )}
 
           {!loaded && (
-            <div className="flex flex-col h-screen justify-center items-center">
-              <DocumentSearchIcon className="text-gray-300 h-32 w-32" />
-              <div className="text-gray-500 text-lg">
-                Hmmm.... It's empty in here. Please load the relevant data.
-              </div>
+            <div className="flex flex-col h-full justify-center items-center">
+              {/* <DocumentSearchIcon className="text-gray-300 h-32 w-32" /> */}
+              <Image height="300" width="300" src="/nodata1.svg" />
+              <div className="text-gray-500 text-lg">No data!</div>
             </div>
           )}
         </div>
@@ -170,5 +168,9 @@ export default function OutputView() {
     },
   ];
 
-  return <Tab menu={{ secondary: true, pointing: true }} panes={panes} />;
+  return (
+    <div className="overflow-y-auto h-screen pb-20">
+      <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+    </div>
+  );
 }

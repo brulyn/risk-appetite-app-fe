@@ -11,7 +11,7 @@ export default function Reports() {
       }}
       className={
         view === "reports"
-          ? "flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer px-2 py-7 space-x-2 bg-gray-50  border-l-4 border-blue-400 ml-2"
+          ? "flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer px-2 py-7 space-x-2 bg-gray-50  border-l-4 border-blue-cvl-600 ml-2"
           : "flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer px-2 py-7 space-x-2 hover:scale-105 transition ease-in-out duration-200"
       }
     >
@@ -19,16 +19,16 @@ export default function Reports() {
         <DocumentDuplicateIcon
           className={
             view === "reports"
-              ? "h-8 w-8 text-blue-400"
-              : "h-8 w-8 text-gray-600"
+              ? "h-8 w-8 text-blue-cvl-900"
+              : "h-8 w-8 text-gray-100"
           }
         />
       </div>
       <div
         className={
           view === "reports"
-            ? "hidden md:block font-semibold text-blue-400"
-            : "hidden md:block font-semibold text-gray-600"
+            ? "hidden md:block font-semibold text-blue-cvl-900"
+            : "hidden md:block font-semibold text-gray-100"
         }
       >
         Reports
