@@ -1,21 +1,34 @@
 "use strict";
 import React, { useState, useEffect, useContext } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import readXlsxFile from "read-excel-file";
-import { Button, Dropdown } from "semantic-ui-react";
+import { Accordion, Button, Dropdown, Icon } from "semantic-ui-react";
+import { ConsoleIcon, CornerDialog, Dialog } from "evergreen-ui";
+import QualitativeInput from "../common/qualitativeInput";
+import ToleranceTitle from "../common/toleranceTitle";
+import * as _ from "lodash";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
-import { CornerDialog } from "evergreen-ui";
-import ToleranceInput from "../common/toleranceInput";
 import { UserContext } from "../../contexts/userContext";
+import { ToleranceContext } from "../../contexts/toleranceContext";
+import { QuaterContext } from "../../contexts/quaterContext";
+import { toUpper, trim } from "lodash";
 
 export default function InputView() {
+  const { ratios, setRatios } = useContext(RatioContext);
+  const { loaded, setLoaded } = useContext(DataLoadedContext);
+  const { user, setUser } = useContext(UserContext);
+  const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
+  const { toleranceValues, setToleranceValues } = useContext(ToleranceContext);
+
+  const [queryCompany, setQueryCompany] = useState(user.selectedCompany);
+
   const [startDate, setStartDate] = useState(new Date());
   const [fetchingData, setfetchingData] = useState(false);
   const [fileName, setFileName] = useState("INPUT 1");
-  const [file1Uploaded, setFile1Uploaded] = useState(false);
-  const [fileName2, setFileName2] = useState("INPUT 2");
+  const [file1Uploaded, setFile1Uploaded] = useState(true);
+  const [fileName2, setFileName2] = useState("Flash Report");
+  const [dataUploaded, setDataUploaded] = useState(false);
   const [currentFigures, setCurrentFigures] = useState({});
   const [previousFigures, setPreviousFigures] = useState({});
   const [ytdFigures, setYtdFigures] = useState({});
@@ -24,14 +37,51 @@ export default function InputView() {
   const [errorMessage, setErrorMessage] = useState("");
   const [dialogIsShown, setDialogIsShown] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
+
+  const [dErrorMessage, setDerrorMessage] = useState("");
+  const [dDialogIsShown, setDdialogIsShown] = useState(false);
+  const [dMessageTitle, setDmessageTitle] = useState("");
+
+  //Strategic Values
+  const [pdctDev, setPdctDev] = useState(40);
+  const [investNewTech, setInvestNewTech] = useState(15);
+  const [businessCont, setBusinessCont] = useState(40);
+  const [expToNewMarket, setExpToNewMarket] = useState(40);
+  const [brandRisk, setBrandRisk] = useState(15);
+
+  //Operational Values
+  const [disruptionOp, setDisruptionOp] = useState(40);
+  const [lossOfKeyStaff, setLossOfKeyStaff] = useState(40);
+  const [compromisePrdt, setCompromisePrdt] = useState(15);
+  const [serviceDelays, setServiceDelays] = useState(40);
+  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState(40);
+
+  //Financial Values
+  const [customerDefaultRisk, setCustomerDefaultRisk] = useState(60);
+  const [cashFlowConstraints, setcashFlowConstraints] = useState(40);
+  const [fraudAndCorruption, setFraudAndCorruption] = useState(15);
+  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState(10);
+  const [underUtilCapital, setUnderUtilCapital] = useState(40);
+
+  //Compliance
+  const [tax, setTax] = useState(15);
+  const [contract, setContract] = useState(15);
+  const [financialReporting, setFinancialReporting] = useState(15);
+  const [govLicence, setGovLicence] = useState(15);
+
+  const [quater, setQuater] = globalQuater
+    ? useState(globalQuater?.substr(0, 2))
+    : useState(new Date().getFullYear());
+  const [year, setYear] = globalQuater
+    ? useState(globalQuater?.substr(globalQuater.length - 4))
+    : useState(new Date().getFullYear());
+
+  const [quaterYear, setQuaterYear] = useState(globalQuater);
   const [presetValues, setPresetValues] = useState({});
-  const [quater, setQuater] = useState("Q1");
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [quaterYear, setQuaterYear] = useState("");
-  const { ratios, setRatios } = useContext(RatioContext);
-  const { loaded, setLoaded } = useContext(DataLoadedContext);
-  const { user, setUser } = useContext(UserContext);
+
   const host = "http://localhost:3001";
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const quaterList = [
     {
@@ -51,14 +101,188 @@ export default function InputView() {
       abbr: "Q4",
     },
   ];
-
   const quaterOptions = _.map(quaterList, (quater, index) => ({
     key: quaterList[index].abbr,
     text: quaterList[index].qtext,
     value: quaterList[index].abbr,
   }));
 
+  const companyOptions = [
+    {
+      key: "CVL",
+      value: "CVL",
+      text: "CVL",
+    },
+    {
+      key: "INYANGE",
+      value: "INYANGE",
+      text: "INYANGE",
+    },
+    {
+      key: "ISCO",
+      value: "ISCO",
+      text: "ISCO",
+    },
+    {
+      key: "NPD",
+      value: "NPD",
+      text: "NPD",
+    },
+    {
+      key: "REAL",
+      value: "REAL",
+      text: "REAL",
+    },
+    {
+      key: "EAGI",
+      value: "EAGI",
+      text: "EAGI",
+    },
+    {
+      key: "STONECRAFT",
+      value: "STONECRAFT",
+      text: "STONECRAFT",
+    },
+    {
+      key: "MUKAMIRA",
+      value: "MUKAMIRA",
+      text: "MUKAMIRA",
+    },
+    {
+      key: "RULIBA",
+      value: "RULIBA",
+      text: "RULIBA",
+    },
+    {
+      key: "CONSTRUCK",
+      value: "CONSTRUCK",
+      text: "CONSTRUCK",
+    },
+    {
+      key: "INTARE",
+      value: "INTARE",
+      text: "INTARE",
+    },
+    {
+      key: "SAWMIL",
+      value: "SAWMIL",
+      text: "SAWMIL",
+    },
+  ];
+
+  const sofpDataStructure = [
+    {
+      variable: "totalNonCurrentAssets",
+      title: "TOTAL NON-CURRENT ASSETS",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "totalCurrentAssets",
+      title: "TOTAL CURRENT ASSETS",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "totalAssets",
+      title: "TOTAL ASSETS",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "totalCapitalAndReserves",
+      title: "TOTAL CAPITAL AND RESERVES",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "totalNonCurrentLiabilities",
+      title: "TOTAL NON-CURRENT LIABILITIES",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "totalCurrentLiabilities",
+      title: "TOTAL CURRENT LIABILITIES",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "totalEquityAndLiabilities",
+      title: "TOTAL EQUITY AND LIABILITIES",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "inventories",
+      title: "INVENTORIES",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+    {
+      variable: "totalReceivables",
+      title: "TOTAL RECEIVABLES",
+      currentValue: 0,
+      previousValue: 0,
+      ytdValue: 0,
+    },
+  ];
+
+  const sociDataStructures = [
+    {
+      variable: "totalRevenues",
+      title: "TURNOVER",
+      currentValue: 0,
+      previousValue: 0,
+    },
+    {
+      variable: "grossProfit",
+      title: "GROSS PROFIT",
+      currentValue: 0,
+      previousValue: 0,
+    },
+    {
+      variable: "totalOperatingExpenses",
+      title: "TOTAL OPERATING EXPENSES",
+      currentValue: 0,
+      previousValue: 0,
+    },
+    {
+      variable: "operatingProfit",
+      title: "EBIT (OPERATING PROFIT)",
+      currentValue: 0,
+      previousValue: 0,
+    },
+    {
+      variable: "netProfit",
+      title: "NET PROFIT",
+      currentValue: 0,
+      previousValue: 0,
+    },
+    {
+      variable: "ebitda",
+      title: "EBITDA",
+      currentValue: 0,
+      previousValue: 0,
+    },
+    {
+      variable: "depreciation",
+      title: "DEPRECIATION",
+      currentValue: 0,
+      previousValue: 0,
+    },
+  ];
+
   const saveData = () => {
+    console.log(prevBalancesheetFigures);
     if (loaded) {
       Promise.all([
         //Operational Efficiency Current-- 0
@@ -72,8 +296,9 @@ export default function InputView() {
             totalRevenues: currentFigures["currentTotalRevenues"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         // Operational Efficiency Previous 1
@@ -87,8 +312,9 @@ export default function InputView() {
             totalRevenues: previousFigures["prevTotalRevenues"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Liquidity current --2
@@ -104,8 +330,9 @@ export default function InputView() {
             inventory: currBalancesheetFigures["currentInventories"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //liquidity Previous --3
@@ -121,8 +348,9 @@ export default function InputView() {
             inventory: prevBalancesheetFigures["previousInventories"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Profitability  Current-- 4
@@ -141,8 +369,9 @@ export default function InputView() {
             totalAssets: currBalancesheetFigures["currentTotalAssets"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Profitability Previous--5
@@ -161,8 +390,9 @@ export default function InputView() {
             totalAssets: prevBalancesheetFigures["previousTotalAssets"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Credit Risk Current -- 6
@@ -177,8 +407,9 @@ export default function InputView() {
               currBalancesheetFigures["currentTotalReceivables"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Credit Risk Previous--7
@@ -193,8 +424,9 @@ export default function InputView() {
               prevBalancesheetFigures["previousTotalReceivables"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Marketing Current-- 8
@@ -208,8 +440,9 @@ export default function InputView() {
             ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Marketing Previous-- 9
@@ -223,8 +456,9 @@ export default function InputView() {
             ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Business Continuity Current-- 10
@@ -242,8 +476,9 @@ export default function InputView() {
               currBalancesheetFigures["currentTotalCurrentLiabilities"],
             period: "current",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
           }),
         }),
         //Business Continuity Previous-- 11
@@ -261,8 +496,85 @@ export default function InputView() {
               prevBalancesheetFigures["previousTotalCurrentLiabilities"],
             period: "previous",
             username: user.username,
-            company: user.companyName,
+            company: queryCompany,
             quater: quaterYear,
+            year: year,
+          }),
+        }),
+
+        //Qualitative Values
+        fetch(`${host}/strategic/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pdctDev,
+            investNewTech,
+            businessCont,
+            expToNewMarket,
+            brandRisk,
+            period: "current",
+            username: user.username,
+            companyName: queryCompany,
+            quater: quaterYear,
+            year: year,
+          }),
+        }),
+
+        fetch(`${host}/operational/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            disruptionOp,
+            lossOfKeyStaff,
+            compromisePrdt,
+            serviceDelays,
+            disruptionSupplyChain,
+            period: "current",
+            username: user.username,
+            companyName: queryCompany,
+            quater: quaterYear,
+            year: year,
+          }),
+        }),
+
+        fetch(`${host}/financial/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customerDefaultRisk,
+            cashFlowConstraints,
+            fraudAndCorruption,
+            errorsAndMisstatements,
+            underUtilCapital,
+            period: "current",
+            username: user.username,
+            companyName: queryCompany,
+            quater: quaterYear,
+            year: year,
+          }),
+        }),
+
+        fetch(`${host}/compliance/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tax,
+            contract,
+            financialReporting,
+            govLicence,
+            period: "current",
+            username: user.username,
+            companyName: queryCompany,
+            quater: quaterYear,
+            year: year,
           }),
         }),
       ])
@@ -270,170 +582,71 @@ export default function InputView() {
           // Get a JSON object from each of the responses
           return Promise.all(
             responses.map(function (response) {
+              console.log(response);
               return response.json();
             })
           );
         })
         .then(function (data) {
-          // Log the data to the console
-          // You would do something with both sets of data here
-          let _ratios = [
-            {
-              metric: "Operating Expenses",
-              category: "operationalEfficiency",
-              currentPerformance: data[0].operatingExpenses,
-              previousPerformance: data[1].operatingExpenses, //TODO
-              riskTolerance: presetValues["operatingExpenses"],
-            },
-            {
-              metric: "System Uptime",
-              category: "operationalEfficiency",
-              currentPerformance: data[0].systemUptime,
-              previousPerformance: data[1].systemUptime, //TODO
-              riskTolerance: presetValues["systemUptime"],
-            },
-            {
-              metric: "Machinery Uptime",
-              category: "operationalEfficiency",
-              currentPerformance: data[0].machineryUptime,
-              previousPerformance: data[1].machineryUptime, //TODO
-              riskTolerance: presetValues["machineryUptime"],
-            },
-            {
-              metric: "Current Ratio",
-              category: "liquidity",
-              currentPerformance: data[2].currentRatio,
-              previousPerformance: data[3].currentRatio,
-              riskTolerance: presetValues["currentRatio"],
-            },
-            {
-              metric: "Quick Ratio",
-              category: "liquidity",
-              currentPerformance: data[2].quickRatio,
-              previousPerformance: data[3].quickRatio, //TODO
-              riskTolerance: presetValues["quickRatio"],
-            },
-            {
-              metric: "GP Margin",
-              category: "profitability",
-              currentPerformance: data[4].gpMargin,
-              previousPerformance: data[5].gpMargin, //TODO
-              riskTolerance: presetValues["gpMargin"],
-            },
-
-            {
-              metric: "EBITDA Margin",
-              category: "profitability",
-              currentPerformance: data[4].ebitdaMargin,
-              previousPerformance: data[5].ebitdaMargin, //TODO
-              riskTolerance: presetValues["ebitda"],
-            },
-            {
-              metric: "Return On Equity",
-              category: "profitability",
-              currentPerformance: data[4].returnOnEquity,
-              previousPerformance: data[5].returnOnEquity, //TODO
-              riskTolerance: presetValues["roe"],
-            },
-            {
-              metric: "Return On Assets",
-              category: "profitability",
-              currentPerformance: data[4].returnOnAsset,
-              previousPerformance: data[5].returnOnAsset,
-              riskTolerance: presetValues["roa"],
-            },
-            {
-              metric: "Net Profit Margin",
-              category: "profitability",
-              currentPerformance: data[4].netProfitMargin,
-              previousPerformance: data[5].netProfitMargin, //TODO
-              riskTolerance: presetValues["netProfitMargin"],
-            },
-            {
-              metric: "Average Collection Period",
-              category: "creditRisk",
-              currentPerformance: data[6].averageCollectionPeriod,
-              previousPerformance: data[7].averageCollectionPeriod, //TODO
-              riskTolerance: presetValues["averageCollectionPeriod"],
-            },
-            {
-              metric: "Total Receivables/Sales",
-              category: "creditRisk",
-              currentPerformance: data[6].totalReceivablePerSales,
-              previousPerformance: data[7].totalReceivablePerSales, //TODO
-              riskTolerance: presetValues["totalReceivablePerSales"],
-            },
-            {
-              metric: "Revenue Growth",
-              category: "marketing",
-              currentPerformance: data[8].revenueGrowth,
-              previousPerformance: data[9].revenueGrowth, //TODO
-              riskTolerance: presetValues["revenueGrowth"],
-            },
-            {
-              metric: "Market Share",
-              category: "marketing",
-              currentPerformance: data[8].marketShare,
-              previousPerformance: data[9].marketShare, //TODO
-              riskTolerance: presetValues["marketShare"],
-            },
-            {
-              metric: "New Customers",
-              category: "marketing",
-              currentPerformance: data[8].newCustomers,
-              previousPerformance: data[9].newCustomers, //TODO
-              riskTolerance: presetValues["newCustomers"],
-            },
-            {
-              metric: "Employee Turnover",
-              category: "businessContinuity",
-              currentPerformance: data[10].employeeTurnover,
-              previousPerformance: data[11].employeeTurnover, //TODO
-              riskTolerance: presetValues["employeeTurnover"],
-            },
-            {
-              metric: "Loss on major Upheaval",
-              category: "businessContinuity",
-              currentPerformance: data[10].lossOnMajorUpheaval,
-              previousPerformance: data[11].lossOnMajorUpheaval, //TODO
-              riskTolerance: presetValues["lossOnMajorUpheaval"],
-            },
-            {
-              metric: "Solvency Ratio",
-              category: "businessContinuity",
-              currentPerformance: data[10].solvencyRatioMetric,
-              previousPerformance: data[11].solvencyRatioMetric, //TODO
-              riskTolerance: presetValues["solvencyRatio"],
-            },
-          ];
-          setRatios(_ratios);
-
-          setErrorMessage("Data successfully read. Check the Output Section.");
+          setErrorMessage("Data successfully saved.");
           setDialogIsShown(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setMessageTitle("Operation Failed!");
+          setErrorMessage(`An error occured : ${err}`);
+          setDialogIsShown(true);
+        });
+    } else {
+      console.log("No data loaded");
     }
   };
 
-  // useEffect(() => {}, [loaded, currentFigures]);
+  useEffect(() => {
+    setLoaded(false);
+    if (!toleranceValues) {
+      setDmessageTitle("Tolerance values missing!");
+      setDerrorMessage(
+        "You can not upload or set the perfomance data before setting the Tolerance Values!"
+      );
+      setDdialogIsShown(true);
+    }
+  }, []);
 
+  const handleExpand = (e, titleProps) => {
+    const { index } = titleProps;
+    const newIndex = activeIndex === index ? -1 : index;
+
+    setActiveIndex(newIndex);
+  };
   return (
-    <div className="flex flex-col">
-      <CornerDialog
-        title={messageTitle}
-        hasFooter={false}
-        isShown={dialogIsShown}
-        onCloseComplete={() => setDialogIsShown(false)}
-      >
-        {errorMessage}
-      </CornerDialog>
-      {/* Title */}
-      <div className="font-semibold text-gray-600">Input</div>
-      {/* Input form */}
-      <div className="mt-10 mb-10">
-        <form>
-          <div className="flex flex-row w-2/5 mt-2 mr-5">
-            {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+    <div className="flex flex-row overflow-y-auto h-screen">
+      <div className="flex flex-col w-1/2">
+        <CornerDialog
+          title={messageTitle}
+          hasFooter={false}
+          isShown={dialogIsShown}
+          onCloseComplete={() => setDialogIsShown(false)}
+        >
+          {errorMessage}
+        </CornerDialog>
+
+        <Dialog
+          isShown={dDialogIsShown}
+          title={dMessageTitle}
+          intent="danger"
+          hasCancel={false}
+          onConfirm={() => setDdialogIsShown(false)}
+          confirmLabel="Ok, i'll fix it"
+        >
+          {dErrorMessage}
+        </Dialog>
+        {/* Title */}
+        {/* <div className="font-semibold text-gray-600">Input</div> */}
+        {/* Input form */}
+        <div className="mt-1 mb-10">
+          <form>
+            <div className="flex flex-row w-2/5 mt-2 mr-5">
+              {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
               Reporting Date
             </label>
             <DatePicker
@@ -444,241 +657,647 @@ export default function InputView() {
               showPopperArrow={false}
             /> */}
 
-            <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-                Quater
-              </label>
-              <Dropdown
-                placeholder="Quater"
-                search
-                selection
-                options={quaterOptions}
-                onChange={(e, { value }) => {
-                  setQuater(value);
-                  setQuaterYear(value + year);
-                }}
-              />
-            </div>
-
-            <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-                Year
-              </label>
-              <input
-                className="border-2 py-2 px-3 text-sm text-gray-500  border-gray-100 focus:border-gray-400  rounded-lg "
-                value={year}
-                type="number"
-                onChange={(e) => {
-                  setYear(e.target.value);
-                  setQuaterYear(quater + e.target.value);
-                }}
-              />
-            </div>
-          </div>
-
-          <ToleranceInput setPresetValues={setPresetValues} />
-
-          <div className="flex flex-row w-3/5">
-            <div className="flex h-16 pt-5 mr-10">
-              <label className="w-36 flex flex-row justify-center items-center bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-400 hover:text-white">
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                </svg>
-                <span className="pl-2 text-sm font-semibold leading-normal">
-                  {fileName}
-                </span>
-                <input
-                  type="file"
-                  className="hidden"
-                  webkitdirectory
-                  directory
-                  multiple
-                  // value={fileName}
-                  onChange={(e) => {
-                    setFileName("Done!");
-                    readXlsxFile(e.target.files[0])
-                      .then((rows) => {
-                        // console.log(rows);
-                        //previous quater figures
-                        let prevTotalRevenues = rows[12][10];
-                        let prevDepreciation = rows[17][10];
-                        let prevGrossProfit = rows[21][10];
-                        let prevOperatingProfit = rows[27][10];
-                        let prevNetProfit = rows[32][10];
-                        let prevEBITDA = rows[34][10];
-
-                        setPreviousFigures({
-                          prevTotalRevenues,
-                          prevDepreciation,
-                          prevGrossProfit,
-                          prevOperatingProfit,
-                          prevNetProfit,
-                          prevEBITDA,
-                        });
-                        //current quater figures
-                        let currentTotalRevenues = rows[12][15];
-                        let currentDepreciation = rows[17][15];
-                        let currentGrossProfit = rows[21][15];
-                        let currentOperatingProfit = rows[27][15];
-                        let currentNetProfit = rows[32][15];
-                        let currentEBITDA = rows[34][15];
-
-                        setCurrentFigures({
-                          currentTotalRevenues,
-                          currentDepreciation,
-                          currentGrossProfit,
-                          currentOperatingProfit,
-                          currentNetProfit,
-                          currentEBITDA,
-                        });
-
-                        //YTD figures
-                        let ytdTotalRevenues = rows[12][16];
-                        let ytdDepreciation = rows[17][16];
-                        let ytdGrossProfit = rows[21][16];
-                        let ytdOperatingProfit = rows[27][16];
-                        let ytdNetProfit = rows[32][16];
-                        let ytdEBITDA = rows[34][16];
-
-                        setYtdFigures({
-                          ytdTotalRevenues,
-                          ytdDepreciation,
-                          ytdGrossProfit,
-                          ytdOperatingProfit,
-                          ytdNetProfit,
-                          ytdEBITDA,
-                        });
-
-                        setMessageTitle("Success!");
-                        setErrorMessage(
-                          "INPUT 1 Data successfully read. Please Upload INPUT 2 data also."
-                        );
-                        setDialogIsShown(true);
-                        setFile1Uploaded(true);
-                      })
-                      .catch((err) => {
-                        setFileName2("Error!");
-                        setMessageTitle("File format Issue!");
-                        setErrorMessage(
-                          "There was an issue uploading the file. Please check the file format against the template excel template!"
-                        );
-                        setDialogIsShown(true);
-                      });
+              <div class="flex flex-col mr-5">
+                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                  Quater
+                </label>
+                <Dropdown
+                  placeholder="Quater"
+                  search
+                  selection
+                  value={quater}
+                  options={quaterOptions}
+                  onChange={(e, { value }) => {
+                    setQuater(value);
+                    setQuaterYear(value + " " + year);
+                    setGlobalQuater(value + " " + year);
                   }}
                 />
-              </label>
+              </div>
+
+              <div class="flex flex-col mr-5">
+                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                  Year
+                </label>
+                <input
+                  className="focus:outline-none border-2 border-gray-200 focus:border-blue-cvl-400 py-2.5 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
+                  value={year}
+                  type="number"
+                  onChange={(e) => {
+                    setYear(e.target.value);
+                    setQuaterYear(quater + " " + e.target.value);
+                    setGlobalQuater(quater + " " + e.target.value);
+                  }}
+                />
+              </div>
+
+              {user.profile === "Admin" && (
+                <div class="flex flex-col mr-5">
+                  <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                    Company
+                  </label>
+                  <Dropdown
+                    placeholder="Company"
+                    search
+                    selection
+                    value={queryCompany}
+                    options={companyOptions}
+                    onChange={(e, { value }) => {
+                      setQueryCompany(value);
+                      let _user = { ...user };
+                      _user.companyName = value;
+                      setUser(_user);
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
-            <div className="flex h-16 pt-5 mr-10">
-              <label
-                className={
-                  file1Uploaded
-                    ? "w-36 flex flex-row justify-center items-center bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-400 hover:text-white"
-                    : "w-36 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
-                }
+            <div className="font-semibold text-gray-600 mt-10">
+              Quantitative Metrics
+            </div>
+
+            <div className="flex flex-row w-3/5">
+              <div className="flex h-16 pt-5 mr-10">
+                <label
+                  className={
+                    file1Uploaded
+                      ? "w-44 flex flex-row justify-center items-center bg-white text-blue-cvl-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue-cvl-900 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-cvl-900 hover:text-white"
+                      : "w-44 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
+                  }
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span className="pl-2 text-sm font-semibold leading-normal">
+                    {fileName2}
+                  </span>
+                  <input
+                    disabled={!file1Uploaded}
+                    type="file"
+                    className="hidden"
+                    webkitdirectory
+                    directory
+                    multiple
+                    // value={fileName}
+
+                    onChange={(e) => {
+                      setDialogIsShown(false);
+                      let fullIndexData = {};
+                      let currentBalancesheetFigures = {};
+                      let previousBalancesheetFigures = {};
+                      // this.readFile(e);
+
+                      readXlsxFile(e.target.files[0], { sheet: "SOFP" })
+                        .then((rows) => {
+                          try {
+                            sofpDataStructure.map((record) => {
+                              let indexData = {
+                                titleIndex: -1,
+                                rowIndex: -1,
+                              };
+                              rows.map((row, rowIndex) => {
+                                let titleIndex = row.findIndex(
+                                  (element) =>
+                                    toUpper(trim(element)).replace(
+                                      /\s\s+/g,
+                                      " "
+                                    ) === toUpper(trim(record.title))
+                                );
+
+                                let values = row.filter(
+                                  (element) => element !== null
+                                );
+
+                                if (titleIndex !== -1) {
+                                  indexData = {
+                                    titleIndex,
+                                    rowIndex,
+                                    currentValue: values[1],
+                                    previousValue: values[2],
+                                  };
+                                  fullIndexData[`${record.variable}`] =
+                                    indexData;
+                                } else {
+                                  indexData = {
+                                    titleIndex,
+                                    rowIndex,
+                                    currentValue: 0,
+                                    previousValue: 0,
+                                  };
+                                }
+                              });
+                            });
+
+                            sofpDataStructure.map((record) => {
+                              if (!(`${record.variable}` in fullIndexData)) {
+                                fullIndexData[`${record.variable}`] = {
+                                  titleIndex: -1,
+                                  rowIndex: -1,
+                                  currentValue: 0,
+                                  previousValue: 0,
+                                };
+                              }
+                            });
+
+                            currentBalancesheetFigures = {
+                              currentTotalNonCurrentAssets:
+                                fullIndexData.totalNonCurrentAssets
+                                  ?.currentValue,
+                              currentTotalCurrentAssets:
+                                fullIndexData.totalCurrentAssets?.currentValue,
+                              currentTotalAssets:
+                                fullIndexData.totalAssets?.currentValue,
+                              currentTotalReceivables:
+                                fullIndexData.totalReceivables?.currentValue,
+                              currentTotalNonCurrentLiabilites:
+                                fullIndexData.totalNonCurrentLiabilities
+                                  ?.currentValue,
+                              currentTotalCurrentLiabilities:
+                                fullIndexData.totalCurrentLiabilities
+                                  ?.currentValue,
+                              currentInventories:
+                                fullIndexData.inventories?.currentValue,
+                              currentTotalCapitalAndReserves:
+                                fullIndexData.totalCapitalAndReserves
+                                  ?.currentValue,
+                            };
+
+                            previousBalancesheetFigures = {
+                              previousTotalNonCurrentAssets:
+                                fullIndexData.totalNonCurrentAssets
+                                  ?.previousValue,
+                              previousTotalCurrentAssets:
+                                fullIndexData.totalCurrentAssets?.previousValue,
+                              previousTotalAssets:
+                                fullIndexData.totalAssets?.previousValue,
+                              previousTotalReceivables:
+                                fullIndexData.totalReceivables?.previousValue,
+                              previousTotalNonCurrentLiabilities:
+                                fullIndexData.totalNonCurrentLiabilities
+                                  ?.previousValue,
+                              previousTotalCurrentLiabilities:
+                                fullIndexData.totalCurrentLiabilities
+                                  ?.currentValue,
+                              previousInventories:
+                                fullIndexData.inventories?.currentValue,
+                              previousTotalCapitalAndReserves:
+                                fullIndexData.totalCapitalAndReserves
+                                  ?.currentValue,
+                            };
+
+                            setPrevBalancesheetFigures(
+                              previousBalancesheetFigures
+                            );
+                            setCurrBalancesheetFigures(
+                              currentBalancesheetFigures
+                            );
+
+                            // sofpDataStructure.map((record) => {
+
+                            // });
+
+                            let sofpMissingSections = [];
+                            sofpDataStructure.forEach((section) => {
+                              if (
+                                fullIndexData[`${section.variable}`][
+                                  "currentValue"
+                                ] === -0
+                              ) {
+                                sofpMissingSections.push(section.title);
+                              }
+                            });
+                            if (sofpMissingSections.length > 0)
+                              throw (
+                                "Missing rows in SOFP: " +
+                                JSON.stringify(sofpMissingSections) +
+                                ". Their values are currently set to 0. Please check and update the section titles and upload again."
+                              );
+
+                            setFileName2("SOFP 👍");
+                            setMessageTitle("Success!");
+                            setErrorMessage("SOFP Data successfully read.");
+                            setDialogIsShown(true);
+
+                            //SOCI
+                            readXlsxFile(e.target.files[0], { sheet: "SOCI" })
+                              .then((rows) => {
+                                console.log(rows);
+                                let quaterLastYear = quater + " " + (year - 1);
+                                let ytdCurrent = "YTD " + year;
+                                let ytdPrevious = "YTD " + (year - 1);
+
+                                try {
+                                  let currentQuaterColIndex = -1;
+                                  let previousQuaterColIndex = -1;
+                                  let ytdColIndex = -1;
+                                  let ytdPrevColIndex = -1;
+
+                                  //get both quater columns and YTD column
+                                  rows.map((row) => {
+                                    let indexFound = row.findIndex(
+                                      (element) =>
+                                        toUpper(trim(element)) === quaterYear
+                                    );
+                                    if (indexFound !== -1)
+                                      currentQuaterColIndex = indexFound;
+
+                                    // indexFound = row.findIndex(
+                                    //   (element) =>
+                                    //     toUpper(trim(element)) ===
+                                    //     quaterLastYear
+                                    // );
+                                    // if (indexFound !== -1)
+                                    //   previousQuaterColIndex = indexFound;
+
+                                    indexFound = row.findIndex(
+                                      (element) =>
+                                        toUpper(trim(element)) ===
+                                        toUpper(trim(ytdCurrent))
+                                    );
+                                    if (indexFound !== -1)
+                                      ytdColIndex = indexFound;
+
+                                    indexFound = row.findIndex(
+                                      (element) =>
+                                        toUpper(trim(element)) ===
+                                        toUpper(trim(ytdPrevious))
+                                    );
+                                    if (indexFound !== -1)
+                                      ytdPrevColIndex = indexFound;
+                                  });
+
+                                  if (currentQuaterColIndex === -1)
+                                    throw "No data for " + quaterYear;
+
+                                  // if (previousQuaterColIndex === -1)
+                                  //   throw "No data for " + quaterLastYear;
+
+                                  if (ytdColIndex === -1)
+                                    throw "No data for " + ytdCurrent;
+
+                                  if (ytdPrevColIndex === -1)
+                                    throw "No data for " + ytdPrevious;
+                                  //get rows for each section
+                                  sociDataStructures.map((section) => {
+                                    rows.map((row, rowIndex) => {
+                                      let titleIndex = row.findIndex(
+                                        (element) =>
+                                          toUpper(trim(element)).replace(
+                                            /\s\s+/g,
+                                            " "
+                                          ) === toUpper(trim(section.title))
+                                      );
+                                      let currentValue = 0;
+                                      let previousValue = 0;
+                                      let ytdValue = 0;
+                                      if (titleIndex !== -1) {
+                                        currentValue =
+                                          rows[rowIndex][ytdColIndex];
+
+                                        previousValue =
+                                          rows[rowIndex][ytdPrevColIndex];
+
+                                        ytdValue = rows[rowIndex][ytdColIndex];
+
+                                        fullIndexData[`${section.variable}`] = {
+                                          currentValue,
+                                          previousValue,
+                                          ytdValue,
+                                        };
+                                      }
+                                    });
+                                  });
+
+                                  sociDataStructures.map((section) => {
+                                    if (
+                                      !(`${section.variable}` in fullIndexData)
+                                    ) {
+                                      fullIndexData[`${section.variable}`] = {
+                                        currentValue: 0,
+                                        previousValue: 0,
+                                        ytdValue: 0,
+                                      };
+                                    }
+                                  });
+
+                                  //current quater figures
+                                  let currentTotalRevenues =
+                                    fullIndexData.totalRevenues?.currentValue;
+                                  let currentDepreciation =
+                                    fullIndexData.depreciation.currentValue;
+                                  let currentGrossProfit =
+                                    fullIndexData.grossProfit.currentValue;
+                                  let currentOperatingProfit =
+                                    fullIndexData.operatingProfit.currentValue;
+                                  let currentNetProfit =
+                                    fullIndexData.netProfit.currentValue;
+                                  let currentEBITDA =
+                                    fullIndexData.ebitda.currentValue;
+
+                                  setCurrentFigures({
+                                    currentTotalRevenues,
+                                    currentDepreciation,
+                                    currentGrossProfit,
+                                    currentOperatingProfit,
+                                    currentNetProfit,
+                                    currentEBITDA,
+                                  });
+
+                                  //YTD figures
+                                  let ytdTotalRevenues =
+                                    fullIndexData.totalRevenues?.ytdValue;
+                                  let ytdDepreciation =
+                                    fullIndexData.depreciation.ytdValue;
+                                  let ytdGrossProfit =
+                                    fullIndexData.grossProfit.ytdValue;
+                                  let ytdOperatingProfit =
+                                    fullIndexData.operatingProfit.ytdValue;
+                                  let ytdNetProfit =
+                                    fullIndexData.netProfit.ytdValue;
+                                  let ytdEBITDA = fullIndexData.ebitda.ytdValue;
+
+                                  setYtdFigures({
+                                    ytdTotalRevenues,
+                                    ytdDepreciation,
+                                    ytdGrossProfit,
+                                    ytdOperatingProfit,
+                                    ytdNetProfit,
+                                    ytdEBITDA,
+                                  });
+
+                                  //previous quater figures
+                                  let prevTotalRevenues =
+                                    fullIndexData.totalRevenues?.previousValue;
+                                  let prevDepreciation =
+                                    fullIndexData.depreciation?.previousValue;
+                                  let prevGrossProfit =
+                                    fullIndexData.grossProfit?.previousValue;
+                                  let prevOperatingProfit =
+                                    fullIndexData.operatingProfit
+                                      ?.previousValue;
+                                  let prevNetProfit =
+                                    fullIndexData.netProfit?.previousValue;
+                                  let prevEBITDA =
+                                    fullIndexData.ebitda?.previousValue;
+
+                                  setPreviousFigures({
+                                    prevTotalRevenues,
+                                    prevDepreciation,
+                                    prevGrossProfit,
+                                    prevOperatingProfit,
+                                    prevNetProfit,
+                                    prevEBITDA,
+                                  });
+
+                                  let errors = [];
+                                  sociDataStructures.forEach((section) => {
+                                    if (
+                                      fullIndexData[`${section.variable}`][
+                                        "currentValue"
+                                      ] === 0
+                                    ) {
+                                      errors.push(`${section.title}`);
+                                    }
+                                  });
+
+                                  if (errors.length > 0)
+                                    throw (
+                                      "Missing rows in SOCI: " +
+                                      JSON.stringify(errors) +
+                                      ".Their values are currently set to 0. Please check and update the section titles and upload again."
+                                    );
+
+                                  if (!toleranceValues) {
+                                    throw "No tolerance Data set for your company. Please set them first!";
+                                  }
+
+                                  setFileName2("Success 👍");
+                                  setMessageTitle("Success!");
+                                  setErrorMessage(
+                                    "Both SOFP and SOCI Data successfully read."
+                                  );
+                                  setDialogIsShown(true);
+                                  setLoaded(true);
+                                  setDataUploaded(true);
+
+                                  console.log(fullIndexData);
+                                } catch (error) {
+                                  console.log(error);
+                                  setFileName2("Error!");
+                                  setDialogIsShown(false);
+                                  setDmessageTitle("Something went wrong!");
+                                  setDerrorMessage(`${error}`);
+                                  setDdialogIsShown(true);
+                                  setDataUploaded(false);
+                                }
+                              })
+                              .catch((err) => {
+                                setFileName2("Error!");
+                                setDialogIsShown(false);
+                                setDmessageTitle("File format Issue!");
+                                setDerrorMessage(`${err}`);
+                                setDdialogIsShown(true);
+                              });
+                          } catch (error) {
+                            setDialogIsShown(false);
+                            setDataUploaded(false);
+                            setDdialogIsShown(true);
+                            setDmessageTitle("File format Issue!");
+                            setDerrorMessage(`${error}`);
+                          }
+                        })
+                        .catch((err) => {
+                          setFileName2("Error!");
+                          setDialogIsShown(false);
+                          setDmessageTitle("File format Issue!");
+                          setDerrorMessage(`${err}`);
+                          setDdialogIsShown(true);
+                          setDataUploaded(false);
+                        });
+                    }}
+                    onClick={(event) => {
+                      event.target.value = null;
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="font-semibold text-gray-600 mt-10">
+              Qualitative Metrics (Implementation Level)
+            </div>
+            <Accordion>
+              <Accordion.Title
+                active={activeIndex === 0}
+                index={0}
+                onClick={handleExpand}
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                </svg>
-                <span className="pl-2 text-sm font-semibold leading-normal">
-                  {fileName2}
-                </span>
-                <input
-                  disabled={!file1Uploaded}
-                  type="file"
-                  className="hidden"
-                  webkitdirectory
-                  directory
-                  multiple
-                  // value={fileName}
-                  onChange={(e) => {
-                    setFileName2("Done!");
-                    readXlsxFile(e.target.files[0])
-                      .then((rows) => {
-                        let currentTotalNonCurrentAssets = rows[11][2];
-                        let currentTotalCurrentAssets = rows[18][2];
-                        let currentTotalAssets = rows[19][2];
-                        let currentTradeReceivables = rows[14][2];
-                        let currentRelatedPartyReceivables = rows[16][2];
-                        let currentTotalReceivables =
-                          currentTradeReceivables +
-                          currentRelatedPartyReceivables;
-                        let currentTotalNonCurrentLiabilites = rows[32][2];
-                        let currentTotalCurrentLiabilities = rows[39][2];
-                        let currentInventories = rows[13][2];
-                        let currentTotalCapitalAndReserves = rows[28][2];
-
-                        let currentBalancesheetFigures = {
-                          currentTotalNonCurrentAssets,
-                          currentTotalCurrentAssets,
-                          currentTotalAssets,
-                          currentTotalReceivables,
-                          currentTotalNonCurrentLiabilites,
-                          currentTotalCurrentLiabilities,
-                          currentInventories,
-                          currentTotalCapitalAndReserves,
-                        };
-
-                        setCurrBalancesheetFigures(currentBalancesheetFigures);
-
-                        let previousTotalNonCurrentAssets = rows[11][3];
-                        let previousTotalCurrentAssets = rows[18][3];
-                        let previousTotalAssets = rows[19][3];
-                        let previousTradeReceivables = rows[14][3];
-                        let previousRelatedPartyReceivables = rows[16][3];
-                        let previousTotalReceivables =
-                          previousTradeReceivables +
-                          previousRelatedPartyReceivables;
-                        let previousTotalNonCurrentLiabilities = rows[32][3];
-                        let previousTotalCurrentLiabilities = rows[39][3];
-                        let previousInventories = rows[13][3];
-                        let previousTotalCapitalAndReserves = rows[28][3];
-
-                        let previousBalancesheetFigures = {
-                          previousTotalNonCurrentAssets,
-                          previousTotalCurrentAssets,
-                          previousTotalAssets,
-                          previousTotalReceivables,
-                          previousTotalNonCurrentLiabilities,
-                          previousTotalCurrentLiabilities,
-                          previousInventories,
-                          previousTotalCapitalAndReserves,
-                        };
-                        setMessageTitle("Success!");
-                        setErrorMessage("INPUT 2 Data successfully read.");
-                        setDialogIsShown(true);
-
-                        setPrevBalancesheetFigures(previousBalancesheetFigures);
-                        setLoaded(true);
-                      })
-                      .catch((err) => {
-                        setFileName2("Error!");
-                        setMessageTitle("File format Issue!");
-                        setErrorMessage(
-                          "There was an issue uploading the file. Please check the file format against the excel template!"
-                        );
-                        setDialogIsShown(true);
-                      });
-                  }}
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Strategic" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 0}>
+                <QualitativeInput
+                  title="Product dev. and innovation"
+                  setQualValues={setPdctDev}
+                  value={pdctDev}
                 />
-              </label>
-            </div>
+                <QualitativeInput
+                  title="Investment in new Technologies"
+                  setQualValues={setInvestNewTech}
+                  value={investNewTech}
+                />
+                <QualitativeInput
+                  title="Business continuity and disaster recovery"
+                  setQualValues={setBusinessCont}
+                  value={businessCont}
+                />
+                <QualitativeInput
+                  title="Expansion to new markets"
+                  setQualValues={setExpToNewMarket}
+                  value={expToNewMarket}
+                />
+                <QualitativeInput
+                  title="Brand/reputation risk"
+                  setQualValues={setBrandRisk}
+                  value={brandRisk}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 1}
+                index={1}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Operational" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 1}>
+                <QualitativeInput
+                  title="Disruption of operations"
+                  setQualValues={setDisruptionOp}
+                  value={disruptionOp}
+                />
+                <QualitativeInput
+                  title="Loss of key staff"
+                  setQualValues={setLossOfKeyStaff}
+                  value={lossOfKeyStaff}
+                />
+                <QualitativeInput
+                  title="Compromise of product and service quality"
+                  setQualValues={setCompromisePrdt}
+                  value={compromisePrdt}
+                />
+                <QualitativeInput
+                  title="Service delays"
+                  setQualValues={setServiceDelays}
+                  value={serviceDelays}
+                />
+                <QualitativeInput
+                  title="Disruptions to supply chain"
+                  setQualValues={setDisruptionSupplyChain}
+                  value={disruptionSupplyChain}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 2}
+                index={2}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Financial" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 2}>
+                <QualitativeInput
+                  title="Customer default risk"
+                  setQualValues={setCustomerDefaultRisk}
+                  value={customerDefaultRisk}
+                />
+                <QualitativeInput
+                  title="Cash-flow constraints"
+                  setQualValues={setcashFlowConstraints}
+                  value={cashFlowConstraints}
+                />
+                <QualitativeInput
+                  title="Fraud and corruption"
+                  setQualValues={setFraudAndCorruption}
+                  value={fraudAndCorruption}
+                />
+                <QualitativeInput
+                  title="Errors and misstatements"
+                  setQualValues={setErrorsAndMisstatements}
+                  value={errorsAndMisstatements}
+                />
+                <QualitativeInput
+                  title="Under-utilization of capital"
+                  setQualValues={setUnderUtilCapital}
+                  value={underUtilCapital}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 3}
+                index={3}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Compliance" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 3}>
+                <QualitativeInput
+                  title="Tax compliance"
+                  setQualValues={setTax}
+                  value={tax}
+                />
+                <QualitativeInput
+                  title="Contract compliance"
+                  setQualValues={setContract}
+                  value={contract}
+                />
+                <QualitativeInput
+                  title="Financial reporting compliance"
+                  setQualValues={setFinancialReporting}
+                  value={financialReporting}
+                />
+                <QualitativeInput
+                  title="Government licenses and regulations"
+                  setQualValues={setGovLicence}
+                  value={govLicence}
+                />
+              </Accordion.Content>
+            </Accordion>
+          </form>
+          <div className="pt-5">
+            <Button
+              disabled={!dataUploaded || !toleranceValues}
+              onClick={() => saveData()}
+              color="blue"
+            >
+              Save
+            </Button>
           </div>
-        </form>
-        <div className="pt-5">
-          <Button onClick={() => saveData()} color="blue">
-            Save
-          </Button>
         </div>
       </div>
     </div>

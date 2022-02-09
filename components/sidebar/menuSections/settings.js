@@ -1,24 +1,24 @@
 import React, { useContext } from "react";
-import { DocumentAddIcon, DocumentTextIcon } from "@heroicons/react/solid";
+import { CogIcon } from "@heroicons/react/solid";
 import { ViewContext } from "../../../contexts/viewContext";
 
-export default function Input() {
+export default function Settings() {
   const { view, setView } = useContext(ViewContext);
   return (
     <div
       onClick={() => {
-        setView("input");
+        setView("settings");
       }}
       className={
-        view === "input"
-          ? "flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer px-2 py-7 space-x-2 bg-gray-50 border-l-4 border-blue-cvl-600 ml-2"
+        view === "settings"
+          ? "flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer px-2 py-7 bg-gray-50  border-l-4 border-blue-cvl-600 ml-2 space-x-2"
           : "flex flex-row h-10 w-full items-center justify-start hover:cursor-pointer px-2 py-7 space-x-2 hover:scale-105 transition ease-in-out duration-200"
       }
     >
       <div className="pl-4">
-        <DocumentAddIcon
+        <CogIcon
           className={
-            view === "input"
+            view === "settings"
               ? "h-6 w-6 text-blue-cvl-900"
               : "h-6 w-6 text-gray-100"
           }
@@ -26,12 +26,12 @@ export default function Input() {
       </div>
       <div
         className={
-          view === "input"
+          view === "settings"
             ? "hidden md:block font-semibold text-blue-cvl-900"
             : "hidden md:block font-semibold text-gray-100"
         }
       >
-        Input
+        Settings
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   ChartBarIcon,
   DocumentAddIcon,
@@ -9,16 +9,29 @@ import Dashboard from "./menuSections/dashboard";
 import Input from "./menuSections/input";
 import Output from "./menuSections/output";
 import Reports from "./menuSections/reports";
+import Settings from "./menuSections/settings";
+import Users from "./menuSections/users";
+import { UserContext } from "../../contexts/userContext";
 
 export default function SideBar() {
+  const { user, setUser } = useContext(UserContext);
   return (
-    <div className="min-h-full w-1/12 bg-white flex flex-col items-center py-5">
-      <div className="font-bold pb-10">RISK APPETITE</div>
+    <nav className="w-20 md:w-56 bg-blue-cvl-900 flex flex-col justify-between h-screen sticky top-1 pt-4">
+      {/* <div className="font-bold pb-10">RISK APPETITE</div> */}
 
-      <Dashboard />
-      <Input />
-      <Output />
-      <Reports />
-    </div>
+      <div className="flex flex-col items-center">
+        <Dashboard />
+        <Input />
+        <Output />
+        {/* <Reports /> */}
+        {user.profile === "Admin" && <Settings />}
+      </div>
+
+      {user.profile === "Admin" && (
+        <div className="mb-28">
+          <Users />
+        </div>
+      )}
+    </nav>
   );
 }
