@@ -118,9 +118,9 @@ export default function TopList({ scores, changeCompany }) {
     let finaByCompany = _.groupBy(financialScores, "companyName");
     let operQualByCompany = _.groupBy(operationalQualScores, "companyName");
     let stratByCompany = _.groupBy(strategicScores, "companyName");
+
     let _avgScoresByCompany = companyList.map((company) => {
       let pool = [];
-
       if (
         liqByCompany[company.companyName] &&
         busContByCompany[company.companyName] &&
@@ -134,59 +134,193 @@ export default function TopList({ scores, changeCompany }) {
         stratByCompany[company.companyName]
       ) {
         pool = [
-          liqByCompany[company.companyName][0]["scoreCurrentRatio"],
-          liqByCompany[company.companyName][0]["scoreQuickRatio"],
-          busContByCompany[company.companyName][0]["scoreEmployeeTurnover"],
-          busContByCompany[company.companyName][0]["scoreLossOnMajorUpheaval"],
-          busContByCompany[company.companyName][0]["scoreSolvencyRatio"],
-          credRisByCompany[company.companyName][0][
-            "scoreAverageCollectionPeriod"
-          ],
-          credRisByCompany[company.companyName][0][
-            "scoreTotalReceivablePerSales"
-          ],
-          marketByCompany[company.companyName][0]["scoreRevenueGrowth"],
-          marketByCompany[company.companyName][0]["scoreMarketShare"],
-          marketByCompany[company.companyName][0]["scoreNewCustomers"],
-          operByCompany[company.companyName][0]["scoreOperatingExpenses"],
-          operByCompany[company.companyName][0]["scoreSystemUptime"],
-          operByCompany[company.companyName][0]["scoreMachineryUptime"],
-          profByCompany[company.companyName][0]["scoreGpMargin"],
-          profByCompany[company.companyName][0]["scoreEbitdaMargin"],
-          profByCompany[company.companyName][0]["scoreReturnOnEquity"],
-          profByCompany[company.companyName][0]["scoreReturnOnAsset"],
-          profByCompany[company.companyName][0]["scoreNetProfitMargin"],
-          complByCompany[company.companyName][0]["taxScore"],
-          complByCompany[company.companyName][0]["contractScore"],
-          complByCompany[company.companyName][0]["financialReportingScore"],
-          complByCompany[company.companyName][0]["govLicenceScore"],
-          finaByCompany[company.companyName][0]["customerDefaultRiskScore"],
-          finaByCompany[company.companyName][0]["cashFlowConstraintsScore"],
-          finaByCompany[company.companyName][0]["fraudAndCorruptionScore"],
-          finaByCompany[company.companyName][0]["errorsAndMisstatementsScore"],
-          finaByCompany[company.companyName][0]["underUtilCapitalScore"],
-          operQualByCompany[company.companyName][0]["disruptionOpScore"],
-          operQualByCompany[company.companyName][0]["lossOfKeyStaffScore"],
-          operQualByCompany[company.companyName][0]["compromisePrdtScore"],
-          operQualByCompany[company.companyName][0]["serviceDelaysScore"],
-          operQualByCompany[company.companyName][0][
-            "disruptionSupplyChainScore"
-          ],
-          stratByCompany[company.companyName][0]["pdctDevScore"],
-          stratByCompany[company.companyName][0]["investNewTechScore"],
-          stratByCompany[company.companyName][0]["businessContScore"],
-          stratByCompany[company.companyName][0]["brandRiskScore"],
+          {
+            value: liqByCompany[company.companyName][0]["scoreCurrentRatio"],
+            title: "scoreCurrentRatio",
+          },
+          {
+            value: liqByCompany[company.companyName][0]["scoreQuickRatio"],
+            title: "scoreQuickRatio",
+          },
+          {
+            value:
+              busContByCompany[company.companyName][0]["scoreEmployeeTurnover"],
+            title: "scoreEmployeeTurnover",
+          },
+          {
+            value:
+              busContByCompany[company.companyName][0][
+                "scoreLossOnMajorUpheaval"
+              ],
+            title: "scoreLossOnMajorUpheaval",
+          },
+          {
+            value:
+              busContByCompany[company.companyName][0]["scoreSolvencyRatio"],
+            title: "scoreSolvencyRatio",
+          },
+          {
+            value:
+              credRisByCompany[company.companyName][0][
+                "scoreAverageCollectionPeriod"
+              ],
+            title: "scoreAverageCollectionPeriod",
+          },
+          {
+            value:
+              credRisByCompany[company.companyName][0][
+                "scoreTotalReceivablePerSales"
+              ],
+            title: "scoreTotalReceivablePerSales",
+          },
+          {
+            value:
+              marketByCompany[company.companyName][0]["scoreRevenueGrowth"],
+            title: "scoreRevenueGrowth",
+          },
+          {
+            value: marketByCompany[company.companyName][0]["scoreMarketShare"],
+            title: "scoreMarketShare",
+          },
+          {
+            value: marketByCompany[company.companyName][0]["scoreNewCustomers"],
+            title: "scoreNewCustomers",
+          },
+          {
+            value:
+              operByCompany[company.companyName][0]["scoreOperatingExpenses"],
+            title: "scoreOperatingExpenses",
+          },
+          {
+            value: operByCompany[company.companyName][0]["scoreSystemUptime"],
+            title: "scoreSystemUptime",
+          },
+          {
+            value:
+              operByCompany[company.companyName][0]["scoreMachineryUptime"],
+            title: "scoreMachineryUptime",
+          },
+          {
+            value: profByCompany[company.companyName][0]["scoreGpMargin"],
+            title: "scoreGpMargin",
+          },
+          {
+            value: profByCompany[company.companyName][0]["scoreEbitdaMargin"],
+            title: "scoreEbitdaMargin",
+          },
+          {
+            value: profByCompany[company.companyName][0]["scoreReturnOnEquity"],
+            title: "scoreReturnOnEquity",
+          },
+          {
+            value: profByCompany[company.companyName][0]["scoreReturnOnAsset"],
+            title: "scoreReturnOnAsset",
+          },
+          {
+            value:
+              profByCompany[company.companyName][0]["scoreNetProfitMargin"],
+            title: "scoreNetProfitMargin",
+          },
+          {
+            value: complByCompany[company.companyName][0]["taxScore"],
+            title: "taxScore",
+          },
+          {
+            value: complByCompany[company.companyName][0]["contractScore"],
+            title: "contractScore",
+          },
+          {
+            value:
+              complByCompany[company.companyName][0]["financialReportingScore"],
+            title: "financialReportingScore",
+          },
+          {
+            value: complByCompany[company.companyName][0]["govLicenceScore"],
+            title: "govLicenceScore",
+          },
+          {
+            value:
+              finaByCompany[company.companyName][0]["customerDefaultRiskScore"],
+            title: "customerDefaultRiskScore",
+          },
+          {
+            value:
+              finaByCompany[company.companyName][0]["cashFlowConstraintsScore"],
+            title: "cashFlowConstraintsScore",
+          },
+          {
+            value:
+              finaByCompany[company.companyName][0]["fraudAndCorruptionScore"],
+            title: "fraudAndCorruptionScore",
+          },
+          {
+            value:
+              finaByCompany[company.companyName][0][
+                "errorsAndMisstatementsScore"
+              ],
+            title: "errorsAndMisstatementsScore",
+          },
+          {
+            value:
+              finaByCompany[company.companyName][0]["underUtilCapitalScore"],
+            title: "underUtilCapitalScore",
+          },
+          {
+            value:
+              operQualByCompany[company.companyName][0]["disruptionOpScore"],
+            title: "disruptionOpScore",
+          },
+          {
+            value:
+              operQualByCompany[company.companyName][0]["lossOfKeyStaffScore"],
+            title: "lossOfKeyStaffScore",
+          },
+          {
+            value:
+              operQualByCompany[company.companyName][0]["compromisePrdtScore"],
+            title: "compromisePrdtScore",
+          },
+          {
+            value:
+              operQualByCompany[company.companyName][0]["serviceDelaysScore"],
+            title: "serviceDelaysScore",
+          },
+          {
+            value:
+              operQualByCompany[company.companyName][0][
+                "disruptionSupplyChainScore"
+              ],
+            title: "disruptionSupplyChainScore",
+          },
+          {
+            value: stratByCompany[company.companyName][0]["pdctDevScore"],
+            title: "pdctDevScore",
+          },
+          {
+            value: stratByCompany[company.companyName][0]["investNewTechScore"],
+            title: "investNewTechScore",
+          },
+          {
+            value: stratByCompany[company.companyName][0]["businessContScore"],
+            title: "businessContScore",
+          },
+          {
+            value: stratByCompany[company.companyName][0]["brandRiskScore"],
+            title: "brandRiskScore",
+          },
         ];
       }
+
+      console.log("PPPPPP", pool);
 
       return {
         companyName: company.companyName,
         extremCount: pool.filter((p) => {
-          return p >= 4;
+          return p.value >= 4;
         }).length,
 
         highCount: pool.filter((p) => {
-          return p < 4 && p >= 3;
+          return p.value < 4 && p.value >= 3;
         }).length,
         avgRiskScore:
           liqByCompany[company.companyName] &&
