@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import ToleranceInput from "../common/toleranceInput";
 import { Button, Accordion, Icon } from "semantic-ui-react";
 import QualitativeInput from "../common/qualitativeInput";
-import TolQualitativeInput from "../common/tolqualitativeInput";
+import TolQualitativeInput from "../common/tolQualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
 import { UserContext } from "../../contexts/userContext";
 import { CornerDialog } from "evergreen-ui";
@@ -48,7 +48,7 @@ export default function SettingsView() {
     setActiveIndex(newIndex);
   };
   const [presetValues, setPresetValues] = useState({});
-  const host = "http://localhost:3001";
+  const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
   const saveData = () => {
     Promise.all([

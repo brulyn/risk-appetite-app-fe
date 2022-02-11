@@ -109,24 +109,24 @@ export default function UsersTable({ data, handelOpen, handelChangeStatus }) {
 
                 <Table.Cell>
                   <div className="flex flex-row mr-2">
-                    <div
+                    <button
                       onClick={() => handelOpen(row)}
                       className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 mr-4 hover:scale-105 active:scale-95 active:shadow-sm"
                     >
                       <DotsHorizontalIcon className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <div
+                    </button>
+                    <button
                       onClick={() => handelChangeStatus(row, "active")}
                       className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 mr-4 hover:scale-105 active:scale-95 active:shadow-sm"
                     >
                       <CheckIcon className="h-5 w-5 text-green-400" />
-                    </div>
-                    <div
+                    </button>
+                    <button
                       onClick={() => handelChangeStatus(row, "suspended")}
                       className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 hover:scale-105 active:scale-95 active:shadow-sm"
                     >
                       <XIcon className="h-5 w-5 text-red-400" />
-                    </div>
+                    </button>
                   </div>
                 </Table.Cell>
                 {/* <Table.Cell>{row.createdOn}</Table.Cell>

@@ -3,7 +3,6 @@ import { ViewContext } from "../../contexts/viewContext";
 import DashboardView from "./dashboardView";
 import InputView from "./inputView";
 import OutputView from "./outputView";
-import ReportsView from "./ReportsView";
 import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { QuaterContext } from "../../contexts/quaterContext";
@@ -11,7 +10,7 @@ import { UserContext } from "../../contexts/userContext";
 import { ToleranceContext } from "../../contexts/toleranceContext";
 import SettingsView from "./settingsView";
 import UsersView from "./usersView";
-const host = "http://localhost:3001";
+const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
 export default function MainScreen() {
   const { view, setView } = useContext(ViewContext);

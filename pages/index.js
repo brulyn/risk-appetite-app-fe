@@ -43,7 +43,7 @@ export default function Index() {
     setLoading(true);
     setDialogIsShown(false);
 
-    fetch(`http://localhost:3001/users/login`, {
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export default function Index() {
     setLoading(true);
     setDialogIsShown(false);
 
-    fetch(`http://localhost:3001/users/`, {
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -140,6 +140,23 @@ export default function Index() {
           setErrorMessage(message);
           setLoading(false);
         } else {
+          fetch(
+            `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/email/send`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                from: "riskinfo@cvl.co.rw",
+                to: email,
+                subject: "Password updated",
+                messageType: "passwordUpdated",
+                password,
+              }),
+            }
+          );
+
           setViewPort("login");
           setDialogIsShown(true);
           setMessageTitle("Updated Successfully");
@@ -153,6 +170,7 @@ export default function Index() {
         setErrorMessage(
           "Could not connect to the server. Please make sure the server is up!"
         );
+
         setLoading(false);
       });
     // setLoading(false);

@@ -79,7 +79,7 @@ export default function InputView() {
   const [quaterYear, setQuaterYear] = useState(globalQuater);
   const [presetValues, setPresetValues] = useState({});
 
-  const host = "http://localhost:3001";
+  const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -692,7 +692,7 @@ export default function InputView() {
               </div>
 
               {user.profile === "Admin" && (
-                <div class="flex flex-col mr-5">
+                <div class="flex flex-col mr-10">
                   <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
                     Company
                   </label>
