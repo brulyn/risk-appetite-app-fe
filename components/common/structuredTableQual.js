@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Icon, Table, Label } from "semantic-ui-react";
 import { RatioContext } from "../../contexts/ratioContext";
-const host = "http://localhost:3001";
+const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
 function StructuredTableQual() {
   const { ratios, setRatios } = useContext(RatioContext);

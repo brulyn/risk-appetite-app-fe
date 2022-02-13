@@ -23,7 +23,7 @@ import { DocumentSearchIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import TopList from "../common/dashboard/topList";
 
-const host = "http://localhost:3001";
+const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
 const data = [
   {

@@ -7,7 +7,6 @@ import { ConsoleIcon, CornerDialog, Dialog } from "evergreen-ui";
 import QualitativeInput from "../common/qualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
 import * as _ from "lodash";
-import { RatioContext } from "../../contexts/ratioContext";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { UserContext } from "../../contexts/userContext";
 import { ToleranceContext } from "../../contexts/toleranceContext";
@@ -15,7 +14,6 @@ import { QuaterContext } from "../../contexts/quaterContext";
 import { toUpper, trim } from "lodash";
 
 export default function InputView() {
-  const { ratios, setRatios } = useContext(RatioContext);
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { user, setUser } = useContext(UserContext);
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
@@ -79,7 +77,7 @@ export default function InputView() {
   const [quaterYear, setQuaterYear] = useState(globalQuater);
   const [presetValues, setPresetValues] = useState({});
 
-  const host = "http://localhost:3001";
+  const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -692,7 +690,7 @@ export default function InputView() {
               </div>
 
               {user.profile === "Admin" && (
-                <div class="flex flex-col mr-5">
+                <div class="flex flex-col mr-10">
                   <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
                     Company
                   </label>
@@ -958,7 +956,7 @@ export default function InputView() {
                                       let ytdValue = 0;
                                       if (titleIndex !== -1) {
                                         currentValue =
-                                          rows[rowIndex][ytdColIndex];
+                                          rows[rowIndex][currentQuaterColIndex];
 
                                         previousValue =
                                           rows[rowIndex][ytdPrevColIndex];
@@ -1008,6 +1006,7 @@ export default function InputView() {
                                     currentNetProfit,
                                     currentEBITDA,
                                   });
+                                  console.log(currentFigures);
 
                                   //YTD figures
                                   let ytdTotalRevenues =
