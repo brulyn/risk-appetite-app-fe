@@ -20,6 +20,7 @@ export default function InputView() {
   const { toleranceValues, setToleranceValues } = useContext(ToleranceContext);
 
   const [queryCompany, setQueryCompany] = useState(user.selectedCompany);
+  const [companies, setCompanies] = useState([]);
 
   const [startDate, setStartDate] = useState(new Date());
   const [fetchingData, setfetchingData] = useState(false);
@@ -104,69 +105,6 @@ export default function InputView() {
     text: quaterList[index].qtext,
     value: quaterList[index].abbr,
   }));
-
-  const companyOptions = [
-    {
-      key: "CVL",
-      value: "CVL",
-      text: "CVL",
-    },
-    {
-      key: "INYANGE",
-      value: "INYANGE",
-      text: "INYANGE",
-    },
-    {
-      key: "ISCO",
-      value: "ISCO",
-      text: "ISCO",
-    },
-    {
-      key: "NPD",
-      value: "NPD",
-      text: "NPD",
-    },
-    {
-      key: "REAL",
-      value: "REAL",
-      text: "REAL",
-    },
-    {
-      key: "EAGI",
-      value: "EAGI",
-      text: "EAGI",
-    },
-    {
-      key: "STONECRAFT",
-      value: "STONECRAFT",
-      text: "STONECRAFT",
-    },
-    {
-      key: "MUKAMIRA",
-      value: "MUKAMIRA",
-      text: "MUKAMIRA",
-    },
-    {
-      key: "RULIBA",
-      value: "RULIBA",
-      text: "RULIBA",
-    },
-    {
-      key: "CONSTRUCK",
-      value: "CONSTRUCK",
-      text: "CONSTRUCK",
-    },
-    {
-      key: "INTARE",
-      value: "INTARE",
-      text: "INTARE",
-    },
-    {
-      key: "SAWMIL",
-      value: "SAWMIL",
-      text: "SAWMIL",
-    },
-  ];
 
   const sofpDataStructure = [
     {
@@ -601,6 +539,16 @@ export default function InputView() {
 
   useEffect(() => {
     setLoaded(false);
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => setCompanies(response));
+
     if (!toleranceValues) {
       setDmessageTitle("Tolerance values missing!");
       setDerrorMessage(
@@ -689,7 +637,7 @@ export default function InputView() {
                 />
               </div>
 
-              {user.profile === "Admin" && (
+              {(user.profile === "Admin" || user.profile === "Tech") && (
                 <div class="flex flex-col mr-10">
                   <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
                     Company
@@ -699,7 +647,13 @@ export default function InputView() {
                     search
                     selection
                     value={queryCompany}
-                    options={companyOptions}
+                    options={companies.map((c) => {
+                      return {
+                        key: c.name,
+                        value: c.name,
+                        text: c.name,
+                      };
+                    })}
                     onChange={(e, { value }) => {
                       setQueryCompany(value);
                       let _user = { ...user };
