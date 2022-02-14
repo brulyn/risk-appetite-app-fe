@@ -21,13 +21,15 @@ export default function SideBar() {
 
       <div className="flex flex-col items-center">
         <Dashboard />
-        <Input />
+        {(user.profile === "RC" ||
+          user.profile === "Admin" ||
+          user.profile === "Tech") && <Input />}
         <Output />
         {/* <Reports /> */}
         {user.profile === "Admin" && <Settings />}
       </div>
 
-      {user.profile === "Admin" && (
+      {(user.profile === "Admin" || user.profile === "Tech") && (
         <div className="mb-28">
           <Users />
         </div>
