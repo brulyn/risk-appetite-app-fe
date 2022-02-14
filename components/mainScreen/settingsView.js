@@ -12,31 +12,31 @@ export default function SettingsView() {
   const [dialogIsShown, setDialogIsShown] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
   //Strategic Values
-  const [pdctDev, setPdctDev] = useState();
-  const [investNewTech, setInvestNewTech] = useState();
-  const [businessCont, setBusinessCont] = useState();
-  const [expToNewMarket, setExpToNewMarket] = useState();
-  const [brandRisk, setBrandRisk] = useState();
+  const [pdctDev, setPdctDev] = useState("");
+  const [investNewTech, setInvestNewTech] = useState("");
+  const [businessCont, setBusinessCont] = useState("");
+  const [expToNewMarket, setExpToNewMarket] = useState("");
+  const [brandRisk, setBrandRisk] = useState("");
 
   //Operational Values
-  const [disruptionOp, setDisruptionOp] = useState();
-  const [lossOfKeyStaff, setLossOfKeyStaff] = useState();
-  const [compromisePrdt, setCompromisePrdt] = useState();
-  const [serviceDelays, setServiceDelays] = useState();
-  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState();
+  const [disruptionOp, setDisruptionOp] = useState("");
+  const [lossOfKeyStaff, setLossOfKeyStaff] = useState("");
+  const [compromisePrdt, setCompromisePrdt] = useState("");
+  const [serviceDelays, setServiceDelays] = useState("");
+  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState("");
 
   //Financial Values
-  const [customerDefaultRisk, setCustomerDefaultRisk] = useState();
-  const [cashFlowConstraints, setcashFlowConstraints] = useState();
-  const [fraudAndCorruption, setFraudAndCorruption] = useState();
-  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState();
-  const [underUtilCapital, setUnderUtilCapital] = useState();
+  const [customerDefaultRisk, setCustomerDefaultRisk] = useState("");
+  const [cashFlowConstraints, setcashFlowConstraints] = useState("");
+  const [fraudAndCorruption, setFraudAndCorruption] = useState("");
+  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState("");
+  const [underUtilCapital, setUnderUtilCapital] = useState("");
 
   //Compliance
-  const [tax, setTax] = useState();
-  const [contract, setContract] = useState();
-  const [financialReporting, setFinancialReporting] = useState();
-  const [govLicence, setGovLicence] = useState();
+  const [tax, setTax] = useState("");
+  const [contract, setContract] = useState("");
+  const [financialReporting, setFinancialReporting] = useState("");
+  const [govLicence, setGovLicence] = useState("");
 
   const [activeIndex, setActiveIndex] = useState(0);
   const { user, setUser } = useContext(UserContext);
