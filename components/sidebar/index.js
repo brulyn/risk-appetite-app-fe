@@ -28,9 +28,9 @@ export default function SideBar() {
           user.profile === "SROF") && <Input />}
         <Output />
         {/* <Reports /> */}
-        {user.profile === "Admin" ||
+        {(user.profile === "Admin" ||
           user.profile === "RD" ||
-          (user.profile === "SROF" && <Settings />)}
+          user.profile === "SROF") && <Settings />}
       </div>
 
       {(user.profile === "Admin" ||
