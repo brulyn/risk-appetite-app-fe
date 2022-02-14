@@ -97,6 +97,8 @@ export default function UsersView() {
   const [password, setPassword] = useState(generatePassword());
   const [status, setStatus] = useState("");
   const [company, setCompany] = useState("");
+  const [profiles, setProfiles] = useState([]);
+  const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
@@ -108,6 +110,26 @@ export default function UsersView() {
     })
       .then((response) => response.json())
       .then((response) => setUsers(response));
+
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/profiles/`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => setProfiles(response));
+
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => setCompanies(response));
   }, []);
 
   function doRefresh() {
@@ -250,7 +272,13 @@ export default function UsersView() {
                 search
                 selection
                 value={company}
-                options={companyOptions}
+                options={companies.map((c) => {
+                  return {
+                    key: c.name,
+                    value: c.name,
+                    text: c.name,
+                  };
+                })}
                 onChange={(e, { value }) => {
                   setCompany(value);
                 }}
