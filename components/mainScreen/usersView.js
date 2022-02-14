@@ -294,7 +294,13 @@ export default function UsersView() {
                 search
                 selection
                 value={profile}
-                options={profileOptions}
+                options={profiles.map((p) => {
+                  return {
+                    key: p.name,
+                    value: p.name,
+                    text: p.description,
+                  };
+                })}
                 onChange={(e, { value }) => {
                   setProfile(value);
                 }}
