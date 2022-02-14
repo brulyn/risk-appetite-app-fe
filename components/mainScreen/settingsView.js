@@ -147,7 +147,7 @@ export default function SettingsView() {
       });
   };
   return (
-    <div className="flex flex-col">
+    <div className="overflow-y-auto h-screen pb-32">
       <CornerDialog
         title={messageTitle}
         hasFooter={false}

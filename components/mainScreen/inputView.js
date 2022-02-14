@@ -565,7 +565,7 @@ export default function InputView() {
     setActiveIndex(newIndex);
   };
   return (
-    <div className="flex flex-row overflow-y-scroll h-screen">
+    <div className="overflow-y-auto h-screen pb-32">
       <div className="flex flex-col w-1/2 ">
         <CornerDialog
           title={messageTitle}
