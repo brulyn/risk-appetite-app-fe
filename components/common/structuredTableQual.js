@@ -11,19 +11,19 @@ function StructuredTableQual() {
   }, []);
 
   const tolFillZeroCell = (toleranceValue) => {
-    if (toleranceValue <= 100) return true;
+    if (toleranceValue === 0) return true;
     else return false;
   };
   const tolFillLowCell = (toleranceValue) => {
-    if (toleranceValue <= 80) return true;
+    if (toleranceValue === 1 || toleranceValue === 2) return true;
     else return false;
   };
   const tolFillMediumCell = (toleranceValue) => {
-    if (toleranceValue <= 60) return true;
+    if (toleranceValue === 3 || toleranceValue === 4) return true;
     else return false;
   };
   const tolFillHighCell = (toleranceValue) => {
-    if (toleranceValue <= 10) return true;
+    if (toleranceValue === 5) return true;
     else return false;
   };
 
