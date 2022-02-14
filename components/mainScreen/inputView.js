@@ -913,7 +913,7 @@ export default function InputView() {
                                       let ytdValue = 0;
                                       if (titleIndex !== -1) {
                                         currentValue =
-                                          rows[rowIndex][currentQuaterColIndex];
+                                          rows[rowIndex][ytdColIndex];
 
                                         previousValue =
                                           rows[rowIndex][ytdPrevColIndex];
