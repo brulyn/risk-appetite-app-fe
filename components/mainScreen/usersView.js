@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UsersTable from "../common/usersTable";
+import { Spinner, CornerDialog } from "evergreen-ui";
 import { Button, Dropdown } from "semantic-ui-react";
 import mButton from "../common/mButton";
 import QualitativeInput from "../common/qualitativeInput";
@@ -9,96 +10,17 @@ import ToleranceMetric from "../common/toleranceMetric";
 export default function UsersView() {
   const [users, setUsers] = useState([]);
   const [portView, setPortView] = useState("list");
-  const companyOptions = [
-    {
-      key: "CVL",
-      value: "CVL",
-      text: "CVL",
-    },
-    {
-      key: "INYANGE",
-      value: "INYANGE",
-      text: "INYANGE",
-    },
-    {
-      key: "ISCO",
-      value: "ISCO",
-      text: "ISCO",
-    },
-    {
-      key: "NPD",
-      value: "NPD",
-      text: "NPD",
-    },
-    {
-      key: "REAL",
-      value: "REAL",
-      text: "REAL",
-    },
-    {
-      key: "EAGI",
-      value: "EAGI",
-      text: "EAGI",
-    },
-    {
-      key: "STONECRAFT",
-      value: "STONECRAFT",
-      text: "STONECRAFT",
-    },
-    {
-      key: "MUKAMIRA",
-      value: "MUKAMIRA",
-      text: "MUKAMIRA",
-    },
-    {
-      key: "RULIBA",
-      value: "RULIBA",
-      text: "RULIBA",
-    },
-    {
-      key: "CONSTRUCK",
-      value: "CONSTRUCK",
-      text: "CONSTRUCK",
-    },
-    {
-      key: "INTARE",
-      value: "INTARE",
-      text: "INTARE",
-    },
-    {
-      key: "SAWMIL",
-      value: "SAWMIL",
-      text: "SAWMIL",
-    },
-  ];
-
-  const profileOptions = [
-    {
-      key: "MD",
-      value: "MD",
-      text: "Managing Director",
-    },
-    {
-      key: "FD",
-      value: "FD",
-      text: "Finance Director",
-    },
-
-    {
-      key: "RC",
-      value: "RC",
-      text: "Risk Champion",
-    },
-  ];
 
   const [names, setNames] = useState("");
   const [email, setEmail] = useState("");
-  const [profile, setProfile] = useState("");
+  const [profile, setProfile] = useState("RC");
   const [password, setPassword] = useState(generatePassword());
   const [status, setStatus] = useState("");
-  const [company, setCompany] = useState("");
+  const [company, setCompany] = useState("CVL");
   const [profiles, setProfiles] = useState([]);
   const [companies, setCompanies] = useState([]);
+  const [creating, setCreating] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(false);
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
@@ -131,6 +53,11 @@ export default function UsersView() {
       .then((response) => response.json())
       .then((response) => setCompanies(response));
   }, []);
+
+  useEffect(() => {
+    if (names.length > 0 && email.length > 0) setCanSubmit(true);
+    else setCanSubmit(false);
+  }, [names, email]);
 
   function doRefresh() {
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
@@ -174,51 +101,57 @@ export default function UsersView() {
   }
 
   async function createUser() {
-    setPassword(generatePassword());
-    let body = {
-      names,
-      email,
-      profile,
-      password,
-      status: "active",
-      company,
-    };
+    if (names.length > 0 && email.length > 0) {
+      setPassword(generatePassword());
+      let body = {
+        names,
+        email,
+        profile,
+        password,
+        status: "active",
+        company,
+      };
+      setCreating(true);
 
-    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then(() => {
-        fetch(
-          `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/email/send`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              from: "riskinfo@cvl.co.rw",
-              to: email,
-              subject: "Account created",
-              messageType: "accountCreated",
-              password,
-            }),
-          }
-        )
-          .then(() => {
-            doRefresh();
-            setPortView("list");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then(() => {
+          fetch(
+            `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/email/send`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                from: "riskinfo@cvl.co.rw",
+                to: email,
+                subject: "Account created",
+                messageType: "accountCreated",
+                password,
+              }),
+            }
+          )
+            .then(() => {
+              setCreating(false);
+              doRefresh();
+              setPortView("list");
+            })
+            .catch((err) => {
+              setCreating(false);
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          setCreating(false);
+        });
+    }
   }
 
   return (
@@ -307,12 +240,21 @@ export default function UsersView() {
               />
             </div>
 
-            <button
-              onClick={() => createUser()}
-              className="flex items-center justify-center bg-blue-cvl-800 rounded shadow-md cursor-pointer w-1/5 mt-5 px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
-            >
-              <div className="text-white text-xs">Submit</div>
-            </button>
+            {!creating && canSubmit && (
+              <button
+                onClick={() => createUser()}
+                className="flex items-center justify-center bg-blue-cvl-800 rounded shadow-md cursor-pointer w-1/5 mt-5 px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
+              >
+                <div className="text-white text-xs">Submit</div>
+              </button>
+            )}
+
+            {creating && (
+              <Spinner
+                className="mt-5 justify-center items-center py-3"
+                size={32}
+              />
+            )}
           </div>
         </div>
       )}
