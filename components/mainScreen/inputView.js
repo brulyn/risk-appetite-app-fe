@@ -637,7 +637,10 @@ export default function InputView() {
                 />
               </div>
 
-              {(user.profile === "Admin" || user.profile === "Tech") && (
+              {(user.profile === "Admin" ||
+                user.profile === "Tech" ||
+                user.profile === "RD" ||
+                user.profile === "ROF") && (
                 <div class="flex flex-col mr-10">
                   <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
                     Company

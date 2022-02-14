@@ -24,22 +24,19 @@ export default function SideBar() {
         {(user.profile === "RC" ||
           user.profile === "Admin" ||
           user.profile === "Tech" ||
-          user.profile === "RO" ||
           user.profile === "RD" ||
-          user.profile === "ROF") && <Input />}
+          user.profile === "SROF") && <Input />}
         <Output />
         {/* <Reports /> */}
         {user.profile === "Admin" ||
-          user.profile === "RO" ||
           user.profile === "RD" ||
-          (user.profile === "ROF" && <Settings />)}
+          (user.profile === "SROF" && <Settings />)}
       </div>
 
       {(user.profile === "Admin" ||
         user.profile === "Tech" ||
-        user.profile === "RO" ||
         user.profile === "RD" ||
-        user.profile === "ROF") && (
+        user.profile === "SROF") && (
         <div className="mb-28">
           <Users />
         </div>
