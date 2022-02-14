@@ -94,69 +94,6 @@ const quaterOptions = _.map(quaterList, (quater, index) => ({
   value: quaterList[index].abbr,
 }));
 
-const companyOptions = [
-  {
-    key: "CVL",
-    value: "CVL",
-    text: "CVL",
-  },
-  {
-    key: "INYANGE",
-    value: "INYANGE",
-    text: "INYANGE",
-  },
-  {
-    key: "ISCO",
-    value: "ISCO",
-    text: "ISCO",
-  },
-  {
-    key: "NPD",
-    value: "NPD",
-    text: "NPD",
-  },
-  {
-    key: "REAL",
-    value: "REAL",
-    text: "REAL",
-  },
-  {
-    key: "EAGI",
-    value: "EAGI",
-    text: "EAGI",
-  },
-  {
-    key: "STONECRAFT",
-    value: "STONECRAFT",
-    text: "STONECRAFT",
-  },
-  {
-    key: "MUKAMIRA",
-    value: "MUKAMIRA",
-    text: "MUKAMIRA",
-  },
-  {
-    key: "RULIBA",
-    value: "RULIBA",
-    text: "RULIBA",
-  },
-  {
-    key: "CONSTRUCK",
-    value: "CONSTRUCK",
-    text: "CONSTRUCK",
-  },
-  {
-    key: "INTARE",
-    value: "INTARE",
-    text: "INTARE",
-  },
-  {
-    key: "SAWMIL",
-    value: "SAWMIL",
-    text: "SAWMIL",
-  },
-];
-
 export default function DashboardView() {
   const { user, setUser } = useContext(UserContext);
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
@@ -198,6 +135,20 @@ export default function DashboardView() {
   const [financialRatios, setFinancialRatios] = useState([]);
   const [operationalRatios, setOperationalRatios] = useState([]);
   const [strategicRatios, setStrategicRatios] = useState([]);
+
+  const [companies, setCompanies] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => setCompanies(response));
+  }, []);
 
   useEffect(() => {
     if (globalQuater.length === 7) {
@@ -598,7 +549,13 @@ export default function DashboardView() {
               search
               selection
               value={queryCompany}
-              options={companyOptions}
+              options={companies.map((c) => {
+                return {
+                  key: c.name,
+                  value: c.name,
+                  text: c.name,
+                };
+              })}
               onChange={(e, { value }) => {
                 setQueryCompany(value);
                 let _user = { ...user };
