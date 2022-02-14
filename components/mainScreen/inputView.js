@@ -565,8 +565,8 @@ export default function InputView() {
     setActiveIndex(newIndex);
   };
   return (
-    <div className="flex flex-row overflow-y-auto h-screen">
-      <div className="flex flex-col w-1/2">
+    <div className="flex flex-row overflow-y-scroll h-screen">
+      <div className="flex flex-col w-1/2 ">
         <CornerDialog
           title={messageTitle}
           hasFooter={false}
@@ -1245,7 +1245,7 @@ export default function InputView() {
               </Accordion.Content>
             </Accordion>
           </form>
-          <div className="pt-5">
+          <div className="pt-5 mb-10">
             <Button
               disabled={!dataUploaded || !toleranceValues}
               onClick={() => saveData()}
