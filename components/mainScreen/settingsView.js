@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import ToleranceInput from "../common/toleranceInput";
-import { Button, Accordion, Icon } from "semantic-ui-react";
+import { Button, Accordion, Icon, Dropdown } from "semantic-ui-react";
 import QualitativeInput from "../common/qualitativeInput";
 import TolQualitativeInput from "../common/tolQualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
 import { UserContext } from "../../contexts/userContext";
 import { CornerDialog } from "evergreen-ui";
+import { toast, ToastContainer } from "react-toastify";
+import { QuaterContext } from "../../contexts/quaterContext";
 
 export default function SettingsView() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,6 +45,10 @@ export default function SettingsView() {
   const [activeIndex, setActiveIndex] = useState(0);
   const { user, setUser } = useContext(UserContext);
 
+  const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
+  const [queryCompany, setQueryCompany] = useState(user.selectedCompany);
+  const [companies, setCompanies] = useState([]);
+
   const handleExpand = (e, titleProps) => {
     const { index } = titleProps;
     const newIndex = activeIndex === index ? -1 : index;
@@ -59,10 +65,29 @@ export default function SettingsView() {
     else if (tolerance === 50) return 3;
     else if (tolerance === 30) return 4;
     else if (tolerance === 10) return 5;
+    else return tolerance;
   }
 
   useEffect(() => {
-    fetch(`${host}/allRiskTolerance/${user.selectedCompany}`, {
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => setCompanies(response));
+
+    getToleranceValues();
+  }, []);
+
+  useEffect(() => {
+    getToleranceValues();
+  }, [queryCompany]);
+
+  function getToleranceValues() {
+    fetch(`${host}/allRiskTolerance/${queryCompany}`, {
       method: "GET",
       headers: new Headers({
         Authorization: "Bearer " + "",
@@ -74,6 +99,7 @@ export default function SettingsView() {
       })
       .then((response) => {
         console.log(response);
+        if (response.quantitative.length > 0) toast.info("Data already saved!");
         setSavedValues(response.quantitative);
         //Strategic
         setPdctDev(getRangeValue(response?.strategic[0]?.pdctDev));
@@ -124,8 +150,7 @@ export default function SettingsView() {
         setGovLicence(getRangeValue(response?.compliance[0]?.govLicence));
         setTax(getRangeValue(response?.compliance[0]?.tax));
       });
-  }, []);
-
+  }
   const saveData = () => {
     Promise.all([
       fetch(`${host}/riskTolerance/`, {
@@ -212,11 +237,10 @@ export default function SettingsView() {
         );
       })
       .then((response) => {
-        setMessageTitle("Success!");
-        setErrorMessage(`Data successfully saved.`);
-        setDialogIsShown(true);
+        toast.success("Saved successfully!");
       })
       .catch((err) => {
+        toast.error("Error while saving!");
         setMessageTitle("Operation Failed!");
         setErrorMessage(`An error occured : ${err}`);
         setDialogIsShown(true);
@@ -232,7 +256,38 @@ export default function SettingsView() {
       >
         {errorMessage}
       </CornerDialog>
+      <ToastContainer />
       {/* <div className="font-semibold text-gray-500">Settings</div> */}
+
+      {(user.profile === "Admin" ||
+        user.profile === "Tech" ||
+        user.profile === "RD" ||
+        user.profile === "SROF") && (
+        <div class="flex flex-col mr-10 w-1/6">
+          <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+            Company
+          </label>
+          <Dropdown
+            placeholder="Company"
+            search
+            selection
+            value={queryCompany}
+            options={companies.map((c) => {
+              return {
+                key: c.name,
+                value: c.name,
+                text: c.name,
+              };
+            })}
+            onChange={(e, { value }) => {
+              setQueryCompany(value);
+              let _user = { ...user };
+              _user.selectedCompany = value;
+              setUser(_user);
+            }}
+          />
+        </div>
+      )}
       <div className="flex flex-row">
         <div className="flex flex-col w-1/2">
           <div className="font-semibold text-gray-600 mt-5">
@@ -299,8 +354,8 @@ export default function SettingsView() {
                 direction="lesser"
                 title="Brand/reputation risk"
                 setQualValues={setBrandRisk}
-                value={brandRisk}
                 validateTolVal={true}
+                value={brandRisk}
               />
             </Accordion.Content>
 

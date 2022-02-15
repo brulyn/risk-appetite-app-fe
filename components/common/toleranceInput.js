@@ -3,68 +3,51 @@ import ToleranceMetric from "./toleranceMetric";
 import ToleranceTitle from "./toleranceTitle";
 
 export default function ToleranceInput({ setPresetValues, savedData }) {
-  const [currentRatio, setCurrentRatio] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.currentRatio : 200
-  );
-  const [quickRatio, setQuickRatio] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.quickRatio : 100
-  );
-  const [gpMargin, setGpMargin] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.gpMargin : 50
-  );
-  const [ebitda, setEbitda] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.ebitda : 35
-  );
-  const [roe, setRoe] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.roe : 6
-  );
-  const [roa, setRoa] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.roa : 4
-  );
-  const [netProfitMargin, setNetProfitMargin] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.netProfitMargin : 12
-  );
-  const [operatingExpenses, setOperatingExpenses] = useState(
-    savedData.length > 0
-      ? savedData[0].riskToleranceValues.operatingExpenses
-      : 69
-  );
-  const [systemUptime, setSystemUptime] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.systemUptime : 95
-  );
-  const [machineryUptime, setMachineryUptime] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.machineryUptime : 95
-  );
-  const [averageCollectionPeriod, setAverageCollectionPeriod] = useState(
-    savedData.length > 0
-      ? savedData[0].riskToleranceValues.averageCollectionPeriod
-      : 35
-  );
-  const [totalReceivablePerSales, setTotalReceivablePerSales] = useState(
-    savedData.length > 0
-      ? savedData[0].riskToleranceValues.totalReceivablePerSales
-      : 25
-  );
-  const [revenueGrowth, setRevenueGrowth] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.revenueGrowth : 50
-  );
-  const [marketShare, setMarketShare] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.marketShare : 33
-  );
-  const [newCustomers, setNewCustomers] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.newCustomers : 0
-  );
-  const [employeeTurnover, setEmployeeTurnover] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.employeeTurnover : 5
-  );
-  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState(
-    savedData.length > 0
-      ? savedData[0].riskToleranceValues.lossOnMajorUpheaval
-      : 10
-  );
-  const [solvencyRatio, setSolvencyRatio] = useState(
-    savedData.length > 0 ? savedData[0].riskToleranceValues.solvencyRatio : 25
-  );
+  const [currentRatio, setCurrentRatio] = useState(200);
+  const [quickRatio, setQuickRatio] = useState(100);
+  const [gpMargin, setGpMargin] = useState(50);
+  const [ebitda, setEbitda] = useState(35);
+  const [roe, setRoe] = useState(6);
+  const [roa, setRoa] = useState(4);
+  const [netProfitMargin, setNetProfitMargin] = useState(12);
+  const [operatingExpenses, setOperatingExpenses] = useState(69);
+  const [systemUptime, setSystemUptime] = useState(95);
+  const [machineryUptime, setMachineryUptime] = useState(95);
+  const [averageCollectionPeriod, setAverageCollectionPeriod] = useState(35);
+  const [totalReceivablePerSales, setTotalReceivablePerSales] = useState(25);
+  const [revenueGrowth, setRevenueGrowth] = useState(50);
+  const [marketShare, setMarketShare] = useState(33);
+  const [newCustomers, setNewCustomers] = useState(0);
+  const [employeeTurnover, setEmployeeTurnover] = useState(5);
+  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState(10);
+  const [solvencyRatio, setSolvencyRatio] = useState(25);
+
+  useEffect(() => {
+    console.log(savedData);
+    let riskToleranceValues =
+      savedData.length > 0 ? savedData[0].riskToleranceValues : {};
+
+    if (riskToleranceValues) {
+      // setPresetValues(riskToleranceValues);
+      setCurrentRatio(riskToleranceValues.currentRatio);
+      setQuickRatio(riskToleranceValues.quickRatio);
+      setAverageCollectionPeriod(riskToleranceValues.averageCollectionPeriod);
+      setEbitda(riskToleranceValues.ebitda);
+      setEmployeeTurnover(riskToleranceValues.employeeTurnover);
+      setGpMargin(riskToleranceValues.gpMargin);
+      setLossOnMajorUpheaval(riskToleranceValues.lossOnMajorUpheaval);
+      setMachineryUptime(riskToleranceValues.machineryUptime);
+      setMarketShare(riskToleranceValues.marketShare);
+      setNetProfitMargin(riskToleranceValues.netProfitMargin);
+      setNewCustomers(riskToleranceValues.newCustomers);
+      setOperatingExpenses(riskToleranceValues.operatingExpenses);
+      setRevenueGrowth(riskToleranceValues.revenueGrowth);
+      setRoa(riskToleranceValues.roa);
+      setRoe(riskToleranceValues.roe);
+      setSolvencyRatio(riskToleranceValues.setSolvencyRatio);
+      setSolvencyRatio(riskToleranceValues.setSolvencyRatio);
+    }
+  }, [savedData]);
 
   useEffect(() => {
     setPresetValues({

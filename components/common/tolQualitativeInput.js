@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get, isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
 import { Progress } from "semantic-ui-react";
 import ToleranceMetric from "./toleranceMetric";
@@ -53,7 +53,7 @@ export default function TolQualitativeInput({
             name={title}
             setValue={setQualValues}
             value={value}
-            error={validateTolVal && (value < 0 || value > 5 || isNaN(value))}
+            error={validateTolVal && (value < 0 || value > 5)}
           />
         </div>
         {/* Progress bar */}

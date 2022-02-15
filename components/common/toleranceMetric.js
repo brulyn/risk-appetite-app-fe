@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 export default function ToleranceMetric({ name, setValue, value, error }) {
-  const [localValue, setLocalValue] = useState(value);
   const [valuesSet, setValueSet] = useState({});
   return (
     <div className="flex flex-col w-2/3 mt-2">
@@ -16,7 +15,6 @@ export default function ToleranceMetric({ name, setValue, value, error }) {
         }
         value={value}
         onChange={(e) => {
-          setLocalValue(e.target.value);
           setValue(e.target.value);
         }}
       />
