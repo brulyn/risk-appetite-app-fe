@@ -16,7 +16,6 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(user);
     let storedUser = window.localStorage.getItem("user");
     let jsonStoreUser = JSON.parse(storedUser);
 

@@ -57,7 +57,6 @@ export default function Index() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         let { token, error, message } = data;
         if (error) {
           toast.error(message, {
@@ -91,7 +90,6 @@ export default function Index() {
             profile: data.profile,
           });
 
-          console.log(user);
           router.push("main").then(() => setLoading(false));
         }
       })
@@ -131,7 +129,6 @@ export default function Index() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         let { token, error, message } = data;
 
         if (error) {

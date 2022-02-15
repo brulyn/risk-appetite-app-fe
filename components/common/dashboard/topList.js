@@ -311,8 +311,6 @@ export default function TopList({ scores, changeCompany }) {
         ];
       }
 
-      console.log("PPPPPP", pool);
-
       return {
         companyName: company.companyName,
         extremCount: pool.filter((p) => {

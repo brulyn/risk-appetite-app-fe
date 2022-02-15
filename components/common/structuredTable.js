@@ -71,12 +71,6 @@ function StructuredTable() {
     else if (prevRiskScore < currRiskScore) return "Increasing";
     else return "Stable";
   };
-
-  // useEffect(() => {
-  //   setRatios(ratios ? ratios : []);
-  //   console.log(ratios);
-  // }, [ratios]);
-
   return (
     <Table celled structured compact>
       <Table.Header>

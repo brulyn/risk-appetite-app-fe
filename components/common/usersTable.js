@@ -45,7 +45,6 @@ export default function UsersTable({ data, handelOpen, handelChangeStatus }) {
   const [pageNumber, setPageNumber] = useState(1);
 
   function handlePageChange(e, data) {
-    console.log(data);
     setPageNumber(data.activePage);
   }
 

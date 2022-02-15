@@ -11,8 +11,6 @@ export default function DetailsScreen() {
   const [company, setCompany] = useState("");
   let router = useRouter();
   useEffect(() => {
-    console.log(user);
-
     let _username = user.username ? user.username.split("@")[0] : "";
     setUsername(_.capitalize(_username));
     setCompany(user.companyName);

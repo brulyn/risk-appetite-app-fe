@@ -387,7 +387,7 @@ export default function DashboardView() {
             setStrategicScore(0);
           }
         })
-        .catch((err) => console.log(`${err}`));
+        .catch((err) => {});
     }
   }, [globalQuater, queryCompany]);
 
@@ -564,7 +564,6 @@ export default function DashboardView() {
                 let _user = { ...user };
                 _user.selectedCompany = value;
                 setUser(_user);
-                console.log(queryCompany);
               }}
             />
           </div>
