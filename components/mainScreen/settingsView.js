@@ -7,6 +7,7 @@ import ToleranceTitle from "../common/toleranceTitle";
 import { UserContext } from "../../contexts/userContext";
 import { CornerDialog } from "evergreen-ui";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { QuaterContext } from "../../contexts/quaterContext";
 
 export default function SettingsView() {
