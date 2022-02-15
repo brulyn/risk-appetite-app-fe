@@ -41,6 +41,7 @@ export default function TolQualitativeInput({
   setQualValues,
   value,
   direction,
+  validateTolVal,
 }) {
   return (
     <div>
@@ -52,6 +53,7 @@ export default function TolQualitativeInput({
             name={title}
             setValue={setQualValues}
             value={value}
+            error={validateTolVal && (value < 0 || value > 5 || isNaN(value))}
           />
         </div>
         {/* Progress bar */}

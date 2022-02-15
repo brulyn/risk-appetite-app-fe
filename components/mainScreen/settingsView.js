@@ -52,6 +52,15 @@ export default function SettingsView() {
   const [presetValues, setPresetValues] = useState({});
   const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
+  function getRangeValue(tolerance) {
+    if (tolerance === 100) return 0;
+    else if (tolerance === 80) return 1;
+    else if (tolerance === 60) return 2;
+    else if (tolerance === 50) return 3;
+    else if (tolerance === 30) return 4;
+    else if (tolerance === 10) return 5;
+  }
+
   useEffect(() => {
     fetch(`${host}/allRiskTolerance/${user.selectedCompany}`, {
       method: "GET",
@@ -67,34 +76,53 @@ export default function SettingsView() {
         console.log(response);
         setSavedValues(response.quantitative);
         //Strategic
-        setPdctDev(response?.strategic[0]?.pdctDev);
-        setBrandRisk(response?.strategic[0]?.brandRisk);
-        setBusinessCont(response?.strategic[0]?.businessCont);
-        setExpToNewMarket(response?.strategic[0]?.expToNewMarket);
-        setInvestNewTech(response?.strategic[0]?.investNewTech);
+        setPdctDev(getRangeValue(response?.strategic[0]?.pdctDev));
+        setBrandRisk(getRangeValue(response?.strategic[0]?.brandRisk));
+        setBusinessCont(getRangeValue(response?.strategic[0]?.businessCont));
+        setExpToNewMarket(
+          getRangeValue(response?.strategic[0]?.expToNewMarket)
+        );
+        setInvestNewTech(getRangeValue(response?.strategic[0]?.investNewTech));
 
         //Operational
-        setCompromisePrdt(response?.operational[0]?.compromisePrdt);
-        setDisruptionOp(response?.operational[0]?.disruptionOp);
-        setDisruptionSupplyChain(
-          response?.operational[0]?.disruptionSupplyChain
+        setCompromisePrdt(
+          getRangeValue(response?.operational[0]?.compromisePrdt)
         );
-        setServiceDelays(response?.operational[0]?.serviceDelays);
+        setLossOfKeyStaff(
+          getRangeValue(response?.operational[0]?.lossOfKeyStaff)
+        );
+        setDisruptionOp(getRangeValue(response?.operational[0]?.disruptionOp));
+        setDisruptionSupplyChain(
+          getRangeValue(response?.operational[0]?.disruptionSupplyChain)
+        );
+        setServiceDelays(
+          getRangeValue(response?.operational[0]?.serviceDelays)
+        );
 
         //financial
-        setCashFlowConstraints(response?.financial[0]?.cashFlowConstraints);
-        setCustomerDefaultRisk(response?.financial[0]?.customerDefaultRisk);
-        setErrorsAndMisstatements(
-          response?.financial[0]?.errorsAndMisstatements
+        setCashFlowConstraints(
+          getRangeValue(response?.financial[0]?.cashFlowConstraints)
         );
-        setFraudAndCorruption(response?.financial[0]?.fraudAndCorruption);
-        setUnderUtilCapital(response?.financial[0]?.underUtilCapital);
+        setCustomerDefaultRisk(
+          getRangeValue(response?.financial[0]?.customerDefaultRisk)
+        );
+        setErrorsAndMisstatements(
+          getRangeValue(response?.financial[0]?.errorsAndMisstatements)
+        );
+        setFraudAndCorruption(
+          getRangeValue(response?.financial[0]?.fraudAndCorruption)
+        );
+        setUnderUtilCapital(
+          getRangeValue(response?.financial[0]?.underUtilCapital)
+        );
 
         //compliance
-        setContract(response?.compliance[0]?.contract);
-        setFinancialReporting(response?.compliance[0]?.financialReporting);
-        setGovLicence(response?.compliance[0]?.govLicence);
-        setTax(response?.compliance[0]?.tax);
+        setContract(getRangeValue(response?.compliance[0]?.contract));
+        setFinancialReporting(
+          getRangeValue(response?.compliance[0]?.financialReporting)
+        );
+        setGovLicence(getRangeValue(response?.compliance[0]?.govLicence));
+        setTax(getRangeValue(response?.compliance[0]?.tax));
       });
   }, []);
 
@@ -244,30 +272,35 @@ export default function SettingsView() {
                 title="Product dev. and innovation"
                 setQualValues={setPdctDev}
                 value={pdctDev}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Investment in new Technologies"
                 setQualValues={setInvestNewTech}
                 value={investNewTech}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Business continuity and disaster recovery"
                 setQualValues={setBusinessCont}
                 value={businessCont}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Expansion to new markets"
                 setQualValues={setExpToNewMarket}
                 value={expToNewMarket}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Brand/reputation risk"
                 setQualValues={setBrandRisk}
                 value={brandRisk}
+                validateTolVal={true}
               />
             </Accordion.Content>
 
@@ -289,30 +322,35 @@ export default function SettingsView() {
                 title="Disruption of operations"
                 setQualValues={setDisruptionOp}
                 value={disruptionOp}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Loss of key staff"
                 setQualValues={setLossOfKeyStaff}
                 value={lossOfKeyStaff}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Compromise of product and service quality"
                 setQualValues={setCompromisePrdt}
                 value={compromisePrdt}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Service delays"
                 setQualValues={setServiceDelays}
                 value={serviceDelays}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Disruptions to supply chain"
                 setQualValues={setDisruptionSupplyChain}
                 value={disruptionSupplyChain}
+                validateTolVal={true}
               />
             </Accordion.Content>
 
@@ -334,30 +372,35 @@ export default function SettingsView() {
                 title="Customer default risk"
                 setQualValues={setCustomerDefaultRisk}
                 value={customerDefaultRisk}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Cash-flow constraints"
                 setQualValues={setCashFlowConstraints}
                 value={cashFlowConstraints}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Fraud and corruption"
                 setQualValues={setFraudAndCorruption}
                 value={fraudAndCorruption}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Errors and misstatements"
                 setQualValues={setErrorsAndMisstatements}
                 value={errorsAndMisstatements}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Under-utilization of capital"
                 setQualValues={setUnderUtilCapital}
                 value={underUtilCapital}
+                validateTolVal={true}
               />
             </Accordion.Content>
 
@@ -379,24 +422,28 @@ export default function SettingsView() {
                 title="Tax compliance"
                 setQualValues={setTax}
                 value={tax}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Contract compliance"
                 setQualValues={setContract}
                 value={contract}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Financial reporting compliance"
                 setQualValues={setFinancialReporting}
                 value={financialReporting}
+                validateTolVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Government licenses and regulations"
                 setQualValues={setGovLicence}
                 value={govLicence}
+                validateTolVal={true}
               />
             </Accordion.Content>
           </Accordion>
