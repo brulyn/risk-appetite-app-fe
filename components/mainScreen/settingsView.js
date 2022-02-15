@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ToleranceInput from "../common/toleranceInput";
 import { Button, Accordion, Icon } from "semantic-ui-react";
 import QualitativeInput from "../common/qualitativeInput";
@@ -27,7 +27,7 @@ export default function SettingsView() {
 
   //Financial Values
   const [customerDefaultRisk, setCustomerDefaultRisk] = useState("");
-  const [cashFlowConstraints, setcashFlowConstraints] = useState("");
+  const [cashFlowConstraints, setCashFlowConstraints] = useState("");
   const [fraudAndCorruption, setFraudAndCorruption] = useState("");
   const [errorsAndMisstatements, setErrorsAndMisstatements] = useState("");
   const [underUtilCapital, setUnderUtilCapital] = useState("");
@@ -37,6 +37,8 @@ export default function SettingsView() {
   const [contract, setContract] = useState("");
   const [financialReporting, setFinancialReporting] = useState("");
   const [govLicence, setGovLicence] = useState("");
+
+  const [savedValues, setSavedValues] = useState({});
 
   const [activeIndex, setActiveIndex] = useState(0);
   const { user, setUser } = useContext(UserContext);
@@ -49,6 +51,52 @@ export default function SettingsView() {
   };
   const [presetValues, setPresetValues] = useState({});
   const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
+
+  useEffect(() => {
+    fetch(`${host}/allRiskTolerance/${user.selectedCompany}`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        console.log(response);
+        setSavedValues(response.quantitative);
+        //Strategic
+        setPdctDev(response?.strategic[0]?.pdctDev);
+        setBrandRisk(response?.strategic[0]?.brandRisk);
+        setBusinessCont(response?.strategic[0]?.businessCont);
+        setExpToNewMarket(response?.strategic[0]?.expToNewMarket);
+        setInvestNewTech(response?.strategic[0]?.investNewTech);
+
+        //Operational
+        setCompromisePrdt(response?.operational[0]?.compromisePrdt);
+        setDisruptionOp(response?.operational[0]?.disruptionOp);
+        setDisruptionSupplyChain(
+          response?.operational[0]?.disruptionSupplyChain
+        );
+        setServiceDelays(response?.operational[0]?.serviceDelays);
+
+        //financial
+        setCashFlowConstraints(response?.financial[0]?.cashFlowConstraints);
+        setCustomerDefaultRisk(response?.financial[0]?.customerDefaultRisk);
+        setErrorsAndMisstatements(
+          response?.financial[0]?.errorsAndMisstatements
+        );
+        setFraudAndCorruption(response?.financial[0]?.fraudAndCorruption);
+        setUnderUtilCapital(response?.financial[0]?.underUtilCapital);
+
+        //compliance
+        setContract(response?.compliance[0]?.contract);
+        setFinancialReporting(response?.compliance[0]?.financialReporting);
+        setGovLicence(response?.compliance[0]?.govLicence);
+        setTax(response?.compliance[0]?.tax);
+      });
+  }, []);
 
   const saveData = () => {
     Promise.all([
@@ -162,7 +210,10 @@ export default function SettingsView() {
           <div className="font-semibold text-gray-600 mt-5">
             Quantitative Metrics
           </div>
-          <ToleranceInput setPresetValues={setPresetValues} />
+          <ToleranceInput
+            setPresetValues={setPresetValues}
+            savedData={savedValues}
+          />
           <div className="pt-5">
             <Button onClick={() => saveData()} color="blue">
               Save
@@ -287,7 +338,7 @@ export default function SettingsView() {
               <TolQualitativeInput
                 direction="lesser"
                 title="Cash-flow constraints"
-                setQualValues={setcashFlowConstraints}
+                setQualValues={setCashFlowConstraints}
                 value={cashFlowConstraints}
               />
               <TolQualitativeInput

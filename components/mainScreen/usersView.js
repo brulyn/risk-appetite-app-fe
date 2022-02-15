@@ -21,6 +21,8 @@ export default function UsersView() {
   const [companies, setCompanies] = useState([]);
   const [creating, setCreating] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
+  const [metrics, setMetrics] = useState([]);
+  const [watches, setWatches] = useState([]);
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
@@ -52,6 +54,16 @@ export default function UsersView() {
     })
       .then((response) => response.json())
       .then((response) => setCompanies(response));
+
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/metrics/`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => setMetrics(response));
   }, []);
 
   useEffect(() => {
@@ -110,6 +122,7 @@ export default function UsersView() {
         password,
         status: "active",
         company,
+        watches,
       };
       setCreating(true);
 
@@ -236,6 +249,28 @@ export default function UsersView() {
                 })}
                 onChange={(e, { value }) => {
                   setProfile(value);
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col mt-2">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Metrics to watch
+              </label>
+              <Dropdown
+                placeholder="Watches"
+                multiple
+                selection
+                options={metrics.map((m) => {
+                  return {
+                    key: m.name,
+                    value: m.name,
+                    text: m.description,
+                  };
+                })}
+                onChange={(v, d) => {
+                  setWatches(d.value);
+                  console.log(d.value);
                 }}
               />
             </div>

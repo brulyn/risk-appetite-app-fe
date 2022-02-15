@@ -2,25 +2,69 @@ import React, { useState, useEffect } from "react";
 import ToleranceMetric from "./toleranceMetric";
 import ToleranceTitle from "./toleranceTitle";
 
-export default function ToleranceInput({ setPresetValues }) {
-  const [currentRatio, setCurrentRatio] = useState(200);
-  const [quickRatio, setQuickRatio] = useState(100);
-  const [gpMargin, setGpMargin] = useState(50);
-  const [ebitda, setEbitda] = useState(35);
-  const [roe, setRoe] = useState(6);
-  const [roa, setRoa] = useState(4);
-  const [netProfitMargin, setNetProfitMargin] = useState(12);
-  const [operatingExpenses, setOperatingExpenses] = useState(69);
-  const [systemUptime, setSystemUptime] = useState(95);
-  const [machineryUptime, setMachineryUptime] = useState(95);
-  const [averageCollectionPeriod, setAverageCollectionPeriod] = useState(35);
-  const [totalReceivablePerSales, setTotalReceivablePerSales] = useState(25);
-  const [revenueGrowth, setRevenueGrowth] = useState(50);
-  const [marketShare, setMarketShare] = useState(33);
-  const [newCustomers, setNewCustomers] = useState(0);
-  const [employeeTurnover, setEmployeeTurnover] = useState(5);
-  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState(10);
-  const [solvencyRatio, setSolvencyRatio] = useState(25);
+export default function ToleranceInput({ setPresetValues, savedData }) {
+  const [currentRatio, setCurrentRatio] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.currentRatio : 200
+  );
+  const [quickRatio, setQuickRatio] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.quickRatio : 100
+  );
+  const [gpMargin, setGpMargin] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.gpMargin : 50
+  );
+  const [ebitda, setEbitda] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.ebitda : 35
+  );
+  const [roe, setRoe] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.roe : 6
+  );
+  const [roa, setRoa] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.roa : 4
+  );
+  const [netProfitMargin, setNetProfitMargin] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.netProfitMargin : 12
+  );
+  const [operatingExpenses, setOperatingExpenses] = useState(
+    savedData.length > 0
+      ? savedData[0].riskToleranceValues.operatingExpenses
+      : 69
+  );
+  const [systemUptime, setSystemUptime] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.systemUptime : 95
+  );
+  const [machineryUptime, setMachineryUptime] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.machineryUptime : 95
+  );
+  const [averageCollectionPeriod, setAverageCollectionPeriod] = useState(
+    savedData.length > 0
+      ? savedData[0].riskToleranceValues.averageCollectionPeriod
+      : 35
+  );
+  const [totalReceivablePerSales, setTotalReceivablePerSales] = useState(
+    savedData.length > 0
+      ? savedData[0].riskToleranceValues.totalReceivablePerSales
+      : 25
+  );
+  const [revenueGrowth, setRevenueGrowth] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.revenueGrowth : 50
+  );
+  const [marketShare, setMarketShare] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.marketShare : 33
+  );
+  const [newCustomers, setNewCustomers] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.newCustomers : 0
+  );
+  const [employeeTurnover, setEmployeeTurnover] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.employeeTurnover : 5
+  );
+  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState(
+    savedData.length > 0
+      ? savedData[0].riskToleranceValues.lossOnMajorUpheaval
+      : 10
+  );
+  const [solvencyRatio, setSolvencyRatio] = useState(
+    savedData.length > 0 ? savedData[0].riskToleranceValues.solvencyRatio : 25
+  );
 
   useEffect(() => {
     setPresetValues({
@@ -68,7 +112,7 @@ export default function ToleranceInput({ setPresetValues }) {
     <div className="mt-5">
       <ToleranceTitle title="Liquidity" />
 
-      <div className="flex flex-row w-3/5">
+      <div className="flex flex-row w-3/5 space-x-4">
         <ToleranceMetric
           name="Current Ratio (%)"
           setValue={setCurrentRatio}
@@ -83,7 +127,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Profitability Tolerance" />
 
-      <div className="flex flex-row w-3/5">
+      <div className="flex flex-row w-3/5 space-x-4">
         <ToleranceMetric
           name="GP Margin (%)"
           setValue={setGpMargin}
@@ -99,7 +143,7 @@ export default function ToleranceInput({ setPresetValues }) {
         <ToleranceMetric name="ROE (%)" setValue={setRoe} value={roe} />
       </div>
 
-      <div className="flex flex-row w-3/5">
+      <div className="flex flex-row w-3/5 space-x-4">
         <ToleranceMetric name="ROA (%)" setValue={setRoa} value={roa} />
         <ToleranceMetric
           name="Net Profit Margin (%)"
@@ -110,7 +154,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Operational Efficiency Tolerance" />
 
-      <div className="flex flex-row w-3/5">
+      <div className="flex flex-row w-3/5 space-x-4">
         <ToleranceMetric
           name="Operating Expenses (%)"
           setValue={setOperatingExpenses}
@@ -130,7 +174,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Credit Risk Tolerance" />
 
-      <div className="flex flex-row w-3/5">
+      <div className="flex flex-row w-3/5 space-x-4">
         <ToleranceMetric
           name="Average Collection Period"
           setValue={setAverageCollectionPeriod}
@@ -145,7 +189,7 @@ export default function ToleranceInput({ setPresetValues }) {
 
       <ToleranceTitle title="Marketing Tolerance" />
 
-      <div className="flex flex-row w-3/5">
+      <div className="flex flex-row w-3/5 space-x-4">
         <ToleranceMetric
           name="Revenue Growth (%)"
           setValue={setRevenueGrowth}
@@ -165,7 +209,7 @@ export default function ToleranceInput({ setPresetValues }) {
       </div>
 
       <ToleranceTitle title="Business Continuity Tolerance" />
-      <div className="flex flex-row w-3/5">
+      <div className="flex flex-row w-3/5 space-x-4">
         <ToleranceMetric
           name="Employee Turnover (%)"
           setValue={setEmployeeTurnover}
