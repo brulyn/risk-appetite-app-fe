@@ -24,7 +24,7 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
 
   useEffect(() => {
     let riskToleranceValues =
-      savedData.length > 0 ? savedData[0].riskToleranceValues : {};
+      savedData.length > 0 ? savedData[0].riskToleranceValues : false;
 
     if (riskToleranceValues) {
       // setPresetValues(riskToleranceValues);
