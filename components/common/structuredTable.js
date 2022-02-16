@@ -17,13 +17,14 @@ function StructuredTable() {
   };
 
   const getRiskScoreLB = (performance, tolerance) => {
-    if (performance / tolerance >= 1 || tolerance === 0) return 4;
-    if (performance / tolerance >= 0.8 && performance / tolerance < 1) return 3;
-    if (performance / tolerance >= 0.5 && performance / tolerance < 0.8)
-      return 2;
-    if (performance / tolerance >= 0.2 && performance / tolerance < 0.5)
-      return 1;
-    if (performance / tolerance < 0.2) return 0;
+    let diff = performance - tolerance;
+    let diff_by_percent = (diff / tolerance) * 100;
+
+    if (diff_by_percent <= 0) return 0;
+    else if (diff_by_percent <= 20) return 1;
+    else if (diff_by_percent <= 30) return 2;
+    else if (diff_by_percent <= 40) return 3;
+    else return 4;
   };
 
   const getFlagColor = (score) => {
