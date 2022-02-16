@@ -79,8 +79,6 @@ export default function SettingsView() {
     })
       .then((response) => response.json())
       .then((response) => setCompanies(response));
-
-    getToleranceValues();
   }, []);
 
   useEffect(() => {
