@@ -218,7 +218,6 @@ export default function InputView() {
   ];
 
   const saveData = () => {
-    console.log(prevBalancesheetFigures);
     if (loaded) {
       Promise.all([
         //Operational Efficiency Current-- 0
@@ -518,12 +517,12 @@ export default function InputView() {
           // Get a JSON object from each of the responses
           return Promise.all(
             responses.map(function (response) {
-              console.log(response);
               return response.json();
             })
           );
         })
         .then(function (data) {
+          sendBulkEmail();
           setErrorMessage("Data successfully saved.");
           setDialogIsShown(true);
         })
@@ -533,12 +532,51 @@ export default function InputView() {
           setDialogIsShown(true);
         });
     } else {
-      console.log("No data loaded");
+      // console.log("No data loaded");
     }
   };
 
+  function sendBulkEmail() {
+    fetch(
+      `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/company/${queryCompany}`,
+      {
+        method: "GET",
+        headers: new Headers({
+          Authorization: "Bearer " + "",
+          "Content-Type": "application/json",
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        let emailList = response.map((r) => {
+          return r.email;
+        });
+
+        if (emailList.length > 0) {
+          fetch(
+            `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/email/send`,
+            {
+              method: "POST",
+              headers: new Headers({
+                Authorization: "Bearer " + "",
+                "Content-Type": "application/json",
+              }),
+              body: JSON.stringify({
+                from: "riskinfo@cvl.co.rw",
+                to: emailList,
+                subject: "Risk map updated.",
+                messageType: "riskMapUpdated",
+              }),
+            }
+          );
+        }
+      });
+  }
+
   useEffect(() => {
     setLoaded(false);
+
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
       method: "GET",
       headers: new Headers({
@@ -842,7 +880,6 @@ export default function InputView() {
                             //SOCI
                             readXlsxFile(e.target.files[0], { sheet: "SOCI" })
                               .then((rows) => {
-                                console.log(rows);
                                 let quaterLastYear = quater + " " + (year - 1);
                                 let ytdCurrent = "YTD " + year;
                                 let ytdPrevious = "YTD " + (year - 1);
@@ -963,7 +1000,6 @@ export default function InputView() {
                                     currentNetProfit,
                                     currentEBITDA,
                                   });
-                                  console.log(currentFigures);
 
                                   //YTD figures
                                   let ytdTotalRevenues =
@@ -1041,10 +1077,7 @@ export default function InputView() {
                                   setDialogIsShown(true);
                                   setLoaded(true);
                                   setDataUploaded(true);
-
-                                  console.log(fullIndexData);
                                 } catch (error) {
-                                  console.log(error);
                                   setFileName2("Error!");
                                   setDialogIsShown(false);
                                   setDmessageTitle("Something went wrong!");

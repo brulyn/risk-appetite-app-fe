@@ -21,11 +21,6 @@ export default function MainScreen() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    // console.log(view);
-    // console.log(globalQuater);
-  }, [view]);
-
-  useEffect(() => {
     if (globalQuater.length === 7) {
       fetch(`${host}/riskTolerance/${user.selectedCompany}`, {
         method: "GET",
@@ -47,8 +42,6 @@ export default function MainScreen() {
           return response.json();
         })
         .then((response) => {
-          // console.log(response);
-          // console.log(Object.keys(response).length);
           if (response && Object.keys(response).length === 0) {
             setLoaded(false);
             setRatios([]);
@@ -61,7 +54,6 @@ export default function MainScreen() {
         .catch((err) => {
           setLoaded(false);
           setRatios([]);
-          console.log(err);
         });
     }
   }, [view, user]);
@@ -88,8 +80,6 @@ export default function MainScreen() {
           return response.json();
         })
         .then((response) => {
-          // console.log(response);
-          // console.log(Object.keys(response).length);
           if (response && Object.keys(response).length === 0) {
             setLoaded(false);
             setRatios([]);
@@ -101,7 +91,6 @@ export default function MainScreen() {
         .catch((err) => {
           setLoaded(false);
           setRatios([]);
-          console.log(err);
         });
     }
   }, [globalQuater]);

@@ -99,7 +99,6 @@ export default function SettingsView() {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
         if (response.quantitative.length > 0) toast.info("Data already saved!");
         setSavedValues(response.quantitative);
         //Strategic
@@ -232,7 +231,6 @@ export default function SettingsView() {
       .then((responses) => {
         return Promise.all(
           responses.map(function (response) {
-            console.log(response);
             return response.json();
           })
         );

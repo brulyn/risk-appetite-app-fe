@@ -23,7 +23,6 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
   const [solvencyRatio, setSolvencyRatio] = useState(25);
 
   useEffect(() => {
-    console.log(savedData);
     let riskToleranceValues =
       savedData.length > 0 ? savedData[0].riskToleranceValues : {};
 

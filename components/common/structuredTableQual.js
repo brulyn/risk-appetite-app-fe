@@ -6,10 +6,6 @@ const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 function StructuredTableQual() {
   const { ratios, setRatios } = useContext(RatioContext);
 
-  useEffect(() => {
-    console.log(ratios);
-  }, []);
-
   const tolFillZeroCell = (toleranceValue) => {
     if (toleranceValue <= 100) return true;
     else return false;

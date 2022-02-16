@@ -157,11 +157,9 @@ export default function UsersView() {
             })
             .catch((err) => {
               setCreating(false);
-              console.log(err);
             });
         })
         .catch((err) => {
-          console.log(err);
           setCreating(false);
         });
     }
@@ -270,7 +268,6 @@ export default function UsersView() {
                 })}
                 onChange={(v, d) => {
                   setWatches(d.value);
-                  console.log(d.value);
                 }}
               />
             </div>
