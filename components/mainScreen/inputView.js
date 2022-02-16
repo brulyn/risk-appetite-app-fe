@@ -31,6 +31,7 @@ export default function InputView() {
   const [currentFigures, setCurrentFigures] = useState({});
   const [previousFigures, setPreviousFigures] = useState({});
   const [ytdFigures, setYtdFigures] = useState({});
+  const [prevYtdFigures, setPrevYtdFigures] = useState({});
   const [currBalancesheetFigures, setCurrBalancesheetFigures] = useState({});
   const [prevBalancesheetFigures, setPrevBalancesheetFigures] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
@@ -228,6 +229,7 @@ export default function InputView() {
           },
           body: JSON.stringify({
             operatingProfit: currentFigures["currentOperatingProfit"],
+            operatingExpense: currentFigures["currentOperatingExpenses"],
             totalRevenues: currentFigures["currentTotalRevenues"],
             period: "current",
             username: user.username,
@@ -244,6 +246,7 @@ export default function InputView() {
           },
           body: JSON.stringify({
             operatingProfit: previousFigures["prevOperatingProfit"],
+            operatingExpense: previousFigures["prevOperatingExpenses"],
             totalRevenues: previousFigures["prevTotalRevenues"],
             period: "previous",
             username: user.username,
@@ -371,7 +374,7 @@ export default function InputView() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            currentTotalRevenues: currentFigures["currentTotalRevenues"],
+            prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
             ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
             period: "current",
             username: user.username,
@@ -387,7 +390,7 @@ export default function InputView() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            currentTotalRevenues: previousFigures["prevTotalRevenues"],
+            prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
             ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
             period: "previous",
             username: user.username,
@@ -948,6 +951,7 @@ export default function InputView() {
                                       let currentValue = 0;
                                       let previousValue = 0;
                                       let ytdValue = 0;
+                                      let previousYtdValue = 0;
                                       if (titleIndex !== -1) {
                                         currentValue =
                                           rows[rowIndex][ytdColIndex];
@@ -987,6 +991,9 @@ export default function InputView() {
                                     fullIndexData.grossProfit.currentValue;
                                   let currentOperatingProfit =
                                     fullIndexData.operatingProfit.currentValue;
+                                  let currentOperatingExpenses =
+                                    fullIndexData.totalOperatingExpenses
+                                      .currentValue;
                                   let currentNetProfit =
                                     fullIndexData.netProfit.currentValue;
                                   let currentEBITDA =
@@ -997,6 +1004,7 @@ export default function InputView() {
                                     currentDepreciation,
                                     currentGrossProfit,
                                     currentOperatingProfit,
+                                    currentOperatingExpenses,
                                     currentNetProfit,
                                     currentEBITDA,
                                   });
@@ -1010,6 +1018,9 @@ export default function InputView() {
                                     fullIndexData.grossProfit.ytdValue;
                                   let ytdOperatingProfit =
                                     fullIndexData.operatingProfit.ytdValue;
+                                  let ytdOperatingExpenses =
+                                    fullIndexData.totalOperatingExpenses
+                                      .ytdValue;
                                   let ytdNetProfit =
                                     fullIndexData.netProfit.ytdValue;
                                   let ytdEBITDA = fullIndexData.ebitda.ytdValue;
@@ -1019,6 +1030,7 @@ export default function InputView() {
                                     ytdDepreciation,
                                     ytdGrossProfit,
                                     ytdOperatingProfit,
+                                    ytdOperatingExpenses,
                                     ytdNetProfit,
                                     ytdEBITDA,
                                   });
@@ -1033,6 +1045,9 @@ export default function InputView() {
                                   let prevOperatingProfit =
                                     fullIndexData.operatingProfit
                                       ?.previousValue;
+                                  let prevOperatingExpenses =
+                                    fullIndexData.totalOperatingExpenses
+                                      .ytdValue;
                                   let prevNetProfit =
                                     fullIndexData.netProfit?.previousValue;
                                   let prevEBITDA =
@@ -1043,6 +1058,7 @@ export default function InputView() {
                                     prevDepreciation,
                                     prevGrossProfit,
                                     prevOperatingProfit,
+                                    prevOperatingExpenses,
                                     prevNetProfit,
                                     prevEBITDA,
                                   });
