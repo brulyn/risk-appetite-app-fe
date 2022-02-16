@@ -9,6 +9,7 @@ import { useRouter } from "next/dist/client/router";
 
 import "semantic-ui-css/semantic.min.css";
 import Navbar from "../components/nav/navbar";
+import { Spinner } from "evergreen-ui";
 
 export default function Home() {
   const [view, setView] = useState("dashboard");
@@ -19,7 +20,28 @@ export default function Home() {
     let storedUser = window.localStorage.getItem("user");
     let jsonStoreUser = JSON.parse(storedUser);
 
+    // window.localStorage.setItem(
+    //   "user",
+    //   JSON.stringify({
+    //     email: email,
+    //     username: email.split("@")[0],
+    //     password: password,
+    //     companyName: data.companyName,
+    //     selectedCompany: data.companyName,
+    //     profile: data.profile,
+    //   })
+    // );
     if (!user.username && !jsonStoreUser?.username) router.push("/");
+    else if (jsonStoreUser?.username) {
+      setUser({
+        email: jsonStoreUser.email,
+        username: jsonStoreUser.email.split("@")[0],
+        password: jsonStoreUser.password,
+        companyName: jsonStoreUser.companyName,
+        selectedCompany: jsonStoreUser.companyName,
+        profile: jsonStoreUser.profile,
+      });
+    }
   }, []);
   return (
     <div className="flex flex-col h-screen overflow-hidden">
@@ -32,6 +54,14 @@ export default function Home() {
             {/* <DetailsScreen /> */}
           </div>
         </ViewContext.Provider>
+      )}
+
+      {!user.username && (
+        <div className="flex justify-center items-center h-screen bg-gray-50">
+          <div className="flex flex-col items-center justify-center">
+            <Spinner />{" "}
+          </div>
+        </div>
       )}
     </div>
   );

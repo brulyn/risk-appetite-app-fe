@@ -191,7 +191,7 @@ export default function Index() {
           {viewPort === "login" && (
             <form
               // onSubmit={onSubmit}
-              className="flex flex-col justify-center items-center md:w-1/4 w-full mx-10 md:mx-32 mb-36 bg-white md:py-32  shadow-md"
+              className="flex flex-col justify-center items-center md:w-1/4 w-full mx-10 md:mx-32 bg-white md:py-32  shadow-md"
             >
               <Image height="50" width="140" src="/logo.png" />
               {/* Title or Logo */}
