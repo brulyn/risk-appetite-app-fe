@@ -701,7 +701,7 @@ export default function InputView() {
                     onChange={(e, { value }) => {
                       setQueryCompany(value);
                       let _user = { ...user };
-                      _user.companyName = value;
+                      _user.selectedCompany = value;
                       setUser(_user);
                     }}
                   />
