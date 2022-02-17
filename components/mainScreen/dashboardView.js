@@ -1048,6 +1048,7 @@ export default function DashboardView() {
                   </div> */}
                   <TopList
                     scores={scoresResponse}
+                    companyList={companies}
                     changeCompany={(companyName) => {
                       setQueryCompany(companyName);
                       let _user = { ...user };
