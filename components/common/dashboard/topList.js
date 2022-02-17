@@ -333,7 +333,7 @@ export default function TopList({ scores, changeCompany, companyList }) {
               <tbody className="bg-white divide-y divide-gray-200">
                 {avgRiskScoreCompany.map((row, index) => {
                   return (
-                    index <= 9 && (
+                    index < 5 && (
                       <tr
                         className="hover:bg-gray-50"
                         key={row.companyName}
