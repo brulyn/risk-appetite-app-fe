@@ -158,98 +158,98 @@ export default function SettingsView() {
   }
   const saveData = () => {
     console.log(presetValues);
-    // Promise.all([
-    //   fetch(`${host}/riskTolerance/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       companyName: user.selectedCompany,
-    //       username: user.username,
-    //       riskToleranceValues: presetValues,
-    //     }),
-    //   }),
+    Promise.all([
+      fetch(`${host}/riskTolerance/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          companyName: user.selectedCompany,
+          username: user.username,
+          riskToleranceValues: presetValues,
+        }),
+      }),
 
-    //   fetch(`${host}/strategicTolerance/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       pdctDev,
-    //       investNewTech,
-    //       businessCont,
-    //       expToNewMarket,
-    //       brandRisk,
-    //       companyName: user.selectedCompany,
-    //       username: user.username,
-    //     }),
-    //   }),
+      fetch(`${host}/strategicTolerance/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pdctDev,
+          investNewTech,
+          businessCont,
+          expToNewMarket,
+          brandRisk,
+          companyName: user.selectedCompany,
+          username: user.username,
+        }),
+      }),
 
-    //   fetch(`${host}/operationalTolerance/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       disruptionOp,
-    //       lossOfKeyStaff,
-    //       compromisePrdt,
-    //       serviceDelays,
-    //       disruptionSupplyChain,
-    //       companyName: user.selectedCompany,
-    //       username: user.username,
-    //     }),
-    //   }),
+      fetch(`${host}/operationalTolerance/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          disruptionOp,
+          lossOfKeyStaff,
+          compromisePrdt,
+          serviceDelays,
+          disruptionSupplyChain,
+          companyName: user.selectedCompany,
+          username: user.username,
+        }),
+      }),
 
-    //   fetch(`${host}/financialTolerance/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       customerDefaultRisk,
-    //       cashFlowConstraints,
-    //       fraudAndCorruption,
-    //       errorsAndMisstatements,
-    //       underUtilCapital,
-    //       companyName: user.selectedCompany,
-    //       username: user.username,
-    //     }),
-    //   }),
+      fetch(`${host}/financialTolerance/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerDefaultRisk,
+          cashFlowConstraints,
+          fraudAndCorruption,
+          errorsAndMisstatements,
+          underUtilCapital,
+          companyName: user.selectedCompany,
+          username: user.username,
+        }),
+      }),
 
-    //   fetch(`${host}/complianceTolerance/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       tax,
-    //       contract,
-    //       financialReporting,
-    //       govLicence,
-    //       companyName: user.selectedCompany,
-    //       username: user.username,
-    //     }),
-    //   }),
-    // ])
-    //   .then((responses) => {
-    //     return Promise.all(
-    //       responses.map(function (response) {
-    //         return response.json();
-    //       })
-    //     );
-    //   })
-    //   .then((response) => {
-    //     toast.success("Saved successfully!");
-    //   })
-    //   .catch((err) => {
-    //     toast.error("Error while saving!");
-    //     setMessageTitle("Operation Failed!");
-    //     setErrorMessage(`An error occured : ${err}`);
-    //     setDialogIsShown(true);
-    //   });
+      fetch(`${host}/complianceTolerance/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tax,
+          contract,
+          financialReporting,
+          govLicence,
+          companyName: user.selectedCompany,
+          username: user.username,
+        }),
+      }),
+    ])
+      .then((responses) => {
+        return Promise.all(
+          responses.map(function (response) {
+            return response.json();
+          })
+        );
+      })
+      .then((response) => {
+        toast.success("Saved successfully!");
+      })
+      .catch((err) => {
+        toast.error("Error while saving!");
+        setMessageTitle("Operation Failed!");
+        setErrorMessage(`An error occured : ${err}`);
+        setDialogIsShown(true);
+      });
   };
   return (
     <div className="overflow-y-auto h-screen pb-32">
