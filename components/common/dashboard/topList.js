@@ -313,13 +313,19 @@ export default function TopList({ scores, changeCompany }) {
 
       return {
         companyName: company.companyName,
+        extreme: pool.filter((p) => {
+          return p.value >= 4;
+        }),
         extremCount: pool.filter((p) => {
           return p.value >= 4;
         }).length,
-
+        high: pool.filter((p) => {
+          return p.value < 4 && p.value >= 3;
+        }),
         highCount: pool.filter((p) => {
           return p.value < 4 && p.value >= 3;
         }).length,
+
         avgRiskScore:
           liqByCompany[company.companyName] &&
           busContByCompany[company.companyName] &&
@@ -409,6 +415,8 @@ export default function TopList({ scores, changeCompany }) {
             : 0,
       };
     });
+
+    console.log(_avgScoresByCompany);
 
     setAvgRiskScore(
       _.orderBy(

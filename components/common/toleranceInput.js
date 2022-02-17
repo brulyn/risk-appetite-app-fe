@@ -43,8 +43,64 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
       setRevenueGrowth(riskToleranceValues.revenueGrowth);
       setRoa(riskToleranceValues.roa);
       setRoe(riskToleranceValues.roe);
-      setSolvencyRatio(riskToleranceValues.setSolvencyRatio);
-      setSolvencyRatio(riskToleranceValues.setSolvencyRatio);
+      setSolvencyRatio(riskToleranceValues.solvencyRatio);
+      setPresetValues({
+        currentRatio,
+        quickRatio,
+        gpMargin,
+        ebitda,
+        roe,
+        roa,
+        netProfitMargin,
+        operatingExpenses,
+        systemUptime,
+        machineryUptime,
+        averageCollectionPeriod,
+        totalReceivablePerSales,
+        revenueGrowth,
+        marketShare,
+        newCustomers,
+        employeeTurnover,
+        lossOnMajorUpheaval,
+        solvencyRatio,
+      });
+    } else {
+      setCurrentRatio(200);
+      setQuickRatio(150);
+      setAverageCollectionPeriod(50);
+      setEbitda(35);
+      setEmployeeTurnover(5);
+      setGpMargin(50);
+      setLossOnMajorUpheaval(10);
+      setMachineryUptime(95);
+      setMarketShare(33);
+      setNetProfitMargin(12);
+      setNewCustomers(0);
+      setOperatingExpenses(69);
+      setRevenueGrowth(50);
+      setRoa(4);
+      setRoe(6);
+      setSolvencyRatio(25);
+      setPresetValues({
+        currentRatio,
+        quickRatio,
+        gpMargin,
+        ebitda,
+        roe,
+        roa,
+        netProfitMargin,
+        operatingExpenses,
+        systemUptime,
+        machineryUptime,
+        averageCollectionPeriod,
+        totalReceivablePerSales,
+        revenueGrowth,
+        marketShare,
+        newCustomers,
+        employeeTurnover,
+        lossOnMajorUpheaval,
+        solvencyRatio,
+      });
     }
   }, [savedData]);
 
