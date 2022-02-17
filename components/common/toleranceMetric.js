@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 
-export default function ToleranceMetric({ name, setValue, value, error }) {
-  const [valuesSet, setValueSet] = useState({});
+export default function ToleranceMetric({
+  name,
+  setValue,
+  value,
+  error,
+  setError,
+}) {
   return (
     <div className="flex flex-col w-2/3 mt-2">
       <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
