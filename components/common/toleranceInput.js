@@ -36,6 +36,7 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
       setGpMargin(riskToleranceValues.gpMargin);
       setLossOnMajorUpheaval(riskToleranceValues.lossOnMajorUpheaval);
       setMachineryUptime(riskToleranceValues.machineryUptime);
+      setSystemUptime(riskToleranceValues.systemUptime);
       setMarketShare(riskToleranceValues.marketShare);
       setNetProfitMargin(riskToleranceValues.netProfitMargin);
       setNewCustomers(riskToleranceValues.newCustomers);
@@ -44,6 +45,7 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
       setRoa(riskToleranceValues.roa);
       setRoe(riskToleranceValues.roe);
       setSolvencyRatio(riskToleranceValues.solvencyRatio);
+      setTotalReceivablePerSales(riskToleranceValues.totalReceivablePerSales);
       setPresetValues({
         currentRatio,
         quickRatio,
@@ -73,6 +75,7 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
       setGpMargin("");
       setLossOnMajorUpheaval("");
       setMachineryUptime("");
+      setSystemUptime("");
       setMarketShare("");
       setNetProfitMargin("");
       setNewCustomers("");
@@ -81,6 +84,7 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
       setRoa("");
       setRoe("");
       setSolvencyRatio("");
+      setTotalReceivablePerSales("");
       setPresetValues({
         currentRatio,
         quickRatio,

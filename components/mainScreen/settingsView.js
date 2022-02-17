@@ -9,6 +9,7 @@ import { CornerDialog } from "evergreen-ui";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { QuaterContext } from "../../contexts/quaterContext";
+import _ from "lodash";
 
 export default function SettingsView() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -188,99 +189,139 @@ export default function SettingsView() {
     });
   }
   const saveData = () => {
-    console.log(presetValues);
-    Promise.all([
-      fetch(`${host}/riskTolerance/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          companyName: user.selectedCompany,
-          username: user.username,
-          riskToleranceValues: presetValues,
-        }),
-      }),
+    // console.log(presetValues);
+    let qualVals = {
+      pdctDev,
+      investNewTech,
+      businessCont,
+      expToNewMarket,
+      brandRisk,
+      disruptionOp,
+      lossOfKeyStaff,
+      compromisePrdt,
+      serviceDelays,
+      disruptionSupplyChain,
+      customerDefaultRisk,
+      cashFlowConstraints,
+      fraudAndCorruption,
+      errorsAndMisstatements,
+      underUtilCapital,
+      tax,
+      contract,
+      financialReporting,
+      govLicence,
+    };
 
-      fetch(`${host}/strategicTolerance/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          pdctDev,
-          investNewTech,
-          businessCont,
-          expToNewMarket,
-          brandRisk,
-          companyName: user.selectedCompany,
-          username: user.username,
-        }),
-      }),
+    let emptyProps = [];
+    _.forIn(presetValues, (v, key) => {
+      if (v.length == 0) {
+        emptyProps.push(key);
+      }
+    });
 
-      fetch(`${host}/operationalTolerance/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          disruptionOp,
-          lossOfKeyStaff,
-          compromisePrdt,
-          serviceDelays,
-          disruptionSupplyChain,
-          companyName: user.selectedCompany,
-          username: user.username,
-        }),
-      }),
+    _.forIn(qualVals, (v, key) => {
+      if (v.length == 0) {
+        emptyProps.push(key);
+      }
+    });
 
-      fetch(`${host}/financialTolerance/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          customerDefaultRisk,
-          cashFlowConstraints,
-          fraudAndCorruption,
-          errorsAndMisstatements,
-          underUtilCapital,
-          companyName: user.selectedCompany,
-          username: user.username,
+    if (emptyProps.length > 0) {
+      toast.error("Some fields are empty!");
+    } else {
+      // toast.info("Sending data!");
+      Promise.all([
+        fetch(`${host}/riskTolerance/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            companyName: user.selectedCompany,
+            username: user.username,
+            riskToleranceValues: presetValues,
+          }),
         }),
-      }),
 
-      fetch(`${host}/complianceTolerance/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tax,
-          contract,
-          financialReporting,
-          govLicence,
-          companyName: user.selectedCompany,
-          username: user.username,
+        fetch(`${host}/strategicTolerance/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pdctDev,
+            investNewTech,
+            businessCont,
+            expToNewMarket,
+            brandRisk,
+            companyName: user.selectedCompany,
+            username: user.username,
+          }),
         }),
-      }),
-    ])
-      .then((responses) => {
-        return Promise.all(
-          responses.map(function (response) {
-            return response.json();
-          })
-        );
-      })
-      .then((response) => {
-        toast.success("Saved successfully!");
-      })
-      .catch((err) => {
-        toast.error("Error while saving!");
-        setMessageTitle("Operation Failed!");
-        setErrorMessage(`An error occured : ${err}`);
-        setDialogIsShown(true);
-      });
+
+        fetch(`${host}/operationalTolerance/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            disruptionOp,
+            lossOfKeyStaff,
+            compromisePrdt,
+            serviceDelays,
+            disruptionSupplyChain,
+            companyName: user.selectedCompany,
+            username: user.username,
+          }),
+        }),
+
+        fetch(`${host}/financialTolerance/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customerDefaultRisk,
+            cashFlowConstraints,
+            fraudAndCorruption,
+            errorsAndMisstatements,
+            underUtilCapital,
+            companyName: user.selectedCompany,
+            username: user.username,
+          }),
+        }),
+
+        fetch(`${host}/complianceTolerance/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tax,
+            contract,
+            financialReporting,
+            govLicence,
+            companyName: user.selectedCompany,
+            username: user.username,
+          }),
+        }),
+      ])
+        .then((responses) => {
+          return Promise.all(
+            responses.map(function (response) {
+              return response.json();
+            })
+          );
+        })
+        .then((response) => {
+          toast.success("Saved successfully!");
+        })
+        .catch((err) => {
+          toast.error("Error while saving!");
+          setMessageTitle("Operation Failed!");
+          setErrorMessage(`An error occured : ${err}`);
+          setDialogIsShown(true);
+        });
+    }
   };
   return (
     <div className="overflow-y-auto h-screen pb-32">

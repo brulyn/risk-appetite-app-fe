@@ -1,40 +1,8 @@
 import { get, isEmpty } from "lodash-es";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Progress } from "semantic-ui-react";
 import ToleranceMetric from "./toleranceMetric";
 import ToleranceTitle from "./toleranceTitle";
-
-const getColor = (val, dir) => {
-  if (dir === "greater") {
-    if (val == 0) return "red";
-    else if (val == 1) return "orange";
-    else if (val == 2) return "yellow";
-    else if (val == 3) return "olive";
-    else if (val >= 4) return "green";
-    else return "green";
-  } else {
-    if (val == 0) return "green";
-    else if (val == 1) return "green";
-    else if (val == 2) return "olive";
-    else if (val == 3) return "yellow";
-    else if (val == 4) return "orange";
-    else return "red";
-  }
-};
-
-const getPercent = (val) => {
-  if (val === 1) {
-    return 100;
-  } else if (val === 2) {
-    return 80;
-  } else if (val === 3) {
-    return 50;
-  } else if (val === 4) {
-    return 10;
-  } else if (val === 5) {
-    return 0;
-  }
-};
 
 export default function TolQualitativeInput({
   title,
@@ -42,6 +10,7 @@ export default function TolQualitativeInput({
   value,
   direction,
   validateTolVal,
+  setError,
 }) {
   return (
     <div>
@@ -54,6 +23,7 @@ export default function TolQualitativeInput({
             setValue={setQualValues}
             value={value}
             error={validateTolVal && (value < 0 || value > 5)}
+            setError={setError}
           />
         </div>
         {/* Progress bar */}
