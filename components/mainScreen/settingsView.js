@@ -82,6 +82,7 @@ export default function SettingsView() {
   }, []);
 
   useEffect(() => {
+    setSavedValues([]);
     getToleranceValues()
       .then((response) => {
         return response.json();
@@ -143,8 +144,38 @@ export default function SettingsView() {
           );
           setGovLicence(getRangeValue(response?.compliance[0]?.govLicence));
           setTax(getRangeValue(response?.compliance[0]?.tax));
+        } else {
+          toast.warning("No data found!");
+
+          //Strategic
+          setPdctDev("");
+          setBrandRisk("");
+          setBusinessCont("");
+          setExpToNewMarket("");
+          setInvestNewTech("");
+
+          //Operational
+          setCompromisePrdt("");
+          setLossOfKeyStaff("");
+          setDisruptionOp("");
+          setDisruptionSupplyChain("");
+          setServiceDelays("");
+
+          //financial
+          setCashFlowConstraints("");
+          setCustomerDefaultRisk("");
+          setErrorsAndMisstatements("");
+          setFraudAndCorruption("");
+          setUnderUtilCapital("");
+
+          //compliance
+          setContract("");
+          setFinancialReporting("");
+          setGovLicence("");
+          setTax("");
         }
-      });
+      })
+      .catch((err) => {});
   }, [queryCompany]);
 
   function getToleranceValues() {

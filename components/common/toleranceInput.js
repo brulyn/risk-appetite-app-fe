@@ -3,24 +3,24 @@ import ToleranceMetric from "./toleranceMetric";
 import ToleranceTitle from "./toleranceTitle";
 
 export default function ToleranceInput({ setPresetValues, savedData }) {
-  const [currentRatio, setCurrentRatio] = useState(200);
-  const [quickRatio, setQuickRatio] = useState(100);
-  const [gpMargin, setGpMargin] = useState(50);
-  const [ebitda, setEbitda] = useState(35);
-  const [roe, setRoe] = useState(6);
-  const [roa, setRoa] = useState(4);
-  const [netProfitMargin, setNetProfitMargin] = useState(12);
-  const [operatingExpenses, setOperatingExpenses] = useState(69);
-  const [systemUptime, setSystemUptime] = useState(95);
-  const [machineryUptime, setMachineryUptime] = useState(95);
-  const [averageCollectionPeriod, setAverageCollectionPeriod] = useState(35);
-  const [totalReceivablePerSales, setTotalReceivablePerSales] = useState(25);
-  const [revenueGrowth, setRevenueGrowth] = useState(50);
-  const [marketShare, setMarketShare] = useState(33);
-  const [newCustomers, setNewCustomers] = useState(0);
-  const [employeeTurnover, setEmployeeTurnover] = useState(5);
-  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState(10);
-  const [solvencyRatio, setSolvencyRatio] = useState(25);
+  const [currentRatio, setCurrentRatio] = useState("");
+  const [quickRatio, setQuickRatio] = useState("");
+  const [gpMargin, setGpMargin] = useState("");
+  const [ebitda, setEbitda] = useState("");
+  const [roe, setRoe] = useState("");
+  const [roa, setRoa] = useState("");
+  const [netProfitMargin, setNetProfitMargin] = useState("");
+  const [operatingExpenses, setOperatingExpenses] = useState("");
+  const [systemUptime, setSystemUptime] = useState("");
+  const [machineryUptime, setMachineryUptime] = useState("");
+  const [averageCollectionPeriod, setAverageCollectionPeriod] = useState("");
+  const [totalReceivablePerSales, setTotalReceivablePerSales] = useState("");
+  const [revenueGrowth, setRevenueGrowth] = useState("");
+  const [marketShare, setMarketShare] = useState("");
+  const [newCustomers, setNewCustomers] = useState("");
+  const [employeeTurnover, setEmployeeTurnover] = useState("");
+  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState("");
+  const [solvencyRatio, setSolvencyRatio] = useState("");
 
   useEffect(() => {
     let riskToleranceValues =
@@ -65,22 +65,22 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
         solvencyRatio,
       });
     } else {
-      setCurrentRatio(200);
-      setQuickRatio(150);
-      setAverageCollectionPeriod(50);
-      setEbitda(35);
-      setEmployeeTurnover(5);
-      setGpMargin(50);
-      setLossOnMajorUpheaval(10);
-      setMachineryUptime(95);
-      setMarketShare(33);
-      setNetProfitMargin(12);
-      setNewCustomers(0);
-      setOperatingExpenses(69);
-      setRevenueGrowth(50);
-      setRoa(4);
-      setRoe(6);
-      setSolvencyRatio(25);
+      setCurrentRatio("");
+      setQuickRatio("");
+      setAverageCollectionPeriod("");
+      setEbitda("");
+      setEmployeeTurnover("");
+      setGpMargin("");
+      setLossOnMajorUpheaval("");
+      setMachineryUptime("");
+      setMarketShare("");
+      setNetProfitMargin("");
+      setNewCustomers("");
+      setOperatingExpenses("");
+      setRevenueGrowth("");
+      setRoa("");
+      setRoe("");
+      setSolvencyRatio("");
       setPresetValues({
         currentRatio,
         quickRatio,
