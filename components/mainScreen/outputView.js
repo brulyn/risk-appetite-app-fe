@@ -6,9 +6,14 @@ import { QuaterContext } from "../../contexts/quaterContext";
 import { Tab, Dropdown } from "semantic-ui-react";
 import StructuredTableQual from "../common/structuredTableQual";
 import Image from "next/dist/client/image";
+import { UserContext } from "../../contexts/userContext";
 export default function OutputView() {
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
+  const { user, setUser } = useContext(UserContext);
+
+  const [queryCompany, setQueryCompany] = useState(user.selectedCompany);
+  const [companies, setCompanies] = useState([]);
 
   const [quater, setQuater] = globalQuater
     ? useState(globalQuater?.substr(0, 2))
@@ -20,6 +25,18 @@ export default function OutputView() {
   const [quaterYear, setQuaterYear] = useState(
     `Q1 ${new Date().getFullYear()}`
   );
+
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + "",
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => setCompanies(response));
+  }, []);
 
   const quaterList = [
     {
@@ -84,6 +101,37 @@ export default function OutputView() {
                 }}
               />
             </div>
+
+            {(user.profile === "Admin" ||
+              user.profile === "Tech" ||
+              user.profile === "RD" ||
+              user.profile === "SROF") && (
+              <div class="flex flex-col mr-5">
+                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                  Company
+                </label>
+                <Dropdown
+                  placeholder="Company"
+                  search
+                  selection
+                  value={queryCompany}
+                  options={companies.map((c) => {
+                    return {
+                      key: c.name,
+                      value: c.name,
+                      text: c.name,
+                    };
+                  })}
+                  onChange={(e, { value }) => {
+                    setQueryCompany(value);
+                    let _user = { ...user };
+                    _user.selectedCompany = value;
+                    setUser(_user);
+                    console.log(queryCompany);
+                  }}
+                />
+              </div>
+            )}
           </div>
           <div>
             {loaded && (
@@ -145,6 +193,37 @@ export default function OutputView() {
                 }}
               />
             </div>
+
+            {(user.profile === "Admin" ||
+              user.profile === "Tech" ||
+              user.profile === "RD" ||
+              user.profile === "SROF") && (
+              <div class="flex flex-col mr-5">
+                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                  Company
+                </label>
+                <Dropdown
+                  placeholder="Company"
+                  search
+                  selection
+                  value={queryCompany}
+                  options={companies.map((c) => {
+                    return {
+                      key: c.name,
+                      value: c.name,
+                      text: c.name,
+                    };
+                  })}
+                  onChange={(e, { value }) => {
+                    setQueryCompany(value);
+                    let _user = { ...user };
+                    _user.selectedCompany = value;
+                    setUser(_user);
+                    console.log(queryCompany);
+                  }}
+                />
+              </div>
+            )}
           </div>
           {loaded && (
             <div className="flex flex-col">
