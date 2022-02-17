@@ -286,7 +286,7 @@ export default function TopList({ scores, changeCompany, companyList }) {
     setAvgRiskScore(
       _.orderBy(
         _avgScoresByCompany,
-        ["avgRiskScore", "extremCount", "companyName"],
+        ["extremCount", "avgRiskScore", "companyName"],
         ["desc"]
       ).filter((c) => {
         return c.avgRiskScore !== 0;
@@ -333,7 +333,7 @@ export default function TopList({ scores, changeCompany, companyList }) {
               <tbody className="bg-white divide-y divide-gray-200">
                 {avgRiskScoreCompany.map((row, index) => {
                   return (
-                    index <= 5 && (
+                    index <= 9 && (
                       <tr
                         className="hover:bg-gray-50"
                         key={row.companyName}
