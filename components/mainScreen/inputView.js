@@ -54,6 +54,7 @@ export default function InputView() {
   const [newCustomers, setNewCustomers] = useState("");
   const [newCustomersP, setNewCustomersP] = useState("");
 
+  //
   const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState("");
   const [lossOnMajorUpheavalP, setLossOnMajorUpheavalP] = useState("");
 
