@@ -45,12 +45,17 @@ export default function InputView() {
   const [dMessageTitle, setDmessageTitle] = useState("");
 
   const [systemUptime, setSystemUptime] = useState("");
+  const [systemUptimeP, setSystemUptimeP] = useState("");
   const [machineryUptime, setMachineryUptime] = useState("");
+  const [machineryUptimeP, setMachineryUptimeP] = useState("");
 
   const [marketShare, setMarketShare] = useState("");
+  const [marketShareP, setMarketShareP] = useState("");
   const [newCustomers, setNewCustomers] = useState("");
+  const [newCustomersP, setNewCustomersP] = useState("");
 
   const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState("");
+  const [lossOnMajorUpheavalP, setLossOnMajorUpheavalP] = useState("");
 
   //Strategic Values
   const [pdctDev, setPdctDev] = useState(40);
@@ -235,6 +240,8 @@ export default function InputView() {
       totalRevenues: currentFigures["currentTotalRevenues"],
       systemUptime,
       machineryUptime,
+      systemUptimeP,
+      machineryUptimeP,
       currentAsset: currBalancesheetFigures["currentTotalCurrentAssets"],
       currentLiability:
         currBalancesheetFigures["currentTotalCurrentLiabilities"],
@@ -250,12 +257,15 @@ export default function InputView() {
       ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
       marketShare,
       newCustomers,
+      marketShareP,
+      newCustomersP,
       totalDepreciation: currentFigures["currentDepreciation"],
       nonCurrentLiabilities:
         currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
       currentLiabilities:
         currBalancesheetFigures["currentTotalCurrentLiabilities"],
       lossOnMajorUpheaval,
+      lossOnMajorUpheavalP,
       pdctDev,
       investNewTech,
       businessCont,
@@ -317,8 +327,8 @@ export default function InputView() {
               operatingProfit: previousFigures["prevOperatingProfit"],
               operatingExpense: previousFigures["prevOperatingExpenses"],
               totalRevenues: previousFigures["prevTotalRevenues"],
-              systemUptime,
-              machineryUptime,
+              systemUptime: systemUptimeP,
+              machineryUptime: machineryUptimeP,
               period: "previous",
               username: user.username,
               company: queryCompany,
@@ -467,8 +477,8 @@ export default function InputView() {
             body: JSON.stringify({
               prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
               ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
-              marketShare,
-              newCustomers,
+              marketShare: marketShareP,
+              newCustomers: newCustomersP,
               period: "previous",
               username: user.username,
               company: queryCompany,
@@ -510,7 +520,7 @@ export default function InputView() {
                 prevBalancesheetFigures["previousTotalNonCurrentLiabilities"],
               currentLiabilities:
                 prevBalancesheetFigures["previousTotalCurrentLiabilities"],
-              lossOnMajorUpheaval,
+              lossOnMajorUpheaval: lossOnMajorUpheavalP,
               period: "previous",
               username: user.username,
               company: queryCompany,
@@ -1220,41 +1230,73 @@ export default function InputView() {
               </div>
             </div>
 
-            <div className="flex flex-row w-3/5 space-x-4 mt-5">
+            <div className="grid grid-cols-4 mt-5 items-center">
               <ToleranceMetric
-                name="System Uptime (%)"
+                name="System Uptime (%) - Current"
                 setValue={setSystemUptime}
                 value={systemUptime}
                 error={systemUptime.toString().length == 0}
               />
+
               <ToleranceMetric
-                name="Machinery Uptime (%)"
+                name="System Uptime (%) - Previous"
+                setValue={setSystemUptimeP}
+                value={systemUptimeP}
+                error={systemUptimeP.toString().length == 0}
+              />
+
+              <ToleranceMetric
+                name="Machinery Uptime (%) - Current"
                 setValue={setMachineryUptime}
                 value={machineryUptime}
                 error={machineryUptime.toString().length == 0}
               />
 
               <ToleranceMetric
-                name="Market Share (%)"
+                name="Machinery Uptime (%) - Previous"
+                setValue={setMachineryUptimeP}
+                value={machineryUptimeP}
+                error={machineryUptimeP.toString().length == 0}
+              />
+
+              <ToleranceMetric
+                name="Market Share (%) - Current"
                 setValue={setMarketShare}
                 value={marketShare}
                 error={marketShare.toString().length == 0}
               />
-            </div>
-
-            <div className="flex flex-row w-3/5 space-x-4">
               <ToleranceMetric
-                name="New Customers"
+                name="Market Share (%) - Previous"
+                setValue={setMarketShareP}
+                value={marketShareP}
+                error={marketShareP.toString().length == 0}
+              />
+
+              <ToleranceMetric
+                name="New Customers - Current"
                 setValue={setNewCustomers}
                 value={newCustomers}
                 error={newCustomers.toString().length == 0}
               />
 
               <ToleranceMetric
-                name="Loss on major upheaval (%)"
+                name="New Customers - Previous"
+                setValue={setNewCustomersP}
+                value={newCustomersP}
+                error={newCustomersP.toString().length == 0}
+              />
+
+              <ToleranceMetric
+                name="Loss on major upheaval (%) - Current"
                 setValue={setLossOnMajorUpheaval}
                 value={lossOnMajorUpheaval}
                 error={lossOnMajorUpheaval.toString().length == 0}
+              />
+              <ToleranceMetric
+                name="Loss on major upheaval (%) - Previous"
+                setValue={setLossOnMajorUpheavalP}
+                value={lossOnMajorUpheavalP}
+                error={lossOnMajorUpheavalP.toString().length == 0}
               />
             </div>
 
