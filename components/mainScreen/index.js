@@ -10,6 +10,7 @@ import { UserContext } from "../../contexts/userContext";
 import { ToleranceContext } from "../../contexts/toleranceContext";
 import SettingsView from "./settingsView";
 import UsersView from "./usersView";
+import { toast, ToastContainer } from "react-toastify";
 const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
 export default function MainScreen() {
@@ -30,6 +31,9 @@ export default function MainScreen() {
         })
         .then((response) => {
           setToleranceValues(response[0]);
+        })
+        .catch((err) => {
+          toast.error("Can't find Tolerance Values!");
         });
 
       fetch(`${host}/allFigures/${user.selectedCompany}/${globalQuater}`, {
@@ -68,7 +72,8 @@ export default function MainScreen() {
         })
         .then((response) => {
           setToleranceValues(response[0]);
-        });
+        })
+        .catch((err) => {});
 
       fetch(`${host}/allFigures/${user.selectedCompany}/${globalQuater}`, {
         method: "GET",
@@ -105,6 +110,7 @@ export default function MainScreen() {
           {view === "users" && <UsersView />}
           {view === "settings" && <SettingsView />}
         </DataLoadedContext.Provider>
+        <ToastContainer />
       </RatioContext.Provider>
     </div>
   );

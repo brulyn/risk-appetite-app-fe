@@ -22,6 +22,7 @@ import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { DocumentSearchIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import TopList from "../common/dashboard/topList";
+import { toast, ToastContainer } from "react-toastify";
 
 const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
@@ -147,7 +148,10 @@ export default function DashboardView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setCompanies(response));
+      .then((response) => setCompanies(response))
+      .catch((err) => {
+        toast.error("Failed to fetch List of companies!");
+      });
   }, []);
 
   useEffect(() => {
@@ -387,7 +391,9 @@ export default function DashboardView() {
             setStrategicScore(0);
           }
         })
-        .catch((err) => console.log(`${err}`));
+        .catch((err) => {
+          toast.error("Failed to fetch Risk Scores!");
+        });
     }
   }, [globalQuater, queryCompany]);
 
@@ -487,6 +493,9 @@ export default function DashboardView() {
         if (myCompanyStrategicRatios.length > 0) {
           setStrategicRatios(myCompanyStrategicRatios);
         }
+      })
+      .catch((err) => {
+        toast.error("Failed to fetch Risk Scores!");
       });
   }, [queryCompany]);
 
@@ -506,6 +515,7 @@ export default function DashboardView() {
     <div className="overflow-y-auto h-screen pb-32 mr-1">
       <div className="flex mt-2 mr-5">
         <div class="flex flex-col mr-5">
+          <ToastContainer />
           <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
             Quater
           </label>

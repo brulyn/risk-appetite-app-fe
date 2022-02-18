@@ -7,6 +7,7 @@ import { Tab, Dropdown } from "semantic-ui-react";
 import StructuredTableQual from "../common/structuredTableQual";
 import Image from "next/dist/client/image";
 import { UserContext } from "../../contexts/userContext";
+import { toast, ToastContainer } from "react-toastify";
 export default function OutputView() {
   const { loaded, setLoaded } = useContext(DataLoadedContext);
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
@@ -35,7 +36,10 @@ export default function OutputView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setCompanies(response));
+      .then((response) => setCompanies(response))
+      .catch((err) => {
+        toast.error("Failed to fetch List of companies");
+      });
   }, []);
 
   const quaterList = [
@@ -250,6 +254,7 @@ export default function OutputView() {
   return (
     <div className="overflow-y-auto h-screen pb-20">
       <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+      <ToastContainer />
     </div>
   );
 }

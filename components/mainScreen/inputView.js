@@ -12,6 +12,8 @@ import { UserContext } from "../../contexts/userContext";
 import { ToleranceContext } from "../../contexts/toleranceContext";
 import { QuaterContext } from "../../contexts/quaterContext";
 import { toUpper, trim } from "lodash";
+import { toast, ToastContainer } from "react-toastify";
+import ToleranceMetric from "../common/toleranceMetric";
 
 export default function InputView() {
   const { loaded, setLoaded } = useContext(DataLoadedContext);
@@ -41,6 +43,14 @@ export default function InputView() {
   const [dErrorMessage, setDerrorMessage] = useState("");
   const [dDialogIsShown, setDdialogIsShown] = useState(false);
   const [dMessageTitle, setDmessageTitle] = useState("");
+
+  const [systemUptime, setSystemUptime] = useState("");
+  const [machineryUptime, setMachineryUptime] = useState("");
+
+  const [marketShare, setMarketShare] = useState("");
+  const [newCustomers, setNewCustomers] = useState("");
+
+  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState("");
 
   //Strategic Values
   const [pdctDev, setPdctDev] = useState(40);
@@ -219,323 +229,395 @@ export default function InputView() {
   ];
 
   const saveData = () => {
+    let dataObj = {
+      operatingProfit: currentFigures["currentOperatingProfit"],
+      operatingExpense: currentFigures["currentOperatingExpenses"],
+      totalRevenues: currentFigures["currentTotalRevenues"],
+      systemUptime,
+      machineryUptime,
+      currentAsset: currBalancesheetFigures["currentTotalCurrentAssets"],
+      currentLiability:
+        currBalancesheetFigures["currentTotalCurrentLiabilities"],
+      inventory: currBalancesheetFigures["currentInventories"],
+      grossProfit: currentFigures["currentGrossProfit"],
+      ebitda: currentFigures["currentEBITDA"],
+      netProfit: currentFigures["currentNetProfit"],
+      totalEquityAndReserve:
+        currBalancesheetFigures["currentTotalCapitalAndReserves"],
+      totalAssets: currBalancesheetFigures["currentTotalAssets"],
+      totalReceivables: currBalancesheetFigures["currentTotalReceivables"],
+      prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
+      ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
+      marketShare,
+      newCustomers,
+      totalDepreciation: currentFigures["currentDepreciation"],
+      nonCurrentLiabilities:
+        currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
+      currentLiabilities:
+        currBalancesheetFigures["currentTotalCurrentLiabilities"],
+      lossOnMajorUpheaval,
+      pdctDev,
+      investNewTech,
+      businessCont,
+      expToNewMarket,
+      brandRisk,
+      disruptionOp,
+      lossOfKeyStaff,
+      compromisePrdt,
+      serviceDelays,
+      customerDefaultRisk,
+      cashFlowConstraints,
+      fraudAndCorruption,
+      errorsAndMisstatements,
+      underUtilCapital,
+      tax,
+      contract,
+      financialReporting,
+      govLicence,
+    };
+
+    let emptyProps = [];
+    _.forIn(dataObj, (v, key) => {
+      if (v.length == 0) {
+        emptyProps.push(key);
+      }
+    });
+
     if (loaded) {
-      Promise.all([
-        //Operational Efficiency Current-- 0
-        fetch(`${host}/operationalEfficiency/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            operatingProfit: currentFigures["currentOperatingProfit"],
-            operatingExpense: currentFigures["currentOperatingExpenses"],
-            totalRevenues: currentFigures["currentTotalRevenues"],
-            period: "current",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+      if (emptyProps.length > 0) {
+        toast.error("Some fields are empty!");
+      } else {
+        Promise.all([
+          //Operational Efficiency Current-- 0
+          fetch(`${host}/operationalEfficiency/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              operatingProfit: currentFigures["currentOperatingProfit"],
+              operatingExpense: currentFigures["currentOperatingExpenses"],
+              totalRevenues: currentFigures["currentTotalRevenues"],
+              systemUptime,
+              machineryUptime,
+              period: "current",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        // Operational Efficiency Previous 1
-        fetch(`${host}/operationalEfficiency/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            operatingProfit: previousFigures["prevOperatingProfit"],
-            operatingExpense: previousFigures["prevOperatingExpenses"],
-            totalRevenues: previousFigures["prevTotalRevenues"],
-            period: "previous",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          // Operational Efficiency Previous 1
+          fetch(`${host}/operationalEfficiency/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              operatingProfit: previousFigures["prevOperatingProfit"],
+              operatingExpense: previousFigures["prevOperatingExpenses"],
+              totalRevenues: previousFigures["prevTotalRevenues"],
+              systemUptime,
+              machineryUptime,
+              period: "previous",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Liquidity current --2
-        fetch(`${host}/liquidity/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            currentAsset: currBalancesheetFigures["currentTotalCurrentAssets"],
-            currentLiability:
-              currBalancesheetFigures["currentTotalCurrentLiabilities"],
-            inventory: currBalancesheetFigures["currentInventories"],
-            period: "current",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Liquidity current --2
+          fetch(`${host}/liquidity/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              currentAsset:
+                currBalancesheetFigures["currentTotalCurrentAssets"],
+              currentLiability:
+                currBalancesheetFigures["currentTotalCurrentLiabilities"],
+              inventory: currBalancesheetFigures["currentInventories"],
+              period: "current",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //liquidity Previous --3
-        fetch(`${host}/liquidity/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            currentAsset: prevBalancesheetFigures["previousTotalCurrentAssets"],
-            currentLiability:
-              prevBalancesheetFigures["previousTotalCurrentLiabilities"],
-            inventory: prevBalancesheetFigures["previousInventories"],
-            period: "previous",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //liquidity Previous --3
+          fetch(`${host}/liquidity/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              currentAsset:
+                prevBalancesheetFigures["previousTotalCurrentAssets"],
+              currentLiability:
+                prevBalancesheetFigures["previousTotalCurrentLiabilities"],
+              inventory: prevBalancesheetFigures["previousInventories"],
+              period: "previous",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Profitability  Current-- 4
-        fetch(`${host}/profitability/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            grossProfit: currentFigures["currentGrossProfit"],
-            totalRevenues: currentFigures["currentTotalRevenues"],
-            ebitda: currentFigures["currentEBITDA"],
-            netProfit: currentFigures["currentNetProfit"],
-            totalEquityAndReserve:
-              currBalancesheetFigures["currentTotalCapitalAndReserves"],
-            totalAssets: currBalancesheetFigures["currentTotalAssets"],
-            period: "current",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Profitability  Current-- 4
+          fetch(`${host}/profitability/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              grossProfit: currentFigures["currentGrossProfit"],
+              totalRevenues: currentFigures["currentTotalRevenues"],
+              ebitda: currentFigures["currentEBITDA"],
+              netProfit: currentFigures["currentNetProfit"],
+              totalEquityAndReserve:
+                currBalancesheetFigures["currentTotalCapitalAndReserves"],
+              totalAssets: currBalancesheetFigures["currentTotalAssets"],
+              period: "current",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Profitability Previous--5
-        fetch(`${host}/profitability/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            grossProfit: previousFigures["prevGrossProfit"],
-            totalRevenues: previousFigures["prevTotalRevenues"],
-            ebitda: previousFigures["prevEBITDA"],
-            netProfit: previousFigures["prevNetProfit"],
-            totalEquityAndReserve:
-              prevBalancesheetFigures["previousTotalCapitalAndReserves"],
-            totalAssets: prevBalancesheetFigures["previousTotalAssets"],
-            period: "previous",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Profitability Previous--5
+          fetch(`${host}/profitability/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              grossProfit: previousFigures["prevGrossProfit"],
+              totalRevenues: previousFigures["prevTotalRevenues"],
+              ebitda: previousFigures["prevEBITDA"],
+              netProfit: previousFigures["prevNetProfit"],
+              totalEquityAndReserve:
+                prevBalancesheetFigures["previousTotalCapitalAndReserves"],
+              totalAssets: prevBalancesheetFigures["previousTotalAssets"],
+              period: "previous",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Credit Risk Current -- 6
-        fetch(`${host}/creditRisk/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            totalRevenues: currentFigures["currentTotalRevenues"],
-            totalReceivables:
-              currBalancesheetFigures["currentTotalReceivables"],
-            period: "current",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Credit Risk Current -- 6
+          fetch(`${host}/creditRisk/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              totalRevenues: currentFigures["currentTotalRevenues"],
+              totalReceivables:
+                currBalancesheetFigures["currentTotalReceivables"],
+              period: "current",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Credit Risk Previous--7
-        fetch(`${host}/creditRisk/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            totalRevenues: previousFigures["prevTotalRevenues"],
-            totalReceivables:
-              prevBalancesheetFigures["previousTotalReceivables"],
-            period: "previous",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Credit Risk Previous--7
+          fetch(`${host}/creditRisk/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              totalRevenues: previousFigures["prevTotalRevenues"],
+              totalReceivables:
+                prevBalancesheetFigures["previousTotalReceivables"],
+              period: "previous",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Marketing Current-- 8
-        fetch(`${host}/marketing/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
-            ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
-            period: "current",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Marketing Current-- 8
+          fetch(`${host}/marketing/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
+              ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
+              marketShare,
+              newCustomers,
+              period: "current",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Marketing Previous-- 9
-        fetch(`${host}/marketing/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
-            ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
-            period: "previous",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Marketing Previous-- 9
+          fetch(`${host}/marketing/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              prevYtdTotalRevenue: previousFigures["prevTotalRevenues"],
+              ytdTotalRevenue: ytdFigures["ytdTotalRevenues"],
+              marketShare,
+              newCustomers,
+              period: "previous",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Business Continuity Current-- 10
-        fetch(`${host}/businessContinuity/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            netProfit: currentFigures["currentNetProfit"],
-            totalDepreciation: currentFigures["currentDepreciation"],
-            nonCurrentLiabilities:
-              currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
-            currentLiabilities:
-              currBalancesheetFigures["currentTotalCurrentLiabilities"],
-            period: "current",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Business Continuity Current-- 10
+          fetch(`${host}/businessContinuity/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              netProfit: currentFigures["currentNetProfit"],
+              totalDepreciation: currentFigures["currentDepreciation"],
+              nonCurrentLiabilities:
+                currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
+              currentLiabilities:
+                currBalancesheetFigures["currentTotalCurrentLiabilities"],
+              lossOnMajorUpheaval,
+              period: "current",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-        //Business Continuity Previous-- 11
-        fetch(`${host}/businessContinuity/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            netProfit: previousFigures["prevNetProfit"],
-            totalDepreciation: previousFigures["prevDepreciation"],
-            nonCurrentLiabilities:
-              prevBalancesheetFigures["previousTotalNonCurrentLiabilities"],
-            currentLiabilities:
-              prevBalancesheetFigures["previousTotalCurrentLiabilities"],
-            period: "previous",
-            username: user.username,
-            company: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Business Continuity Previous-- 11
+          fetch(`${host}/businessContinuity/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              netProfit: previousFigures["prevNetProfit"],
+              totalDepreciation: previousFigures["prevDepreciation"],
+              nonCurrentLiabilities:
+                prevBalancesheetFigures["previousTotalNonCurrentLiabilities"],
+              currentLiabilities:
+                prevBalancesheetFigures["previousTotalCurrentLiabilities"],
+              lossOnMajorUpheaval,
+              period: "previous",
+              username: user.username,
+              company: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
 
-        //Qualitative Values
-        fetch(`${host}/strategic/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            pdctDev,
-            investNewTech,
-            businessCont,
-            expToNewMarket,
-            brandRisk,
-            period: "current",
-            username: user.username,
-            companyName: queryCompany,
-            quater: quaterYear,
-            year: year,
+          //Qualitative Values
+          fetch(`${host}/strategic/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              pdctDev,
+              investNewTech,
+              businessCont,
+              expToNewMarket,
+              brandRisk,
+              period: "current",
+              username: user.username,
+              companyName: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
 
-        fetch(`${host}/operational/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            disruptionOp,
-            lossOfKeyStaff,
-            compromisePrdt,
-            serviceDelays,
-            disruptionSupplyChain,
-            period: "current",
-            username: user.username,
-            companyName: queryCompany,
-            quater: quaterYear,
-            year: year,
+          fetch(`${host}/operational/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              disruptionOp,
+              lossOfKeyStaff,
+              compromisePrdt,
+              serviceDelays,
+              disruptionSupplyChain,
+              period: "current",
+              username: user.username,
+              companyName: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
 
-        fetch(`${host}/financial/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            customerDefaultRisk,
-            cashFlowConstraints,
-            fraudAndCorruption,
-            errorsAndMisstatements,
-            underUtilCapital,
-            period: "current",
-            username: user.username,
-            companyName: queryCompany,
-            quater: quaterYear,
-            year: year,
+          fetch(`${host}/financial/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              customerDefaultRisk,
+              cashFlowConstraints,
+              fraudAndCorruption,
+              errorsAndMisstatements,
+              underUtilCapital,
+              period: "current",
+              username: user.username,
+              companyName: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
 
-        fetch(`${host}/compliance/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            tax,
-            contract,
-            financialReporting,
-            govLicence,
-            period: "current",
-            username: user.username,
-            companyName: queryCompany,
-            quater: quaterYear,
-            year: year,
+          fetch(`${host}/compliance/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              tax,
+              contract,
+              financialReporting,
+              govLicence,
+              period: "current",
+              username: user.username,
+              companyName: queryCompany,
+              quater: quaterYear,
+              year: year,
+            }),
           }),
-        }),
-      ])
-        .then(function (responses) {
-          // Get a JSON object from each of the responses
-          return Promise.all(
-            responses.map(function (response) {
-              return response.json();
-            })
-          );
-        })
-        .then(function (data) {
-          sendBulkEmail();
-          setErrorMessage("Data successfully saved.");
-          setDialogIsShown(true);
-        })
-        .catch((err) => {
-          setMessageTitle("Operation Failed!");
-          setErrorMessage(`An error occured : ${err}`);
-          setDialogIsShown(true);
-        });
+        ])
+          .then(function (responses) {
+            // Get a JSON object from each of the responses
+            return Promise.all(
+              responses.map(function (response) {
+                return response.json();
+              })
+            );
+          })
+          .then(function (data) {
+            toast.success("Successfully Saved!");
+            sendBulkEmail();
+            // setErrorMessage("Data successfully saved.");
+            // setDialogIsShown(true);
+          })
+          .catch((err) => {
+            toast.error("Operation Failed!");
+            setMessageTitle("Failure!");
+            setErrorMessage(`An error occured : ${err}`);
+            setDialogIsShown(true);
+          });
+      }
     } else {
-      // console.log("No data loaded");
+      toast.error("Flash Report not available!");
     }
   };
 
@@ -588,7 +670,10 @@ export default function InputView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setCompanies(response));
+      .then((response) => setCompanies(response))
+      .catch((err) => {
+        toast.error("Failed to fetch data!");
+      });
 
     if (!toleranceValues) {
       setDmessageTitle("Tolerance values missing!");
@@ -616,6 +701,7 @@ export default function InputView() {
         >
           {errorMessage}
         </CornerDialog>
+        <ToastContainer />
 
         <Dialog
           isShown={dDialogIsShown}
@@ -1132,6 +1218,44 @@ export default function InputView() {
                   />
                 </label>
               </div>
+            </div>
+
+            <div className="flex flex-row w-3/5 space-x-4 mt-5">
+              <ToleranceMetric
+                name="System Uptime (%)"
+                setValue={setSystemUptime}
+                value={systemUptime}
+                error={systemUptime.toString().length == 0}
+              />
+              <ToleranceMetric
+                name="Machinery Uptime (%)"
+                setValue={setMachineryUptime}
+                value={machineryUptime}
+                error={machineryUptime.toString().length == 0}
+              />
+
+              <ToleranceMetric
+                name="Market Share (%)"
+                setValue={setMarketShare}
+                value={marketShare}
+                error={marketShare.toString().length == 0}
+              />
+            </div>
+
+            <div className="flex flex-row w-3/5 space-x-4">
+              <ToleranceMetric
+                name="New Customers"
+                setValue={setNewCustomers}
+                value={newCustomers}
+                error={newCustomers.toString().length == 0}
+              />
+
+              <ToleranceMetric
+                name="Loss on major upheaval (%)"
+                setValue={setLossOnMajorUpheaval}
+                value={lossOnMajorUpheaval}
+                error={lossOnMajorUpheaval.toString().length == 0}
+              />
             </div>
 
             <div className="font-semibold text-gray-600 mt-10">
