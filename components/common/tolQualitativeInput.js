@@ -9,7 +9,7 @@ export default function TolQualitativeInput({
   setQualValues,
   value,
   direction,
-  validateTolVal,
+  validateQualVal,
   setError,
 }) {
   return (
@@ -22,7 +22,10 @@ export default function TolQualitativeInput({
             name={title}
             setValue={setQualValues}
             value={value}
-            error={validateTolVal && (value < 0 || value > 5)}
+            error={
+              validateQualVal &&
+              (value < 0 || value > 5 || value.toString().length < 1)
+            }
             setError={setError}
           />
         </div>

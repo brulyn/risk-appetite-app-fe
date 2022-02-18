@@ -12,6 +12,7 @@ import { UserContext } from "../../contexts/userContext";
 import { ToleranceContext } from "../../contexts/toleranceContext";
 import { QuaterContext } from "../../contexts/quaterContext";
 import { toUpper, trim } from "lodash";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function InputView() {
   const { loaded, setLoaded } = useContext(DataLoadedContext);
@@ -588,7 +589,10 @@ export default function InputView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setCompanies(response));
+      .then((response) => setCompanies(response))
+      .catch((err) => {
+        toast.error("Failed to fetch data!");
+      });
 
     if (!toleranceValues) {
       setDmessageTitle("Tolerance values missing!");
@@ -616,6 +620,7 @@ export default function InputView() {
         >
           {errorMessage}
         </CornerDialog>
+        <ToastContainer />
 
         <Dialog
           isShown={dDialogIsShown}

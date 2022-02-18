@@ -159,11 +159,13 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
           name="Current Ratio (%)"
           setValue={setCurrentRatio}
           value={currentRatio}
+          error={currentRatio.toString().length == 0 || currentRatio < 0}
         />
         <ToleranceMetric
           name="Quick Ratio (%)"
           setValue={setQuickRatio}
           value={quickRatio}
+          error={quickRatio.toString().length == 0 || quickRatio < 0}
         />
       </div>
 
@@ -174,23 +176,36 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
           name="GP Margin (%)"
           setValue={setGpMargin}
           value={gpMargin}
+          error={gpMargin.toString().length == 0 || gpMargin < 0}
         />
 
         <ToleranceMetric
           name="EBITDA (%)"
           setValue={setEbitda}
           value={ebitda}
+          error={ebitda.toString().length == 0 || ebitda < 0}
         />
 
-        <ToleranceMetric name="ROE (%)" setValue={setRoe} value={roe} />
+        <ToleranceMetric
+          name="ROE (%)"
+          setValue={setRoe}
+          value={roe}
+          error={roe.toString().length == 0 || roe < 0}
+        />
       </div>
 
       <div className="flex flex-row w-3/5 space-x-4">
-        <ToleranceMetric name="ROA (%)" setValue={setRoa} value={roa} />
+        <ToleranceMetric
+          name="ROA (%)"
+          setValue={setRoa}
+          value={roa}
+          error={roa.toString().length == 0 || roa < 0}
+        />
         <ToleranceMetric
           name="Net Profit Margin (%)"
           setValue={setNetProfitMargin}
           value={netProfitMargin}
+          error={netProfitMargin.toString().length == 0 || netProfitMargin < 0}
         />
       </div>
 
@@ -201,16 +216,21 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
           name="Operating Expenses (%)"
           setValue={setOperatingExpenses}
           value={operatingExpenses}
+          error={
+            operatingExpenses.toString().length == 0 || operatingExpenses < 0
+          }
         />
         <ToleranceMetric
           name="System Uptime (%)"
           setValue={setSystemUptime}
           value={systemUptime}
+          error={systemUptime.toString().length == 0 || systemUptime < 0}
         />
         <ToleranceMetric
           name="Machinery Uptime (%)"
           setValue={setMachineryUptime}
           value={machineryUptime}
+          error={machineryUptime.toString().length == 0 || machineryUptime < 0}
         />
       </div>
 
@@ -221,11 +241,19 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
           name="Average Collection Period"
           setValue={setAverageCollectionPeriod}
           value={averageCollectionPeriod}
+          error={
+            averageCollectionPeriod.toString().length == 0 ||
+            averageCollectionPeriod < 0
+          }
         />
         <ToleranceMetric
           name="Total Receivables/Sales (%)"
           setValue={setTotalReceivablePerSales}
           value={totalReceivablePerSales}
+          error={
+            totalReceivablePerSales.toString().length == 0 ||
+            totalReceivablePerSales < 0
+          }
         />
       </div>
 
@@ -236,17 +264,20 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
           name="Revenue Growth (%)"
           setValue={setRevenueGrowth}
           value={revenueGrowth}
+          error={revenueGrowth.toString().length == 0 || revenueGrowth < 0}
         />
         <ToleranceMetric
           name="Market Share (%)"
           setValue={setMarketShare}
           value={marketShare}
+          error={marketShare.toString().length == 0 || marketShare < 0}
         />
 
         <ToleranceMetric
           name="New Customers"
           setValue={setNewCustomers}
           value={newCustomers}
+          error={newCustomers.toString().length == 0 || newCustomers < 0}
         />
       </div>
 
@@ -256,17 +287,25 @@ export default function ToleranceInput({ setPresetValues, savedData }) {
           name="Employee Turnover (%)"
           setValue={setEmployeeTurnover}
           value={employeeTurnover}
+          error={
+            employeeTurnover.toString().length == 0 || employeeTurnover < 0
+          }
         />
         <ToleranceMetric
           name="Loss on major upheaval (%)"
           setValue={setLossOnMajorUpheaval}
           value={lossOnMajorUpheaval}
+          error={
+            lossOnMajorUpheaval.toString().length == 0 ||
+            lossOnMajorUpheaval < 0
+          }
         />
 
         <ToleranceMetric
           name="Solvency ratio (%)"
           setValue={setSolvencyRatio}
           value={solvencyRatio}
+          error={solvencyRatio.toString().length == 0 || solvencyRatio < 0}
         />
       </div>
     </div>

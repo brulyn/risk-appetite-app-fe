@@ -44,6 +44,8 @@ export default function SettingsView() {
 
   const [savedValues, setSavedValues] = useState([]);
 
+  const [dataIsSet, setDataIsSet] = useState(false);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const { user, setUser } = useContext(UserContext);
 
@@ -79,7 +81,8 @@ export default function SettingsView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setCompanies(response));
+      .then((response) => setCompanies(response))
+      .catch((err) => toast.error("Failed to fetch List of Companies!"));
   }, []);
 
   useEffect(() => {
@@ -176,7 +179,9 @@ export default function SettingsView() {
           setTax("");
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        toast.error("Can't find Tolerance Values!");
+      });
   }, [queryCompany]);
 
   function getToleranceValues() {
@@ -188,8 +193,8 @@ export default function SettingsView() {
       }),
     });
   }
-  const saveData = () => {
-    // console.log(presetValues);
+
+  function validateInputs() {
     let qualVals = {
       pdctDev,
       investNewTech,
@@ -225,7 +230,13 @@ export default function SettingsView() {
       }
     });
 
-    if (emptyProps.length > 0) {
+    if (emptyProps.length > 0) setDataIsSet(false);
+    else setDataIsSet(true);
+  }
+  const saveData = () => {
+    validateInputs();
+
+    if (!dataIsSet) {
       toast.error("Some fields are empty!");
     } else {
       // toast.info("Sending data!");
@@ -404,34 +415,34 @@ export default function SettingsView() {
                 title="Product dev. and innovation"
                 setQualValues={setPdctDev}
                 value={pdctDev}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Investment in new Technologies"
                 setQualValues={setInvestNewTech}
                 value={investNewTech}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Business continuity and disaster recovery"
                 setQualValues={setBusinessCont}
                 value={businessCont}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Expansion to new markets"
                 setQualValues={setExpToNewMarket}
                 value={expToNewMarket}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Brand/reputation risk"
                 setQualValues={setBrandRisk}
-                validateTolVal={true}
+                validateQualVal={true}
                 value={brandRisk}
               />
             </Accordion.Content>
@@ -454,35 +465,35 @@ export default function SettingsView() {
                 title="Disruption of operations"
                 setQualValues={setDisruptionOp}
                 value={disruptionOp}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Loss of key staff"
                 setQualValues={setLossOfKeyStaff}
                 value={lossOfKeyStaff}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Compromise of product and service quality"
                 setQualValues={setCompromisePrdt}
                 value={compromisePrdt}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Service delays"
                 setQualValues={setServiceDelays}
                 value={serviceDelays}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Disruptions to supply chain"
                 setQualValues={setDisruptionSupplyChain}
                 value={disruptionSupplyChain}
-                validateTolVal={true}
+                validateQualVal={true}
               />
             </Accordion.Content>
 
@@ -504,35 +515,35 @@ export default function SettingsView() {
                 title="Customer default risk"
                 setQualValues={setCustomerDefaultRisk}
                 value={customerDefaultRisk}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Cash-flow constraints"
                 setQualValues={setCashFlowConstraints}
                 value={cashFlowConstraints}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Fraud and corruption"
                 setQualValues={setFraudAndCorruption}
                 value={fraudAndCorruption}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Errors and misstatements"
                 setQualValues={setErrorsAndMisstatements}
                 value={errorsAndMisstatements}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Under-utilization of capital"
                 setQualValues={setUnderUtilCapital}
                 value={underUtilCapital}
-                validateTolVal={true}
+                validateQualVal={true}
               />
             </Accordion.Content>
 
@@ -554,28 +565,28 @@ export default function SettingsView() {
                 title="Tax compliance"
                 setQualValues={setTax}
                 value={tax}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Contract compliance"
                 setQualValues={setContract}
                 value={contract}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Financial reporting compliance"
                 setQualValues={setFinancialReporting}
                 value={financialReporting}
-                validateTolVal={true}
+                validateQualVal={true}
               />
               <TolQualitativeInput
                 direction="lesser"
                 title="Government licenses and regulations"
                 setQualValues={setGovLicence}
                 value={govLicence}
-                validateTolVal={true}
+                validateQualVal={true}
               />
             </Accordion.Content>
           </Accordion>
