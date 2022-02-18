@@ -150,7 +150,7 @@ export default function DashboardView() {
       .then((response) => response.json())
       .then((response) => setCompanies(response))
       .catch((err) => {
-        toast.error("Failed to fetch List of companies");
+        toast.error("Failed to fetch List of companies!");
       });
   }, []);
 
@@ -392,10 +392,112 @@ export default function DashboardView() {
           }
         })
         .catch((err) => {
-          toast.error("Failed to fetch Risk Scores");
+          toast.error("Failed to fetch Risk Scores!");
         });
     }
   }, [globalQuater, queryCompany]);
+
+  useEffect(() => {
+    fetch(`${host}/riskScore`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        let {
+          liquidityRatios,
+          profitabilityRatios,
+          operationalEfficiencyRatios,
+          creditRiskRatios,
+          marketingRatios,
+          businessContinuityRatios,
+          complianceRatios,
+          financialRatios,
+          operationalRatios,
+          strategicRatios,
+        } = response;
+
+        let myCompanyLiquidityRatios = _.filter(
+          liquidityRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyLiquidityRatios.length > 0)
+          setLiquidityRatios(myCompanyLiquidityRatios);
+
+        let myCompanyProfitabilityRatios = _.filter(
+          profitabilityRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyProfitabilityRatios.length > 0)
+          setProfitabilityRatios(myCompanyProfitabilityRatios);
+
+        let myCompanyOperationalEfficiencyRatios = _.filter(
+          operationalEfficiencyRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyOperationalEfficiencyRatios.length > 0) {
+          setOperationalEfficiencyRatios(myCompanyOperationalEfficiencyRatios);
+        }
+
+        let myCompanyCreditRiskRatios = _.filter(
+          creditRiskRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyCreditRiskRatios.length > 0) {
+          setCreditRiskRatios(myCompanyCreditRiskRatios);
+        }
+
+        let myCompanyMarketingRatios = _.filter(
+          marketingRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyMarketingRatios.length > 0) {
+          setMarketingRatios(myCompanyMarketingRatios);
+        }
+
+        let myCompanyBusinessContinuityRatios = _.filter(
+          businessContinuityRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyBusinessContinuityRatios.length > 0)
+          setBusinessContinuityRatios(myCompanyBusinessContinuityRatios);
+
+        let myCompanyComplianceRatios = _.filter(
+          complianceRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyComplianceRatios.length > 0) {
+          setComplianceRatios(myCompanyComplianceRatios);
+        }
+
+        let myCompanyFinancialRatios = _.filter(
+          financialRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyFinancialRatios.length > 0) {
+          setFinancialRatios(myCompanyFinancialRatios);
+        }
+
+        let myCompanyOperationalRatios = _.filter(
+          operationalRatios,
+          (record) => record.companyName === queryCompany
+        );
+
+        if (myCompanyOperationalRatios.length > 0) {
+          setOperationalRatios(myCompanyOperationalRatios);
+        }
+
+        let myCompanyStrategicRatios = _.filter(
+          strategicRatios,
+          (record) => record.companyName === queryCompany
+        );
+        if (myCompanyStrategicRatios.length > 0) {
+          setStrategicRatios(myCompanyStrategicRatios);
+        }
+      })
+      .catch((err) => {
+        toast.error("Failed to fetch Risk Scores!");
+      });
+  }, [queryCompany]);
 
   function getGraphColor(score) {
     if (score === 4) {

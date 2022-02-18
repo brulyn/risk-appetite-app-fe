@@ -9,6 +9,7 @@ import { CornerDialog } from "evergreen-ui";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { QuaterContext } from "../../contexts/quaterContext";
+import Image from "next/dist/client/image";
 import _ from "lodash";
 
 export default function SettingsView() {
@@ -44,14 +45,14 @@ export default function SettingsView() {
 
   const [savedValues, setSavedValues] = useState([]);
 
-  const [dataIsSet, setDataIsSet] = useState(false);
-
   const [activeIndex, setActiveIndex] = useState(0);
   const { user, setUser } = useContext(UserContext);
 
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
   const [queryCompany, setQueryCompany] = useState(user.selectedCompany);
   const [companies, setCompanies] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   const handleExpand = (e, titleProps) => {
     const { index } = titleProps;
@@ -86,6 +87,7 @@ export default function SettingsView() {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     setSavedValues([]);
     getToleranceValues()
       .then((response) => {
@@ -178,9 +180,11 @@ export default function SettingsView() {
           setGovLicence("");
           setTax("");
         }
+        setLoading(false);
       })
       .catch((err) => {
         toast.error("Can't find Tolerance Values!");
+        setLoading(false);
       });
   }, [queryCompany]);
 
@@ -195,6 +199,14 @@ export default function SettingsView() {
   }
 
   function validateInputs() {
+    if (emptyProps.length > 0) setEmptyProps(true);
+    else setEmptyProps(false);
+
+    if (negativeProps.length > 0) setNegativeProps(true);
+    else setNegativeProps(false);
+  }
+
+  const saveData = () => {
     let qualVals = {
       pdctDev,
       investNewTech,
@@ -218,6 +230,8 @@ export default function SettingsView() {
     };
 
     let emptyProps = [];
+    let negativeProps = [];
+    let outOfRangeProps = [];
     _.forIn(presetValues, (v, key) => {
       if (v.length == 0) {
         emptyProps.push(key);
@@ -230,15 +244,38 @@ export default function SettingsView() {
       }
     });
 
-    if (emptyProps.length > 0) setDataIsSet(false);
-    else setDataIsSet(true);
-  }
-  const saveData = () => {
-    validateInputs();
+    _.forIn(presetValues, (v, key) => {
+      if (v < 0) {
+        negativeProps.push(key);
+      }
+    });
 
-    if (!dataIsSet) {
+    _.forIn(qualVals, (v, key) => {
+      if (v < 0) {
+        negativeProps.push(key);
+      }
+    });
+
+    _.forIn(qualVals, (v, key) => {
+      if (v > 5) {
+        outOfRangeProps.push(key);
+      }
+    });
+
+    if (emptyProps.length > 0) {
       toast.error("Some fields are empty!");
-    } else {
+    }
+    if (negativeProps.length > 0) {
+      toast.error("Some values are Negative!");
+    }
+    if (outOfRangeProps.length > 0) {
+      toast.error("Values out of range!");
+    }
+    if (
+      emptyProps.length == 0 &&
+      negativeProps.length == 0 &&
+      outOfRangeProps.length == 0
+    ) {
       // toast.info("Sending data!");
       Promise.all([
         fetch(`${host}/riskTolerance/`, {
@@ -376,222 +413,233 @@ export default function SettingsView() {
           />
         </div>
       )}
-      <div className="flex flex-row">
-        <div className="flex flex-col w-1/2">
-          <div className="font-semibold text-gray-600 mt-5">
-            Quantitative Metrics
+      {!loading && (
+        <div className="flex flex-row transition duration-150 ease-out">
+          <div className="flex flex-col w-1/2">
+            <div className="font-semibold text-gray-600 mt-5">
+              Quantitative Metrics
+            </div>
+            <ToleranceInput
+              setPresetValues={setPresetValues}
+              savedData={savedValues}
+            />
+            <div className="pt-5">
+              <Button onClick={() => saveData()} color="blue">
+                Save
+              </Button>
+            </div>
           </div>
-          <ToleranceInput
-            setPresetValues={setPresetValues}
-            savedData={savedValues}
-          />
-          <div className="pt-5">
-            <Button onClick={() => saveData()} color="blue">
-              Save
-            </Button>
+
+          <div className="flex flex-col w-1/2">
+            <div className="font-semibold text-gray-600 mt-5">
+              Qualitative Metrics
+            </div>
+            <Accordion>
+              <Accordion.Title
+                active={activeIndex === 0}
+                index={0}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Strategic" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 0}>
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Product dev. and innovation"
+                  setQualValues={setPdctDev}
+                  value={pdctDev}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Investment in new Technologies"
+                  setQualValues={setInvestNewTech}
+                  value={investNewTech}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Business continuity and disaster recovery"
+                  setQualValues={setBusinessCont}
+                  value={businessCont}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Expansion to new markets"
+                  setQualValues={setExpToNewMarket}
+                  value={expToNewMarket}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Brand/reputation risk"
+                  setQualValues={setBrandRisk}
+                  validateQualVal={true}
+                  value={brandRisk}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 1}
+                index={1}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Operational" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 1}>
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Disruption of operations"
+                  setQualValues={setDisruptionOp}
+                  value={disruptionOp}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Loss of key staff"
+                  setQualValues={setLossOfKeyStaff}
+                  value={lossOfKeyStaff}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Compromise of product and service quality"
+                  setQualValues={setCompromisePrdt}
+                  value={compromisePrdt}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Service delays"
+                  setQualValues={setServiceDelays}
+                  value={serviceDelays}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Disruptions to supply chain"
+                  setQualValues={setDisruptionSupplyChain}
+                  value={disruptionSupplyChain}
+                  validateQualVal={true}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 2}
+                index={2}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Financial" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 2}>
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Customer default risk"
+                  setQualValues={setCustomerDefaultRisk}
+                  value={customerDefaultRisk}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Cash-flow constraints"
+                  setQualValues={setCashFlowConstraints}
+                  value={cashFlowConstraints}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Fraud and corruption"
+                  setQualValues={setFraudAndCorruption}
+                  value={fraudAndCorruption}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Errors and misstatements"
+                  setQualValues={setErrorsAndMisstatements}
+                  value={errorsAndMisstatements}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Under-utilization of capital"
+                  setQualValues={setUnderUtilCapital}
+                  value={underUtilCapital}
+                  validateQualVal={true}
+                />
+              </Accordion.Content>
+
+              <Accordion.Title
+                active={activeIndex === 3}
+                index={3}
+                onClick={handleExpand}
+              >
+                <div className="flex flex-row items-center">
+                  <ToleranceTitle title="Compliance" />
+                  <div className="mt-5">
+                    <Icon name="dropdown" />
+                  </div>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 3}>
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Tax compliance"
+                  setQualValues={setTax}
+                  value={tax}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Contract compliance"
+                  setQualValues={setContract}
+                  value={contract}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Financial reporting compliance"
+                  setQualValues={setFinancialReporting}
+                  value={financialReporting}
+                  validateQualVal={true}
+                />
+                <TolQualitativeInput
+                  direction="lesser"
+                  title="Government licenses and regulations"
+                  setQualValues={setGovLicence}
+                  value={govLicence}
+                  validateQualVal={true}
+                />
+              </Accordion.Content>
+            </Accordion>
           </div>
         </div>
+      )}
 
-        <div className="flex flex-col w-1/2">
-          <div className="font-semibold text-gray-600 mt-5">
-            Qualitative Metrics
+      {loading && (
+        <div className="flex flex-col h-full justify-center items-center">
+          <Image height="300" width="300" src="/relax.svg" />
+          <div className="text-gray-500 text-lg">
+            Relax! We are gathering relevant data!
           </div>
-          <Accordion>
-            <Accordion.Title
-              active={activeIndex === 0}
-              index={0}
-              onClick={handleExpand}
-            >
-              <div className="flex flex-row items-center">
-                <ToleranceTitle title="Strategic" />
-                <div className="mt-5">
-                  <Icon name="dropdown" />
-                </div>
-              </div>
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 0}>
-              <TolQualitativeInput
-                direction="lesser"
-                title="Product dev. and innovation"
-                setQualValues={setPdctDev}
-                value={pdctDev}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Investment in new Technologies"
-                setQualValues={setInvestNewTech}
-                value={investNewTech}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Business continuity and disaster recovery"
-                setQualValues={setBusinessCont}
-                value={businessCont}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Expansion to new markets"
-                setQualValues={setExpToNewMarket}
-                value={expToNewMarket}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Brand/reputation risk"
-                setQualValues={setBrandRisk}
-                validateQualVal={true}
-                value={brandRisk}
-              />
-            </Accordion.Content>
-
-            <Accordion.Title
-              active={activeIndex === 1}
-              index={1}
-              onClick={handleExpand}
-            >
-              <div className="flex flex-row items-center">
-                <ToleranceTitle title="Operational" />
-                <div className="mt-5">
-                  <Icon name="dropdown" />
-                </div>
-              </div>
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 1}>
-              <TolQualitativeInput
-                direction="lesser"
-                title="Disruption of operations"
-                setQualValues={setDisruptionOp}
-                value={disruptionOp}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Loss of key staff"
-                setQualValues={setLossOfKeyStaff}
-                value={lossOfKeyStaff}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Compromise of product and service quality"
-                setQualValues={setCompromisePrdt}
-                value={compromisePrdt}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Service delays"
-                setQualValues={setServiceDelays}
-                value={serviceDelays}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Disruptions to supply chain"
-                setQualValues={setDisruptionSupplyChain}
-                value={disruptionSupplyChain}
-                validateQualVal={true}
-              />
-            </Accordion.Content>
-
-            <Accordion.Title
-              active={activeIndex === 2}
-              index={2}
-              onClick={handleExpand}
-            >
-              <div className="flex flex-row items-center">
-                <ToleranceTitle title="Financial" />
-                <div className="mt-5">
-                  <Icon name="dropdown" />
-                </div>
-              </div>
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 2}>
-              <TolQualitativeInput
-                direction="lesser"
-                title="Customer default risk"
-                setQualValues={setCustomerDefaultRisk}
-                value={customerDefaultRisk}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Cash-flow constraints"
-                setQualValues={setCashFlowConstraints}
-                value={cashFlowConstraints}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Fraud and corruption"
-                setQualValues={setFraudAndCorruption}
-                value={fraudAndCorruption}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Errors and misstatements"
-                setQualValues={setErrorsAndMisstatements}
-                value={errorsAndMisstatements}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Under-utilization of capital"
-                setQualValues={setUnderUtilCapital}
-                value={underUtilCapital}
-                validateQualVal={true}
-              />
-            </Accordion.Content>
-
-            <Accordion.Title
-              active={activeIndex === 3}
-              index={3}
-              onClick={handleExpand}
-            >
-              <div className="flex flex-row items-center">
-                <ToleranceTitle title="Compliance" />
-                <div className="mt-5">
-                  <Icon name="dropdown" />
-                </div>
-              </div>
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 3}>
-              <TolQualitativeInput
-                direction="lesser"
-                title="Tax compliance"
-                setQualValues={setTax}
-                value={tax}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Contract compliance"
-                setQualValues={setContract}
-                value={contract}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Financial reporting compliance"
-                setQualValues={setFinancialReporting}
-                value={financialReporting}
-                validateQualVal={true}
-              />
-              <TolQualitativeInput
-                direction="lesser"
-                title="Government licenses and regulations"
-                setQualValues={setGovLicence}
-                value={govLicence}
-                validateQualVal={true}
-              />
-            </Accordion.Content>
-          </Accordion>
         </div>
-      </div>
+      )}
     </div>
   );
 }
