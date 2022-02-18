@@ -14,6 +14,7 @@ export default function QualitativeInput({ title, setQualValues, value }) {
             name={title}
             setValue={setQualValues}
             value={value}
+            error={value.toString().length == 0}
           />
         </div>
         {/* Progress bar */}
