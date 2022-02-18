@@ -6,7 +6,7 @@ import { Accordion, Button, Dropdown, Icon } from "semantic-ui-react";
 import { ConsoleIcon, CornerDialog, Dialog } from "evergreen-ui";
 import QualitativeInput from "../common/qualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
-import * as _ from "lodash";
+import _ from "lodash";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
 import { UserContext } from "../../contexts/userContext";
 import { ToleranceContext } from "../../contexts/toleranceContext";
@@ -235,7 +235,7 @@ export default function InputView() {
   ];
 
   const saveData = () => {
-    let dataObj = {
+    let dataObject = {
       operatingProfit: currentFigures["currentOperatingProfit"],
       operatingExpense: currentFigures["currentOperatingExpenses"],
       totalRevenues: currentFigures["currentTotalRevenues"],
@@ -288,14 +288,14 @@ export default function InputView() {
     };
 
     let emptyProps = [];
-    _.forIn(dataObj, (v, key) => {
-      if (v.length == 0) {
+    _.forIn(dataObject, (v, key) => {
+      if (v?.length == 0) {
         emptyProps.push(key);
       }
     });
 
     if (loaded) {
-      if (emptyProps.length > 0) {
+      if (emptyProps?.length > 0) {
         toast.error("Some fields are empty!");
       } else {
         Promise.all([
