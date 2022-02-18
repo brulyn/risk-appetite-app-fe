@@ -235,7 +235,7 @@ export default function InputView() {
   ];
 
   const saveData = () => {
-    let dataObj = {
+    let dataObject = {
       operatingProfit: currentFigures["currentOperatingProfit"],
       operatingExpense: currentFigures["currentOperatingExpenses"],
       totalRevenues: currentFigures["currentTotalRevenues"],
@@ -288,14 +288,14 @@ export default function InputView() {
     };
 
     let emptyProps = [];
-    _.forIn(dataObj, (v, key) => {
-      if (v.length == 0) {
+    _.forIn(dataObject, (v, key) => {
+      if (v?.length == 0) {
         emptyProps.push(key);
       }
     });
 
     if (loaded) {
-      if (emptyProps.length > 0) {
+      if (emptyProps?.length > 0) {
         toast.error("Some fields are empty!");
       } else {
         Promise.all([
