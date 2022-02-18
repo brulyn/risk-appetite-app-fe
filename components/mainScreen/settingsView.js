@@ -244,11 +244,11 @@ export default function SettingsView() {
       }
     });
 
-    _.forIn(presetValues, (v, key) => {
-      if (v < 0) {
-        negativeProps.push(key);
-      }
-    });
+    // _.forIn(presetValues, (v, key) => {
+    //   if (v < 0) {
+    //     negativeProps.push(key);
+    //   }
+    // });
 
     _.forIn(qualVals, (v, key) => {
       if (v < 0) {
