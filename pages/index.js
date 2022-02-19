@@ -173,6 +173,102 @@ export default function Index() {
     // setLoading(false);
   };
 
+  const onsendChangePassword = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setDialogIsShown(false);
+    setNewPassword(generatePassword());
+
+    if (email.length > 0) {
+      fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          oldPassword,
+          newPassword,
+          reset: true,
+        }),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let { token, error, message } = data;
+
+          if (error) {
+            setDialogIsShown(true);
+            setMessageTitle("Error!");
+            setErrorMessage(message);
+            setLoading(false);
+          } else {
+            fetch(
+              `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/email/send`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  from: "riskinfo@cvl.co.rw",
+                  to: email,
+                  subject: "Password reset",
+                  messageType: "passwordReset",
+                  password: newPassword,
+                }),
+              }
+            )
+              .then((res) => res.json())
+              .then((res) => {
+                console.log(res);
+                if (res.error) {
+                  toast.error("Error occured while sending email!");
+                  setViewPort("login");
+                  setDialogIsShown(false);
+                  setLoading(false);
+                } else {
+                  toast.success("Check your email!");
+                  setViewPort("login");
+                  setDialogIsShown(false);
+                  setLoading(false);
+                }
+              })
+              .catch((err) => {
+                toast.error("Error occured while sending email!");
+                setViewPort("login");
+                setDialogIsShown(false);
+                setLoading(false);
+              });
+          }
+        })
+        .catch((err) => {
+          setDialogIsShown(true);
+          setMessageTitle("Error");
+          setErrorMessage(
+            "Could not connect to the server. Please make sure the server is up!"
+          );
+
+          setLoading(false);
+        });
+    } else {
+      toast.error("Email can't be empty!");
+    }
+    // setLoading(false);
+  };
+
+  function generatePassword() {
+    var length = 10,
+      charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+      retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+  }
+
   return (
     <div className="flex justify-center items-center h-screen bg-gray-50">
       {!userLoggedIn && (
@@ -234,12 +330,21 @@ export default function Index() {
                 </button>
               )}
 
-              <button
-                className="text-sm text-center mt-10 text-gray-400 cursor-pointer p-1 hover:text-blue-cvl-500 hover:underline"
-                onClick={() => setViewPort("updatePassword")}
-              >
-                Reset password
-              </button>
+              <div className="flex flex-row space-x-6">
+                <button
+                  className="text-sm text-center mt-10 text-gray-400 cursor-pointer p-1 hover:text-blue-cvl-500 hover:underline"
+                  onClick={() => setViewPort("updatePassword")}
+                >
+                  Reset password
+                </button>
+
+                <button
+                  className="text-sm text-center  mt-10 text-gray-400 cursor-pointer p-1 hover:text-blue-cvl-500 hover:underline"
+                  onClick={() => setViewPort("forgotPassword")}
+                >
+                  Forgot password
+                </button>
+              </div>
             </form>
           )}
 
@@ -302,7 +407,51 @@ export default function Index() {
                 className="text-sm text-center mt-10 text-gray-400 cursor-pointer hover:text-blue-cvl-500 hover:underline"
                 onClick={() => setViewPort("login")}
               >
-                Login
+                Back to Login
+              </div>
+            </form>
+          )}
+
+          {viewPort === "forgotPassword" && (
+            <form
+              // onSubmit={onSubmit}
+              className="flex flex-col justify-center items-center md:w-1/4 w-full mx-10 md:mx-32 bg-white md:py-32  shadow-md"
+            >
+              <Image height="50" width="140" src="/logo.png" />
+              {/* Title or Logo */}
+              {/* <div className="text-lg font-bold uppercase text-gray-700">Login </div> */}
+              {/* Form with email and passord */}
+              <input
+                className="focus:outline-none border-2 py-3 w-3/4 px-3 rounded-md focus:border-blue-cvl-600 mt-3 text-sm text-gray-600 shadow-inner"
+                placeholder="email@company.example"
+                type="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setDialogIsShown(false);
+                }}
+              />
+
+              {loading && (
+                <Spinner
+                  className="container mx-auto w-3/4 justify-center items-center mt-6 py-3"
+                  size={32}
+                />
+              )}
+
+              {!loading && (
+                <button
+                  className="mt-6 w-3/4 bg-blue-cvl-900 py-3 rounded-md text-white shadow-md hover:bg-blue-cvl-700 active:bg-blue-cvl"
+                  onClick={onsendChangePassword}
+                >
+                  Send me a new password
+                </button>
+              )}
+
+              <div
+                className="text-sm text-center mt-10 text-gray-400 cursor-pointer hover:text-blue-cvl-500 hover:underline"
+                onClick={() => setViewPort("login")}
+              >
+                Back to Login
               </div>
             </form>
           )}
