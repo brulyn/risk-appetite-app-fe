@@ -173,11 +173,22 @@ export default function Index() {
     // setLoading(false);
   };
 
+  function generatePassword() {
+    var length = 10,
+      charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+      retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+  }
+
   const onsendChangePassword = (e) => {
     e.preventDefault();
     setLoading(true);
     setDialogIsShown(false);
-    setNewPassword(generatePassword());
+    // setNewPassword(generatePassword());
 
     if (email.length > 0) {
       fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
@@ -188,7 +199,7 @@ export default function Index() {
         body: JSON.stringify({
           email,
           oldPassword,
-          newPassword,
+          newPassword: generatePassword(),
           reset: true,
         }),
       })
@@ -216,7 +227,7 @@ export default function Index() {
                   to: email,
                   subject: "Password reset",
                   messageType: "passwordReset",
-                  password: newPassword,
+                  password: generatePassword(),
                 }),
               }
             )
@@ -257,17 +268,6 @@ export default function Index() {
     }
     // setLoading(false);
   };
-
-  function generatePassword() {
-    var length = 10,
-      charset =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-      retVal = "";
-    for (var i = 0, n = charset.length; i < length; ++i) {
-      retVal += charset.charAt(Math.floor(Math.random() * n));
-    }
-    return retVal;
-  }
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-50">
