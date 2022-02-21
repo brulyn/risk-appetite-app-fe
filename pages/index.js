@@ -227,7 +227,7 @@ export default function Index() {
                   to: email,
                   subject: "Password reset",
                   messageType: "passwordReset",
-                  password: generatePassword(),
+                  password: newPassword,
                 }),
               }
             )
