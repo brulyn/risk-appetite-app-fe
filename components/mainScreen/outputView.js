@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import StructuredTable from "../common/structuredTable";
 import { DataLoadedContext } from "../../contexts/dataLoadedContext";
-import { DocumentSearchIcon } from "@heroicons/react/outline";
 import { QuaterContext } from "../../contexts/quaterContext";
 import { Tab, Dropdown } from "semantic-ui-react";
 import StructuredTableQual from "../common/structuredTableQual";

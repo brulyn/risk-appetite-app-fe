@@ -3,7 +3,6 @@ import { useRouter } from "next/dist/client/router";
 import { Spinner, CornerDialog } from "evergreen-ui";
 import { UserContext } from "../contexts/userContext";
 import _ from "lodash";
-import jwt from "jsonwebtoken";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import Head from "next/head";
-import DetailsScreen from "../components/detailsSection";
+
 import MainScreen from "../components/mainScreen";
 import SideBar from "../components/sidebar";
 import { ViewContext } from "../contexts/viewContext";
