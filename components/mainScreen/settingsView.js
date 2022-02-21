@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import ToleranceInput from "../common/toleranceInput";
 import { Button, Accordion, Icon, Dropdown } from "semantic-ui-react";
-import QualitativeInput from "../common/qualitativeInput";
 import TolQualitativeInput from "../common/tolQualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
 import { UserContext } from "../../contexts/userContext";

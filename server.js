@@ -13,6 +13,8 @@ app.prepare().then(() => {
       app.render(req, res, "/", query);
     } else if (pathname === "/main") {
       app.render(req, res, "/main", query);
+    } else if (pathname === "/reset") {
+      app.render(req, res, "/reset", query);
     } else {
       handle(req, res, parsedUrl);
     }
