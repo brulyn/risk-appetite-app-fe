@@ -188,7 +188,7 @@ export default function Index() {
     e.preventDefault();
     setLoading(true);
     setDialogIsShown(false);
-    // setNewPassword(generatePassword());
+    setNewPassword(generatePassword());
 
     if (email.length > 0) {
       fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/`, {
@@ -199,7 +199,7 @@ export default function Index() {
         body: JSON.stringify({
           email,
           oldPassword,
-          newPassword: generatePassword(),
+          newPassword,
           reset: true,
         }),
       })
@@ -233,7 +233,6 @@ export default function Index() {
             )
               .then((res) => res.json())
               .then((res) => {
-                console.log(res);
                 if (res.error) {
                   toast.error("Error occured while sending email!");
                   setViewPort("login");
@@ -255,11 +254,11 @@ export default function Index() {
           }
         })
         .catch((err) => {
+          // console.log(JSON.stringify(err));
+          // toast.error(JSON.stringify(err));
           setDialogIsShown(true);
           setMessageTitle("Error");
-          setErrorMessage(
-            "Could not connect to the server. Please make sure the server is up!"
-          );
+          setErrorMessage("Email not found!");
 
           setLoading(false);
         });
