@@ -19,7 +19,7 @@ export default function Index() {
   const [dialogIsShown, setDialogIsShown] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
 
-  const [viewPort, setViewPort] = useState("login");
+  const [viewPort, setViewPort] = useState("updatePassword");
 
   const [userLoggedIn, setUserLoggedIn] = useState(true);
 
@@ -401,13 +401,6 @@ export default function Index() {
                   Update
                 </button>
               )}
-
-              <div
-                className="text-sm text-center mt-10 text-gray-400 cursor-pointer hover:text-blue-cvl-500 hover:underline"
-                onClick={() => setViewPort("login")}
-              >
-                Back to Login
-              </div>
             </form>
           )}
 
