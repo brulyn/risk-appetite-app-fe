@@ -574,7 +574,6 @@ export default function DashboardView() {
                 let _user = { ...user };
                 _user.selectedCompany = value;
                 setUser(_user);
-                console.log(queryCompany);
               }}
             />
           </div>

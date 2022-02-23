@@ -618,7 +618,7 @@ export default function InputView() {
             toast.success("Successfully Saved!");
             sendBulkEmail();
             // setErrorMessage("Data successfully saved.");
-            // setDialogIsShown(true);
+            setDialogIsShown(false);
           })
           .catch((err) => {
             toast.error("Operation Failed!");
@@ -665,8 +665,16 @@ export default function InputView() {
                 messageType: "riskMapUpdated",
               }),
             }
-          );
+          )
+            .then((res) => res.json())
+            .then((res) => {})
+            .catch((err) => {
+              toast.error("Error while sending bulk email!");
+            });
         }
+      })
+      .catch((err) => {
+        toast.error("Can't connect to server!");
       });
   }
 

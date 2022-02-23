@@ -12,7 +12,6 @@ export default function TopList({ scores, changeCompany, companyList }) {
   const [avgRiskScoreCompany, setAvgRiskScore] = useState([]);
 
   useEffect(() => {
-    console.log(companyList);
     let {
       liquidScores,
       businessContinuityScores,
@@ -280,8 +279,6 @@ export default function TopList({ scores, changeCompany, companyList }) {
             : 0,
       };
     });
-
-    console.log(_avgScoresByCompany);
 
     setAvgRiskScore(
       _.orderBy(

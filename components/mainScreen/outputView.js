@@ -130,7 +130,6 @@ export default function OutputView() {
                     let _user = { ...user };
                     _user.selectedCompany = value;
                     setUser(_user);
-                    console.log(queryCompany);
                   }}
                 />
               </div>
@@ -222,7 +221,6 @@ export default function OutputView() {
                     let _user = { ...user };
                     _user.selectedCompany = value;
                     setUser(_user);
-                    console.log(queryCompany);
                   }}
                 />
               </div>

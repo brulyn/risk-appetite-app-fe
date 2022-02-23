@@ -253,8 +253,6 @@ export default function Reset() {
           }
         })
         .catch((err) => {
-          // console.log(JSON.stringify(err));
-          // toast.error(JSON.stringify(err));
           setDialogIsShown(true);
           setMessageTitle("Error");
           setErrorMessage("Email not found!");

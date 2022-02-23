@@ -151,7 +151,10 @@ export default function Index() {
                 password,
               }),
             }
-          );
+          )
+            .then((res) => res.json())
+            .then((res) => {})
+            .catch((err) => toast.warning("Couldn't send notification email!"));
 
           setViewPort("login");
           setDialogIsShown(true);
@@ -253,8 +256,6 @@ export default function Index() {
           }
         })
         .catch((err) => {
-          // console.log(JSON.stringify(err));
-          // toast.error(JSON.stringify(err));
           setDialogIsShown(true);
           setMessageTitle("Error");
           setErrorMessage("Email not found!");
@@ -263,6 +264,7 @@ export default function Index() {
         });
     } else {
       toast.error("Email can't be empty!");
+      setDialogIsShown(false);
     }
     // setLoading(false);
   };
