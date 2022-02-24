@@ -1052,7 +1052,11 @@ export default function DashboardView() {
                 </AreaChart>
               </div>
 
-              {user.companyName === "CVL-Group" && (
+              {(user.profile === "Admin" ||
+                user.profile === "EXCO" ||
+                user.profile === "Tech" ||
+                user.profile === "RD" ||
+                user.profile === "SROF") && (
                 <div className="col-span-3 row-span-2">
                   {/* <div class="underline px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Top 5 Companies (Risk Score)
