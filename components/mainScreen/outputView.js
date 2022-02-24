@@ -130,7 +130,6 @@ export default function OutputView() {
                     let _user = { ...user };
                     _user.selectedCompany = value;
                     setUser(_user);
-                    console.log(queryCompany);
                   }}
                 />
               </div>
@@ -198,6 +197,7 @@ export default function OutputView() {
             </div>
 
             {(user.profile === "Admin" ||
+              user.profile === "EXCO" ||
               user.profile === "Tech" ||
               user.profile === "RD" ||
               user.profile === "SROF") && (
@@ -222,7 +222,6 @@ export default function OutputView() {
                     let _user = { ...user };
                     _user.selectedCompany = value;
                     setUser(_user);
-                    console.log(queryCompany);
                   }}
                 />
               </div>

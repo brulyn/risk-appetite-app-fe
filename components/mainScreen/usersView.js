@@ -6,6 +6,7 @@ import mButton from "../common/mButton";
 import QualitativeInput from "../common/qualitativeInput";
 import ToleranceInput from "../common/toleranceInput";
 import ToleranceMetric from "../common/toleranceMetric";
+import { toast } from "react-toastify";
 
 export default function UsersView() {
   const [users, setUsers] = useState([]);
@@ -33,7 +34,10 @@ export default function UsersView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setUsers(response));
+      .then((response) => setUsers(response))
+      .catch((err) => {
+        toast.error("Can't fetch users!");
+      });
 
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/profiles/`, {
       method: "GET",
@@ -43,7 +47,10 @@ export default function UsersView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setProfiles(response));
+      .then((response) => setProfiles(response))
+      .catch((err) => {
+        toast.error("Can't fetch Profiles!");
+      });
 
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
       method: "GET",
@@ -53,7 +60,10 @@ export default function UsersView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setCompanies(response));
+      .then((response) => setCompanies(response))
+      .catch((err) => {
+        toast.error("Can't fetch companies!");
+      });
 
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/metrics/`, {
       method: "GET",
@@ -63,7 +73,10 @@ export default function UsersView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setMetrics(response));
+      .then((response) => setMetrics(response))
+      .catch((err) => {
+        toast.error("Can't fetch metrics!");
+      });
   }, []);
 
   useEffect(() => {
@@ -80,7 +93,10 @@ export default function UsersView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setUsers(response));
+      .then((response) => setUsers(response))
+      .catch((err) => {
+        toast.error("Can't fetch users!");
+      });
   }
 
   function changeStatus(user, status) {
@@ -98,7 +114,8 @@ export default function UsersView() {
       .then((resp) => {
         return resp.json();
       })
-      .then((resp) => doRefresh());
+      .then((resp) => doRefresh())
+      .catch((err) => toast.error("Couldn't connect to server!"));
   }
 
   function generatePassword() {

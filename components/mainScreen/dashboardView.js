@@ -550,6 +550,7 @@ export default function DashboardView() {
         </div>
 
         {(user.profile === "Admin" ||
+          user.profile === "EXCO" ||
           user.profile === "Tech" ||
           user.profile === "RD" ||
           user.profile === "SROF") && (
@@ -574,7 +575,6 @@ export default function DashboardView() {
                 let _user = { ...user };
                 _user.selectedCompany = value;
                 setUser(_user);
-                console.log(queryCompany);
               }}
             />
           </div>

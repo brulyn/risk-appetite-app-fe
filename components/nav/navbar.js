@@ -24,7 +24,7 @@ export default function Navbar() {
     <div className="relative">
       <div className="flex sticky top-0 flex-row justify-between shadow-sm bg-fixed p-2 bg-white text-blue-cvl-900">
         <div className="flex flex-row items-center ml-4">
-          <Image height="40" width="115" src="/logo.png" />
+          <Image height="30" width="90" src="/logo.png" />
         </div>
 
         {/* <div className="hidden md:flex flex-row items-center font-bold text-xl text-gray-600 ">

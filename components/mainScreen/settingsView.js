@@ -96,7 +96,6 @@ export default function SettingsView() {
         if (response.quantitative.length > 0) {
           toast.info("Data already saved!");
           setSavedValues(response.quantitative);
-          console.log(response.quantitative[0].riskToleranceValues);
           //Strategic
           setPdctDev(getRangeValue(response?.strategic[0]?.pdctDev));
           setBrandRisk(getRangeValue(response?.strategic[0]?.brandRisk));
@@ -384,6 +383,7 @@ export default function SettingsView() {
       {/* <div className="font-semibold text-gray-500">Settings</div> */}
 
       {(user.profile === "Admin" ||
+        user.profile === "EXCO" ||
         user.profile === "Tech" ||
         user.profile === "RD" ||
         user.profile === "SROF") && (
