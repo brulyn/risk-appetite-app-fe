@@ -550,6 +550,7 @@ export default function DashboardView() {
         </div>
 
         {(user.profile === "Admin" ||
+          user.profile === "EXCO" ||
           user.profile === "Tech" ||
           user.profile === "RD" ||
           user.profile === "SROF") && (

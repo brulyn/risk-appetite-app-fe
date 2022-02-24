@@ -383,6 +383,7 @@ export default function SettingsView() {
       {/* <div className="font-semibold text-gray-500">Settings</div> */}
 
       {(user.profile === "Admin" ||
+        user.profile === "EXCO" ||
         user.profile === "Tech" ||
         user.profile === "RD" ||
         user.profile === "SROF") && (
