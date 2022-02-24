@@ -403,6 +403,7 @@ export default function DashboardView() {
         return response.json();
       })
       .then((response) => {
+        console.log(response);
         let {
           liquidityRatios,
           profitabilityRatios,
