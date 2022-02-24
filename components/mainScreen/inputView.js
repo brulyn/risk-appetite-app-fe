@@ -58,6 +58,9 @@ export default function InputView() {
   const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState("");
   const [lossOnMajorUpheavalP, setLossOnMajorUpheavalP] = useState("");
 
+  const [employeeTurnover, setEmployeeTurnover] = useState("");
+  const [employeeTurnoverP, setEmployeeTurnoverP] = useState("");
+
   //Strategic Values
   const [pdctDev, setPdctDev] = useState(40);
   const [investNewTech, setInvestNewTech] = useState(15);
@@ -265,6 +268,8 @@ export default function InputView() {
         currBalancesheetFigures["currentTotalNonCurrentLiabilites"],
       currentLiabilities:
         currBalancesheetFigures["currentTotalCurrentLiabilities"],
+      employeeTurnover,
+      employeeTurnoverP,
       lossOnMajorUpheaval,
       lossOnMajorUpheavalP,
       pdctDev,
@@ -501,6 +506,7 @@ export default function InputView() {
               currentLiabilities:
                 currBalancesheetFigures["currentTotalCurrentLiabilities"],
               lossOnMajorUpheaval,
+              employeeTurnover,
               period: "current",
               username: user.username,
               company: queryCompany,
@@ -522,6 +528,7 @@ export default function InputView() {
               currentLiabilities:
                 prevBalancesheetFigures["previousTotalCurrentLiabilities"],
               lossOnMajorUpheaval: lossOnMajorUpheavalP,
+              employeeTurnover: employeeTurnoverP,
               period: "previous",
               username: user.username,
               company: queryCompany,
@@ -1294,6 +1301,19 @@ export default function InputView() {
                 setValue={setNewCustomersP}
                 value={newCustomersP}
                 error={newCustomersP.toString().length == 0}
+              />
+
+              <ToleranceMetric
+                name="Employee Turnover (%) - Current"
+                setValue={setEmployeeTurnover}
+                value={employeeTurnover}
+                error={employeeTurnover.toString().length == 0}
+              />
+              <ToleranceMetric
+                name="Employee Turnover (%) - Previous"
+                setValue={setEmployeeTurnoverP}
+                value={employeeTurnoverP}
+                error={employeeTurnoverP.toString().length == 0}
               />
 
               <ToleranceMetric
