@@ -360,6 +360,12 @@ export default function SettingsView() {
         })
         .then((response) => {
           toast.success("Saved successfully!");
+          createEvent("toleranceValuesSaved", {
+            title: "Tolerance Values Saved",
+            description: `Tolerance values for ${queryCompany} saved`,
+            payload: { quantVals: presetValues, qualVals },
+            author: user.username,
+          });
         })
         .catch((err) => {
           toast.error("Error while saving!");
@@ -369,6 +375,23 @@ export default function SettingsView() {
         });
     }
   };
+
+  function createEvent(eventType, data) {
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/events`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        eventType,
+        data,
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {})
+      .catch((err) => {});
+  }
+
   return (
     <div className="overflow-y-auto h-screen pb-32">
       <CornerDialog

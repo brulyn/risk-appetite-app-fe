@@ -623,6 +623,14 @@ export default function InputView() {
           })
           .then(function (data) {
             toast.success("Successfully Saved!");
+
+            createEvent("perfomanceSaved", {
+              title: "Perfomance Data Saved",
+              description: `Performance data for ${queryCompany}, ${quater}-${year} saved`,
+              payload: dataObject,
+              author: user.username,
+            });
+
             sendBulkEmail();
             // setErrorMessage("Data successfully saved.");
             setDialogIsShown(false);
@@ -683,6 +691,22 @@ export default function InputView() {
       .catch((err) => {
         toast.error("Can't connect to server!");
       });
+  }
+
+  function createEvent(eventType, data) {
+    fetch(`${host}/events`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        eventType,
+        data,
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {})
+      .catch((err) => {});
   }
 
   useEffect(() => {
