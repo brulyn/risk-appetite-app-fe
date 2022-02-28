@@ -5,15 +5,34 @@ import _ from "lodash";
 
 function StructuredTable() {
   const { ratios, setRatios } = useContext(RatioContext);
+  console.log(ratios);
+
+  // const getRiskScoreGB = (performance, tolerance) => {
+  //   if (performance / tolerance >= 1 || tolerance === 0) return 0;
+  //   if (performance / tolerance >= 0.8 && performance / tolerance < 1) return 1;
+  //   if (performance / tolerance >= 0.5 && performance / tolerance < 0.8)
+  //     return 2;
+  //   if (performance / tolerance >= 0.2 && performance / tolerance < 0.5)
+  //     return 3;
+  //   if (performance / tolerance < 0.2) return 4;
+  // };
 
   const getRiskScoreGB = (performance, tolerance) => {
-    if (performance / tolerance >= 1 || tolerance === 0) return 0;
-    if (performance / tolerance >= 0.8 && performance / tolerance < 1) return 1;
-    if (performance / tolerance >= 0.5 && performance / tolerance < 0.8)
-      return 2;
-    if (performance / tolerance >= 0.2 && performance / tolerance < 0.5)
-      return 3;
-    if (performance / tolerance < 0.2) return 4;
+    let signTolerance = tolerance < 0 ? "minus" : "plus";
+    let signPerfomance = performance < 0 ? "minus" : "plus";
+
+    if (signPerfomance == "minus" && signTolerance === "minus") {
+      return getRiskScoreLB(Math.abs(performance), Math.abs(tolerance));
+    } else {
+      if (performance / tolerance >= 1 || tolerance === 0) return 0;
+      if (performance / tolerance >= 0.8 && performance / tolerance < 1)
+        return 1;
+      if (performance / tolerance >= 0.5 && performance / tolerance < 0.8)
+        return 2;
+      if (performance / tolerance >= 0.2 && performance / tolerance < 0.5)
+        return 3;
+      if (performance / tolerance < 0.2) return 4;
+    }
   };
 
   const getRiskScoreLB = (performance, tolerance) => {
@@ -21,9 +40,9 @@ function StructuredTable() {
     let diff_by_percent = (diff / tolerance) * 100;
 
     if (diff_by_percent <= 0) return 0;
-    else if (diff_by_percent <= 20) return 1;
-    else if (diff_by_percent <= 30) return 2;
-    else if (diff_by_percent <= 40) return 3;
+    else if (diff_by_percent <= 20 && diff_by_percent > 0) return 1;
+    else if (diff_by_percent <= 30 && diff_by_percent > 20) return 2;
+    else if (diff_by_percent <= 40 && diff_by_percent > 30) return 3;
     else return 4;
   };
 
@@ -372,8 +391,9 @@ function StructuredTable() {
                 <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
                 <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
-                  {row.metric !== "Loss on major Upheaval"
-                    ? getRiskScoreGB(
+                  {row.metric === "Loss on major Upheaval" ||
+                  row.metric === "Employee Turnover"
+                    ? getRiskScoreLB(
                         _.round(row.currentPerformance, 2),
                         _.round(row.riskTolerance, 2)
                       )
@@ -385,29 +405,31 @@ function StructuredTable() {
                 <Table.Cell>
                   <Label
                     color={
-                      row.metric !== "Loss on major Upheaval"
+                      row.metric === "Loss on major Upheaval" ||
+                      row.metric === "Employee Turnover"
                         ? getFlagColor(
-                            getRiskScoreGB(
+                            getRiskScoreLB(
                               _.round(row.currentPerformance, 2),
                               _.round(row.riskTolerance, 2)
                             )
                           )
                         : getFlagColor(
-                            getRiskScoreLB(
+                            getRiskScoreGB(
                               _.round(row.currentPerformance, 2),
                               _.round(row.riskTolerance, 2)
                             )
                           )
                     }
                   >
-                    {row.metric !== "Loss on major Upheaval"
-                      ? getDirectionOfRiskGB(
+                    {row.metric === "Loss on major Upheaval" ||
+                    row.metric === "Employee Turnover"
+                      ? getDirectionOfRiskLB(
                           _.round(row.currentPerformance, 2),
                           _.round(row.previousPerformance, 2),
                           _.round(row.riskTolerance, 2),
-                          "greater"
+                          "lesser"
                         )
-                      : getDirectionOfRiskLB(
+                      : getDirectionOfRiskGB(
                           _.round(row.currentPerformance, 2),
                           _.round(row.previousPerformance, 2),
                           _.round(row.riskTolerance, 2),

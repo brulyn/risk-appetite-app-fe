@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import UsersTable from "../common/usersTable";
 import { Spinner, CornerDialog } from "evergreen-ui";
 import { Button, Dropdown } from "semantic-ui-react";
@@ -7,8 +7,10 @@ import QualitativeInput from "../common/qualitativeInput";
 import ToleranceInput from "../common/toleranceInput";
 import ToleranceMetric from "../common/toleranceMetric";
 import { toast } from "react-toastify";
+import { UserContext } from "../../contexts/userContext";
 
 export default function UsersView() {
+  const { user, setUser } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [portView, setPortView] = useState("list");
 
@@ -99,14 +101,15 @@ export default function UsersView() {
       });
   }
 
-  function changeStatus(user, status) {
+  function changeStatus(changedUser, status) {
+    console.log(changedUser);
     fetch(
       `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/status`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          user,
+          user: changedUser,
           status,
         }),
       }
@@ -114,8 +117,22 @@ export default function UsersView() {
       .then((resp) => {
         return resp.json();
       })
-      .then((resp) => doRefresh())
-      .catch((err) => toast.error("Couldn't connect to server!"));
+      .then((resp) => {
+        createEvent("userStatusChanged", {
+          title: "User's status changed",
+          description: `${changedUser.username}'s status changed from ${changedUser.status} to ${status}.`,
+          payload: {
+            changedUser,
+            status,
+          },
+          author: user.username,
+        });
+        doRefresh();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Couldn't connect to server!");
+      });
   }
 
   function generatePassword() {
@@ -150,7 +167,21 @@ export default function UsersView() {
         },
         body: JSON.stringify(body),
       })
-        .then(() => {
+        .then((response) => response.json())
+        .then((res) => {
+          createEvent("userCreated", {
+            title: "User Created",
+            description: `User created for ${company}`,
+            payload: {
+              names,
+              email,
+              profile,
+              company,
+              watches,
+            },
+            author: user.username,
+          });
+
           fetch(
             `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/email/send`,
             {
@@ -177,9 +208,26 @@ export default function UsersView() {
             });
         })
         .catch((err) => {
+          console.log(err);
           setCreating(false);
         });
     }
+  }
+
+  function createEvent(eventType, data) {
+    fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/events`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        eventType,
+        data,
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {})
+      .catch((err) => {});
   }
 
   return (
