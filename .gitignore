@@ -38,3 +38,5 @@ yarn-error.log*
 
 /daemon
 
+/package-lock.json
+
