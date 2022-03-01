@@ -1,5 +1,9 @@
-import { useState } from "react";
-import { DocumentTextIcon } from "@heroicons/react/solid";
+import { useState, useEffect } from "react";
+import {
+  DocumentTextIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/solid";
 import {
   ChatIcon,
   DotsHorizontalIcon,
@@ -40,15 +44,26 @@ const MStatusIndicator = ({ status }) => {
   }
 };
 
-export default function UsersTable({ data, handelOpen, handelChangeStatus }) {
+export default function UsersTable({
+  data,
+  handelOpen,
+  handelChangeStatus,
+  handleDelete,
+}) {
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
+  const [localData, setLocalData] = useState([]);
+
+  useEffect(() => {
+    setLocalData(data);
+    setPageNumber(1);
+  }, [data]);
 
   function handlePageChange(e, data) {
     setPageNumber(data.activePage);
   }
 
-  const pData = paginate(data, pageNumber, pageSize);
+  const pData = paginate(localData, pageNumber, pageSize);
   return (
     <div className="hidden md:block">
       <Table size="small">
@@ -107,16 +122,16 @@ export default function UsersTable({ data, handelOpen, handelChangeStatus }) {
                 </Table.Cell>
 
                 <Table.Cell>
-                  <div className="flex flex-row mr-2">
+                  <div className="flex flex-row mr-2 space-x-4">
                     <button
                       onClick={() => handelOpen(row)}
-                      className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 mr-4 hover:scale-105 active:scale-95 active:shadow-sm"
+                      className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 hover:scale-105 active:scale-95 active:shadow-sm"
                     >
-                      <DotsHorizontalIcon className="h-5 w-5 text-blue-400" />
+                      <PencilIcon className="h-5 w-5 text-blue-400" />
                     </button>
                     <button
                       onClick={() => handelChangeStatus(row, "active")}
-                      className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 mr-4 hover:scale-105 active:scale-95 active:shadow-sm"
+                      className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 hover:scale-105 active:scale-95 active:shadow-sm"
                     >
                       <CheckIcon className="h-5 w-5 text-green-400" />
                     </button>
@@ -125,6 +140,13 @@ export default function UsersTable({ data, handelOpen, handelChangeStatus }) {
                       className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 hover:scale-105 active:scale-95 active:shadow-sm"
                     >
                       <XIcon className="h-5 w-5 text-red-400" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(row)}
+                      className="flex items-center justify-evenly w-11 h-8 bg-red-400 rounded-full shadow-md cursor-pointer p-2 hover:scale-105 active:scale-95 active:shadow-sm"
+                    >
+                      <TrashIcon className="h-5 w-5 text-white" />
                     </button>
                   </div>
                 </Table.Cell>

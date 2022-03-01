@@ -8,6 +8,7 @@ import ToleranceInput from "../common/toleranceInput";
 import ToleranceMetric from "../common/toleranceMetric";
 import { toast } from "react-toastify";
 import { UserContext } from "../../contexts/userContext";
+import { RefreshIcon } from "@heroicons/react/solid";
 
 export default function UsersView() {
   const { user, setUser } = useContext(UserContext);
@@ -95,9 +96,21 @@ export default function UsersView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setUsers(response))
+      .then((response) => {
+        setUsers(response);
+        setNames("");
+        setEmail("");
+        setWatches([]);
+        setCompany("");
+        setProfile("");
+      })
       .catch((err) => {
         toast.error("Can't fetch users!");
+        setNames("");
+        setEmail("");
+        setWatches([]);
+        setCompany("");
+        setProfile("");
       });
   }
 
@@ -133,6 +146,20 @@ export default function UsersView() {
         console.log(err);
         toast.error("Couldn't connect to server!");
       });
+  }
+
+  function deleteUser(userData) {
+    console.log(userData);
+  }
+
+  function editUser(userData) {
+    let { names, email, profile, watches, company } = userData;
+    setPortView("edit");
+    setNames(names);
+    setEmail(email);
+    setProfile(profile);
+    setWatches(watches);
+    setCompany(company);
   }
 
   function generatePassword() {
@@ -214,6 +241,49 @@ export default function UsersView() {
     }
   }
 
+  async function updateUser() {
+    if (names.length > 0 && email.length > 0) {
+      let body = {
+        names,
+        email,
+        profile,
+        company,
+        watches,
+      };
+      setCreating(true);
+
+      fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+        .then((response) => response.json())
+        .then((res) => {
+          createEvent("userUpdated", {
+            title: "User Updated",
+            description: `Info for ${names} updated`,
+            payload: {
+              names,
+              email,
+              profile,
+              company,
+              watches,
+            },
+            author: user.username,
+          });
+          setCreating(false);
+          doRefresh();
+          setPortView("list");
+        })
+        .catch((err) => {
+          console.log(err);
+          setCreating(false);
+        });
+    }
+  }
+
   function createEvent(eventType, data) {
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/events`, {
       method: "POST",
@@ -235,33 +305,51 @@ export default function UsersView() {
       {/* Title */}
       <div className="flex flex-row items-center justify-between mb-5">
         <div className="font-semibold text-gray-500">
-          {portView === "list" ? "List of Users" : "New User"}
+          {portView === "list"
+            ? "List of Users"
+            : portView === "new"
+            ? "New User"
+            : "Edit User"}
         </div>
-        {portView === "list" && (
-          <button
-            onClick={() => setPortView("new")}
-            className="flex items-center justify-center bg-blue-cvl-800 rounded shadow-md cursor-pointer px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
-          >
-            <div className="text-white text-xs">Add New</div>
-          </button>
-        )}
+        <div>
+          {portView === "list" && (
+            <div className="flex flex-row items-center">
+              <button
+                onClick={() => doRefresh()}
+                className="flex items-center justify-evenly w-11 h-8 bg-white rounded-full shadow-md cursor-pointer p-2 mr-4 hover:scale-105 active:scale-95 active:shadow-sm"
+              >
+                <RefreshIcon className="h-5 w-5 text-blue-cvl-700" />
+              </button>
+              <button
+                onClick={() => setPortView("new")}
+                className="flex items-center justify-center bg-blue-cvl-800 rounded shadow-md cursor-pointer px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
+              >
+                <div className="text-white text-xs">Add New</div>
+              </button>
+            </div>
+          )}
 
-        {portView === "new" && (
-          <button
-            onClick={() => setPortView("list")}
-            className="flex items-center justify-center bg-yellow-600 rounded shadow-md cursor-pointer px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
-          >
-            <div className="text-white text-xs">Cancel</div>
-          </button>
-        )}
+          {portView !== "list" && (
+            <button
+              onClick={() => {
+                doRefresh();
+                setPortView("list");
+              }}
+              className="flex items-center justify-center bg-yellow-600 rounded shadow-md cursor-pointer px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
+            >
+              <div className="text-white text-xs">Cancel</div>
+            </button>
+          )}
+        </div>
       </div>
 
       {portView === "list" && (
         <UsersTable
           data={users}
-          handelOpen={() => {}}
+          handelOpen={editUser}
           handelShowMessages={() => {}}
           handelChangeStatus={changeStatus}
+          handleDelete={deleteUser}
         />
       )}
 
@@ -340,6 +428,106 @@ export default function UsersView() {
             {!creating && canSubmit && (
               <button
                 onClick={() => createUser()}
+                className="flex items-center justify-center bg-blue-cvl-800 rounded shadow-md cursor-pointer w-1/5 mt-5 px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
+              >
+                <div className="text-white text-xs">Submit</div>
+              </button>
+            )}
+
+            {creating && (
+              <Spinner
+                className="mt-5 justify-center items-center py-3"
+                size={32}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      {portView === "edit" && (
+        <div className="mt-1 mb-10">
+          <div className="flex flex-col w-1/5 mt-2 mr-5">
+            <ToleranceMetric name="Names" setValue={setNames} value={names} />
+
+            <ToleranceMetric name="Email" setValue={setEmail} value={email} />
+
+            <div className="flex flex-col w-1/5 mt-2 mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Company
+              </label>
+              <Dropdown
+                placeholder="Company"
+                search
+                selection
+                value={company}
+                options={companies.map((c) => {
+                  return {
+                    key: c.name,
+                    value: c.name,
+                    text: c.name,
+                  };
+                })}
+                onChange={(e, { value }) => {
+                  setCompany(value);
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col w-1/5 mt-2 mr-5">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Profile
+              </label>
+              <Dropdown
+                placeholder="Profile"
+                search
+                selection
+                value={profile}
+                options={profiles.map((p) => {
+                  return {
+                    key: p.name,
+                    value: p.name,
+                    text: p.description,
+                  };
+                })}
+                onChange={(e, { value }) => {
+                  setProfile(value);
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col mt-2">
+              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                Metrics to watch
+              </label>
+              <Dropdown
+                placeholder="Watches"
+                multiple
+                selection
+                options={metrics.map((m) => {
+                  return {
+                    key: m.name,
+                    value: m.name,
+                    text: m.description,
+                  };
+                })}
+                onChange={(v, d) => {
+                  setWatches(d.value);
+                }}
+              />
+            </div>
+
+            {!creating && canSubmit && portView === "new" && (
+              <button
+                onClick={() => createUser()}
+                className="flex items-center justify-center bg-blue-cvl-800 rounded shadow-md cursor-pointer w-1/5 mt-5 px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
+              >
+                <div className="text-white text-xs">Submit</div>
+              </button>
+            )}
+
+            {!creating && canSubmit && portView === "edit" && (
+              <button
+                onClick={() => updateUser()}
                 className="flex items-center justify-center bg-blue-cvl-800 rounded shadow-md cursor-pointer w-1/5 mt-5 px-4 py-2 hover:scale-105 active:scale-95 active:shadow-sm"
               >
                 <div className="text-white text-xs">Submit</div>
