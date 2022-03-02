@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ViewContext } from "../../../contexts/viewContext";
 
 export default function RiskMap({
   companyName,
@@ -9,6 +10,8 @@ export default function RiskMap({
   marketingScore,
   businessContScore,
 }) {
+  const { view, setView } = useContext(ViewContext);
+
   return (
     <div className="flex flex-col m-1 col-span-2 p-3 ">
       <div className="text-center font-bold text-gray-800 text-lg my-3">
@@ -22,36 +25,54 @@ export default function RiskMap({
               High
             </div>
             {liquidityScore === 3 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore === 3 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore === 3 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore === 3 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore === 3 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore === 3 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Business Continuity : {businessContScore}
               </div>
             )}
@@ -63,36 +84,54 @@ export default function RiskMap({
             </div>
 
             {liquidityScore <= 1 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore <= 1 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore <= 1 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore <= 1 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore <= 1 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore <= 1 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Business Continuity : {businessContScore}
               </div>
             )}
@@ -105,36 +144,54 @@ export default function RiskMap({
               Extreme
             </div>
             {liquidityScore >= 4 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore >= 4 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore >= 4 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore >= 4 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore >= 4 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore >= 4 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Business Continuity : {businessContScore}
               </div>
             )}
@@ -145,36 +202,54 @@ export default function RiskMap({
               Moderate
             </div>
             {liquidityScore === 2 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Liquidity : {liquidityScore}
               </div>
             )}
 
             {profitabilityScore === 2 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Profitability : {profitabilityScore}
               </div>
             )}
 
             {operationalEffScore === 2 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Operational Efficiency : {operationalEffScore}
               </div>
             )}
 
             {creditRiskScore === 2 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Credit Risk : {creditRiskScore}
               </div>
             )}
             {marketingScore === 2 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Marketing : {marketingScore}
               </div>
             )}
 
             {businessContScore === 2 && (
-              <div className="font-bold text-gray-800 text-base cursor-pointer">
+              <div
+                className="font-bold text-gray-800 text-base cursor-pointer"
+                onClick={() => setView("output")}
+              >
                 Business Continuity : {businessContScore}
               </div>
             )}
