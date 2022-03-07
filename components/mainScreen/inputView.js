@@ -44,49 +44,49 @@ export default function InputView() {
   const [dDialogIsShown, setDdialogIsShown] = useState(false);
   const [dMessageTitle, setDmessageTitle] = useState("");
 
-  const [systemUptime, setSystemUptime] = useState("");
-  const [systemUptimeP, setSystemUptimeP] = useState("");
-  const [machineryUptime, setMachineryUptime] = useState("");
-  const [machineryUptimeP, setMachineryUptimeP] = useState("");
+  const [systemUptime, setSystemUptime] = useState(90);
+  const [systemUptimeP, setSystemUptimeP] = useState(70);
+  const [machineryUptime, setMachineryUptime] = useState(90);
+  const [machineryUptimeP, setMachineryUptimeP] = useState(70);
 
-  const [marketShare, setMarketShare] = useState("");
-  const [marketShareP, setMarketShareP] = useState("");
-  const [newCustomers, setNewCustomers] = useState("");
-  const [newCustomersP, setNewCustomersP] = useState("");
+  const [marketShare, setMarketShare] = useState(60);
+  const [marketShareP, setMarketShareP] = useState(60);
+  const [newCustomers, setNewCustomers] = useState(30);
+  const [newCustomersP, setNewCustomersP] = useState(30);
 
   //
-  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState("");
-  const [lossOnMajorUpheavalP, setLossOnMajorUpheavalP] = useState("");
+  const [lossOnMajorUpheaval, setLossOnMajorUpheaval] = useState(5);
+  const [lossOnMajorUpheavalP, setLossOnMajorUpheavalP] = useState(5);
 
-  const [employeeTurnover, setEmployeeTurnover] = useState("");
-  const [employeeTurnoverP, setEmployeeTurnoverP] = useState("");
+  const [employeeTurnover, setEmployeeTurnover] = useState(2);
+  const [employeeTurnoverP, setEmployeeTurnoverP] = useState(2);
 
   //Strategic Values
-  const [pdctDev, setPdctDev] = useState(40);
-  const [investNewTech, setInvestNewTech] = useState(15);
-  const [businessCont, setBusinessCont] = useState(40);
-  const [expToNewMarket, setExpToNewMarket] = useState(40);
-  const [brandRisk, setBrandRisk] = useState(15);
+  const [pdctDev, setPdctDev] = useState(70);
+  const [investNewTech, setInvestNewTech] = useState(60);
+  const [businessCont, setBusinessCont] = useState(70);
+  const [expToNewMarket, setExpToNewMarket] = useState(70);
+  const [brandRisk, setBrandRisk] = useState(70);
 
   //Operational Values
-  const [disruptionOp, setDisruptionOp] = useState(40);
-  const [lossOfKeyStaff, setLossOfKeyStaff] = useState(40);
-  const [compromisePrdt, setCompromisePrdt] = useState(15);
-  const [serviceDelays, setServiceDelays] = useState(40);
-  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState(40);
+  const [disruptionOp, setDisruptionOp] = useState(70);
+  const [lossOfKeyStaff, setLossOfKeyStaff] = useState(70);
+  const [compromisePrdt, setCompromisePrdt] = useState(60);
+  const [serviceDelays, setServiceDelays] = useState(70);
+  const [disruptionSupplyChain, setDisruptionSupplyChain] = useState(70);
 
   //Financial Values
   const [customerDefaultRisk, setCustomerDefaultRisk] = useState(60);
-  const [cashFlowConstraints, setcashFlowConstraints] = useState(40);
-  const [fraudAndCorruption, setFraudAndCorruption] = useState(15);
-  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState(10);
-  const [underUtilCapital, setUnderUtilCapital] = useState(40);
+  const [cashFlowConstraints, setcashFlowConstraints] = useState(70);
+  const [fraudAndCorruption, setFraudAndCorruption] = useState(90);
+  const [errorsAndMisstatements, setErrorsAndMisstatements] = useState(80);
+  const [underUtilCapital, setUnderUtilCapital] = useState(70);
 
   //Compliance
-  const [tax, setTax] = useState(15);
-  const [contract, setContract] = useState(15);
-  const [financialReporting, setFinancialReporting] = useState(15);
-  const [govLicence, setGovLicence] = useState(15);
+  const [tax, setTax] = useState(90);
+  const [contract, setContract] = useState(90);
+  const [financialReporting, setFinancialReporting] = useState(90);
+  const [govLicence, setGovLicence] = useState(90);
 
   const [quater, setQuater] = globalQuater
     ? useState(globalQuater?.substr(0, 2))
