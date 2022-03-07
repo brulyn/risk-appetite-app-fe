@@ -53,6 +53,10 @@ export default function SettingsView() {
 
   const [loading, setLoading] = useState(true);
 
+  const [year, setYear] = globalQuater
+    ? useState(globalQuater?.substr(globalQuater.length - 4))
+    : useState(new Date().getFullYear());
+
   const handleExpand = (e, titleProps) => {
     const { index } = titleProps;
     const newIndex = activeIndex === index ? -1 : index;
@@ -285,6 +289,7 @@ export default function SettingsView() {
             companyName: user.selectedCompany,
             username: user.username,
             riskToleranceValues: presetValues,
+            year,
           }),
         }),
 
@@ -301,6 +306,7 @@ export default function SettingsView() {
             brandRisk,
             companyName: user.selectedCompany,
             username: user.username,
+            year,
           }),
         }),
 
@@ -317,6 +323,7 @@ export default function SettingsView() {
             disruptionSupplyChain,
             companyName: user.selectedCompany,
             username: user.username,
+            year,
           }),
         }),
 
@@ -333,6 +340,7 @@ export default function SettingsView() {
             underUtilCapital,
             companyName: user.selectedCompany,
             username: user.username,
+            year,
           }),
         }),
 
@@ -348,6 +356,7 @@ export default function SettingsView() {
             govLicence,
             companyName: user.selectedCompany,
             username: user.username,
+            year,
           }),
         }),
       ])
@@ -363,7 +372,7 @@ export default function SettingsView() {
           createEvent("toleranceValuesSaved", {
             title: "Tolerance Values Saved",
             description: `Tolerance values for ${queryCompany} saved`,
-            payload: { quantVals: presetValues, qualVals },
+            payload: { quantVals: presetValues, qualVals, year },
             author: user.username,
           });
         })
@@ -410,29 +419,47 @@ export default function SettingsView() {
         user.profile === "Tech" ||
         user.profile === "RD" ||
         user.profile === "SROF") && (
-        <div class="flex flex-col mr-10 w-1/6">
-          <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-            Company
-          </label>
-          <Dropdown
-            placeholder="Company"
-            search
-            selection
-            value={queryCompany}
-            options={companies.map((c) => {
-              return {
-                key: c.name,
-                value: c.name,
-                text: c.name,
-              };
-            })}
-            onChange={(e, { value }) => {
-              setQueryCompany(value);
-              let _user = { ...user };
-              _user.selectedCompany = value;
-              setUser(_user);
-            }}
-          />
+        <div className="flex flex-row w-2/5 mt-2 mr-5">
+          <div class="flex flex-col mr-10">
+            <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              Company
+            </label>
+            <Dropdown
+              placeholder="Company"
+              search
+              selection
+              value={queryCompany}
+              options={companies.map((c) => {
+                return {
+                  key: c.name,
+                  value: c.name,
+                  text: c.name,
+                };
+              })}
+              onChange={(e, { value }) => {
+                setQueryCompany(value);
+                let _user = { ...user };
+                _user.selectedCompany = value;
+                setUser(_user);
+              }}
+            />
+          </div>
+
+          <div class="flex flex-col mr-5">
+            <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              Year
+            </label>
+            <input
+              className="focus:outline-none border-2 border-gray-200 focus:border-blue-cvl-300 py-2.5 px-3 text-sm text-gray-500 shadow-inner rounded-lg"
+              value={year}
+              type="number"
+              onChange={(e) => {
+                setYear(e.target.value);
+                // setQuaterYear(quater + " " + e.target.value);
+                // setGlobalQuater(quater + " " + e.target.value);
+              }}
+            />
+          </div>
         </div>
       )}
       {!loading && (
