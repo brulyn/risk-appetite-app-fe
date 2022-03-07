@@ -685,13 +685,13 @@ export default function DashboardView() {
                     strokeWidth={2}
                     // isAnimationActive={false}
                   />
-                  <Line
+                  {/* <Line
                     type="natural"
                     dataKey="systemUptime"
                     stroke="#82ca9d"
                     dot={false}
                     strokeWidth={2}
-                    // isAnimationActive={false}
+                   
                   />
                   <Line
                     type="natural"
@@ -699,8 +699,8 @@ export default function DashboardView() {
                     stroke="#8c2020"
                     dot={false}
                     strokeWidth={2}
-                    // isAnimationActive={false}
-                  />
+                   
+                  /> */}
                 </LineChart>
               </div>
 
@@ -751,7 +751,7 @@ export default function DashboardView() {
                   data={marketingRatios}
                   margin={{ top: 10, bottom: 5 }}
                 >
-                  {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                  {/* <CartesianGrid strokeDasharray="1 1" /> */}
 
                   <XAxis dataKey="quater" hide="true" />
                   <YAxis hide={true} />
@@ -765,13 +765,12 @@ export default function DashboardView() {
                     strokeWidth={2}
                     // isAnimationActive={false}
                   />
-                  <Line
+                  {/* <Line
                     type="natural"
                     dataKey="marketShare"
                     stroke="#8c2020"
                     dot={false}
                     strokeWidth={2}
-                    // isAnimationActive={false}
                   />
                   <Line
                     type="natural"
@@ -779,8 +778,7 @@ export default function DashboardView() {
                     stroke="#8884d8"
                     dot={false}
                     strokeWidth={2}
-                    // isAnimationActive={false}
-                  />
+                  /> */}
                 </LineChart>
               </div>
 
@@ -801,13 +799,12 @@ export default function DashboardView() {
                   <YAxis hide={true} />
                   <Tooltip />
                   <Legend />
-                  <Line
+                  {/* <Line
                     type="natural"
                     dataKey="employeeTurnover"
                     stroke="#82ca9d"
                     dot={false}
                     strokeWidth={2}
-                    // isAnimationActive={false}
                   />
                   <Line
                     type="natural"
@@ -815,8 +812,7 @@ export default function DashboardView() {
                     stroke="#8c2020"
                     dot={false}
                     strokeWidth={2}
-                    // isAnimationActive={false}
-                  />
+                  /> */}
                   <Line
                     type="natural"
                     dataKey="solvencyRatioMetric"
