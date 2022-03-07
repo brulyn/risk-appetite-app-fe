@@ -9,10 +9,12 @@ import ToleranceMetric from "../common/toleranceMetric";
 import { toast } from "react-toastify";
 import { UserContext } from "../../contexts/userContext";
 import { RefreshIcon } from "@heroicons/react/solid";
+import _ from "lodash";
 
 export default function UsersView() {
   const { user, setUser } = useContext(UserContext);
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [portView, setPortView] = useState("list");
 
   const [names, setNames] = useState("");
@@ -37,7 +39,10 @@ export default function UsersView() {
       }),
     })
       .then((response) => response.json())
-      .then((response) => setUsers(response))
+      .then((response) => {
+        setUsers(response);
+        setFilteredUsers(response);
+      })
       .catch((err) => {
         toast.error("Can't fetch users!");
       });
@@ -98,6 +103,7 @@ export default function UsersView() {
       .then((response) => response.json())
       .then((response) => {
         setUsers(response);
+        setFilteredUsers(response);
         setNames("");
         setEmail("");
         setWatches([]);
@@ -300,6 +306,20 @@ export default function UsersView() {
       .catch((err) => {});
   }
 
+  function searchUsers(value) {
+    if (value.length >= 1) {
+      setFilteredUsers(
+        users.filter(
+          (user) =>
+            _.upperCase(user.names).indexOf(_.upperCase(value)) !== -1 ||
+            _.upperCase(user.email).indexOf(_.upperCase(value)) !== -1
+        )
+      );
+    } else {
+      setFilteredUsers(users);
+    }
+  }
+
   return (
     <div className="flex flex-col pr-5">
       {/* Title */}
@@ -311,6 +331,16 @@ export default function UsersView() {
             ? "New User"
             : "Edit User"}
         </div>
+
+        <div>
+          <input
+            type="text"
+            className="focus:outline-none bg-white rounded px-2 py-2 text-sm w-80 text-gray-700 border-b-2 border-blue-cvl-700 shadow-sm"
+            placeholder="Search"
+            onChange={(e) => searchUsers(e.target.value)}
+          />
+        </div>
+
         <div>
           {portView === "list" && (
             <div className="flex flex-row items-center">
@@ -345,7 +375,7 @@ export default function UsersView() {
 
       {portView === "list" && (
         <UsersTable
-          data={users}
+          data={filteredUsers}
           handelOpen={editUser}
           handelShowMessages={() => {}}
           handelChangeStatus={changeStatus}
