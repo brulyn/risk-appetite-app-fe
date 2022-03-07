@@ -43,19 +43,19 @@ export default function OutputView() {
 
   const quaterList = [
     {
-      qtext: "Quater 1",
+      qtext: "Quarter 1",
       abbr: "Q1",
     },
     {
-      qtext: "Quater 2",
+      qtext: "Quarter 2",
       abbr: "Q2",
     },
     {
-      qtext: "Quater 3",
+      qtext: "Quarter 3",
       abbr: "Q3",
     },
     {
-      qtext: "Quater 4",
+      qtext: "Quarter 4",
       abbr: "Q4",
     },
   ];
@@ -73,10 +73,10 @@ export default function OutputView() {
           <div className="flex flex-row w-2/5 mt-2 mr-5">
             <div class="flex flex-col mr-5">
               <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-                Quater
+                Quarter
               </label>
               <Dropdown
-                placeholder="Quater"
+                placeholder="Quarter"
                 search
                 selection
                 value={quater}
@@ -165,10 +165,10 @@ export default function OutputView() {
           <div className="flex flex-row w-2/5 mt-2 mr-5">
             <div class="flex flex-col mr-5">
               <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-                Quater
+                Quarter
               </label>
               <Dropdown
-                placeholder="Quater"
+                placeholder="Quarter"
                 search
                 selection
                 value={quater}

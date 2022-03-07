@@ -28,19 +28,19 @@ const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
 const quaterList = [
   {
-    qtext: "Quater 1",
+    qtext: "Quarter 1",
     abbr: "Q1",
   },
   {
-    qtext: "Quater 2",
+    qtext: "Quarter 2",
     abbr: "Q2",
   },
   {
-    qtext: "Quater 3",
+    qtext: "Quarter 3",
     abbr: "Q3",
   },
   {
-    qtext: "Quater 4",
+    qtext: "Quarter 4",
     abbr: "Q4",
   },
 ];
@@ -473,10 +473,10 @@ export default function DashboardView() {
         <div class="flex flex-col mr-5">
           <ToastContainer />
           <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
-            Quater
+            Quarter
           </label>
           <Dropdown
-            placeholder="Quater"
+            placeholder="Quarter"
             search
             selection
             value={quater}
