@@ -51,7 +51,7 @@ export default function SideBar() {
         <div className="flex flex-row justify-between items-center mx-4 mt-2 ">
           <div className="flex flex-row justify-between space-x-2 items-center cursor-pointer ">
             {/* Names */}
-            <div class="flex-shrink-0 h-12 w-12 rounded-full shadow-sm p-1 transition ease-in-out duration-200 ">
+            <div class="flex-shrink-0 h-12 w-12 rounded-full shadow-sm p-1 transition ease-in-out duration-200 bg-white">
               <Image
                 height="150"
                 width="150"
