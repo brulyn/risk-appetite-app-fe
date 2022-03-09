@@ -567,7 +567,7 @@ export default function DashboardView() {
             {/* Quantitative Trends */}
             <div class="grid grid-cols-1 md:grid-cols-2 mt-5 mr-5 gap-5">
               {/* Liquidity */}
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Liquidity
                 </div>
@@ -602,7 +602,7 @@ export default function DashboardView() {
               </div>
 
               {/* Profitability */}
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Profitability
                 </div>
@@ -661,7 +661,7 @@ export default function DashboardView() {
               </div>
 
               {/* Operational Efficiency */}
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Operational Efficiency
                 </div>
@@ -705,7 +705,7 @@ export default function DashboardView() {
               </div>
 
               {/* Credit risk */}
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Credit Risk
                 </div>
@@ -741,7 +741,7 @@ export default function DashboardView() {
               </div>
 
               {/* Marketing */}
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Marketing
                 </div>
@@ -783,7 +783,7 @@ export default function DashboardView() {
               </div>
 
               {/* Business Continuity */}
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center">
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Business Continuity
                 </div>
@@ -827,7 +827,7 @@ export default function DashboardView() {
 
             {/* Qualitative Trends */}
             <div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-4 mt-5 mr-5 gap-5">
-              <div className="flex flex-col bg-white p-1 rounded-md shadow-md cursor-pointer items-center justify-evenly">
+              <div className="flex flex-col bg-white p-1 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Strategic
                 </div>
@@ -870,7 +870,8 @@ export default function DashboardView() {
                   />
                 </AreaChart>
               </div>
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center justify-evenly">
+
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Financial
                 </div>
@@ -913,7 +914,8 @@ export default function DashboardView() {
                   />
                 </AreaChart>
               </div>
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center justify-evenly">
+
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Operational
                 </div>
@@ -956,7 +958,8 @@ export default function DashboardView() {
                   />
                 </AreaChart>
               </div>
-              <div className="flex flex-col bg-white p-2 rounded-md shadow-md cursor-pointer items-center justify-evenly">
+
+              <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
                 <div className="text-md font-semibold text-gray-600 uppercase">
                   Compliance
                 </div>
