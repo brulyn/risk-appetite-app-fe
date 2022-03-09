@@ -5,7 +5,6 @@ import _ from "lodash";
 
 function StructuredTable() {
   const { ratios, setRatios } = useContext(RatioContext);
-  console.log(ratios);
 
   // const getRiskScoreGB = (performance, tolerance) => {
   //   if (performance / tolerance >= 1 || tolerance === 0) return 0;

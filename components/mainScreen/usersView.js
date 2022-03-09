@@ -121,7 +121,6 @@ export default function UsersView() {
   }
 
   function changeStatus(changedUser, status) {
-    console.log(changedUser);
     fetch(
       `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/users/status`,
       {
@@ -149,14 +148,11 @@ export default function UsersView() {
         doRefresh();
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Couldn't connect to server!");
       });
   }
 
-  function deleteUser(userData) {
-    console.log(userData);
-  }
+  function deleteUser(userData) {}
 
   function editUser(userData) {
     let { names, email, profile, watches, company } = userData;
@@ -241,7 +237,6 @@ export default function UsersView() {
             });
         })
         .catch((err) => {
-          console.log(err);
           setCreating(false);
         });
     }
@@ -284,7 +279,6 @@ export default function UsersView() {
           setPortView("list");
         })
         .catch((err) => {
-          console.log(err);
           setCreating(false);
         });
     }
