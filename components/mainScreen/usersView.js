@@ -332,14 +332,16 @@ export default function UsersView() {
             : "Edit User"}
         </div>
 
-        <div>
-          <input
-            type="text"
-            className="focus:outline-none bg-white rounded px-2 py-2 text-sm w-80 text-gray-700 border-b-2 border-blue-cvl-700 shadow-sm"
-            placeholder="Search"
-            onChange={(e) => searchUsers(e.target.value)}
-          />
-        </div>
+        {portView === "list" && (
+          <div>
+            <input
+              type="text"
+              className="focus:outline-none bg-white rounded px-2 py-2 text-sm w-80 text-gray-700 border-b-2 border-blue-cvl-700 shadow-sm"
+              placeholder="Search"
+              onChange={(e) => searchUsers(e.target.value)}
+            />
+          </div>
+        )}
 
         <div>
           {portView === "list" && (
