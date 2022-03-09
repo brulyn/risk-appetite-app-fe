@@ -1258,7 +1258,9 @@ export default function InputView() {
                           setFileName2("Error!");
                           setDialogIsShown(false);
                           setDmessageTitle("File format Issue!");
-                          setDerrorMessage(`${err}`);
+                          setDerrorMessage(
+                            `Only files with extension .xlsx are allowed!`
+                          );
                           setDdialogIsShown(true);
                           setDataUploaded(false);
                         });
