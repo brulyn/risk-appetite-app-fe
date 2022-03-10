@@ -87,6 +87,7 @@ export default function Index() {
             companyName: data.companyName,
             selectedCompany: data.companyName,
             profile: data.profile,
+            id: data._id,
           });
 
           router.push("main").then(() => setLoading(false));
