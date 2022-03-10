@@ -330,6 +330,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           // Operational Efficiency Previous 1
@@ -349,6 +350,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Liquidity current --2
@@ -368,6 +370,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //liquidity Previous --3
@@ -387,6 +390,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Profitability  Current-- 4
@@ -408,6 +412,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Profitability Previous--5
@@ -429,6 +434,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Credit Risk Current -- 6
@@ -446,6 +452,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Credit Risk Previous--7
@@ -463,6 +470,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Marketing Current-- 8
@@ -481,6 +489,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Marketing Previous-- 9
@@ -499,6 +508,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Business Continuity Current-- 10
@@ -521,6 +531,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
           //Business Continuity Previous-- 11
@@ -543,6 +554,7 @@ export default function InputView() {
               company: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
 
@@ -563,6 +575,7 @@ export default function InputView() {
               companyName: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
 
@@ -582,6 +595,7 @@ export default function InputView() {
               companyName: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
 
@@ -601,6 +615,7 @@ export default function InputView() {
               companyName: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
 
@@ -619,6 +634,7 @@ export default function InputView() {
               companyName: queryCompany,
               quater: quaterYear,
               year: year,
+              createdBy: user.id,
             }),
           }),
         ])
