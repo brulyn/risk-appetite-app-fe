@@ -32,6 +32,7 @@ export default function InputView() {
   const { creators, setCreators } = useContext(CreatorsContext);
 
   const [dataCanBeRead, setDataCanBeRead] = useState(false);
+  const [confirmLegitData, setConfirmLegitData] = useState(false);
 
   const [isFinancialCreator, setIsFinancialCreator] = useState(false);
   const [isNonFinancialCreator, setIsNonFinancialCreator] = useState(false);
@@ -1541,15 +1542,32 @@ export default function InputView() {
               </div>
             )}
           </form>
-          <div className="pt-5 mb-10">
-            <Button
-              disabled={!dataUploaded || !toleranceValues}
-              onClick={() => saveData()}
-              color="blue"
+          <div className="flex flex-row space-x-2 items-center">
+            <ThemeProvider value={classicTheme}>
+              <Checkbox
+                // label="Controlled usage"
+                checked={confirmLegitData}
+                onChange={(e) => setConfirmLegitData(e.target.checked)}
+              />
+            </ThemeProvider>
+            <div
+              className="font-normal text-gray-600 pt-1 cursor-pointer"
+              onClick={() => setConfirmLegitData(!confirmLegitData)}
             >
-              Save
-            </Button>
+              I confirm the the data provided is correct.
+            </div>
           </div>
+          {confirmLegitData && (
+            <div className="pt-5 mb-10">
+              <Button
+                disabled={!dataUploaded || !toleranceValues}
+                onClick={() => saveData()}
+                color="blue"
+              >
+                Save
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

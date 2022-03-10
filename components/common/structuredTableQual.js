@@ -84,10 +84,8 @@ function StructuredTableQual() {
                 {/* Perfomance Values */}
                 <Table.Cell positive={valFillHighCell(row.currentPerformance)}>
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
-                    <div className="bg-green-400 h-10 flex -m-3 items-center">
-                      <Icon color="green" name="circle outline" size="small" />
-                    </div>
+                    //
+                    <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                 </Table.Cell>
                 <Table.Cell
@@ -95,13 +93,12 @@ function StructuredTableQual() {
                   warning={valFillMediumCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center">
-                      {/* <Icon color="green" name="circle outline" size="small" /> */}
-                      <Icon color="orange" name="circle outline" size="small" />
+                      {/*  */}
                     </div>
                   )}
                 </Table.Cell>
@@ -111,13 +108,11 @@ function StructuredTableQual() {
                   warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillLowCell(row.currentPerformance) && (
-                    <div className="bg-yellow-600 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="circle outline" size="small" />
-                    </div>
+                    <div className="bg-yellow-600 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>
@@ -130,13 +125,11 @@ function StructuredTableQual() {
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillNoactionCell(row.currentPerformance) && (
-                    <div className="bg-red-500 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="cancel" size="small" />
-                    </div>
+                    <div className="bg-red-500 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>
@@ -174,10 +167,8 @@ function StructuredTableQual() {
                 {/* Perfomance Values */}
                 <Table.Cell positive={valFillHighCell(row.currentPerformance)}>
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
-                    <div className="bg-green-400 h-10 flex -m-3 items-center">
-                      <Icon color="green" name="circle outline" size="small" />
-                    </div>
+                    //
+                    <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                 </Table.Cell>
                 <Table.Cell
@@ -185,13 +176,12 @@ function StructuredTableQual() {
                   warning={valFillMediumCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center">
-                      {/* <Icon color="green" name="circle outline" size="small" /> */}
-                      <Icon color="orange" name="circle outline" size="small" />
+                      {/*  */}
                     </div>
                   )}
                 </Table.Cell>
@@ -201,13 +191,11 @@ function StructuredTableQual() {
                   warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillLowCell(row.currentPerformance) && (
-                    <div className="bg-yellow-600 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="circle outline" size="small" />
-                    </div>
+                    <div className="bg-yellow-600 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>
@@ -220,13 +208,11 @@ function StructuredTableQual() {
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillNoactionCell(row.currentPerformance) && (
-                    <div className="bg-red-500 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="cancel" size="small" />
-                    </div>
+                    <div className="bg-red-500 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>
@@ -264,10 +250,8 @@ function StructuredTableQual() {
                 {/* Perfomance Values */}
                 <Table.Cell positive={valFillHighCell(row.currentPerformance)}>
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
-                    <div className="bg-green-400 h-10 flex -m-3 items-center">
-                      <Icon color="green" name="circle outline" size="small" />
-                    </div>
+                    //
+                    <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                 </Table.Cell>
                 <Table.Cell
@@ -275,13 +259,12 @@ function StructuredTableQual() {
                   warning={valFillMediumCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center">
-                      {/* <Icon color="green" name="circle outline" size="small" /> */}
-                      <Icon color="orange" name="circle outline" size="small" />
+                      {/*  */}
                     </div>
                   )}
                 </Table.Cell>
@@ -291,13 +274,11 @@ function StructuredTableQual() {
                   warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillLowCell(row.currentPerformance) && (
-                    <div className="bg-yellow-600 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="circle outline" size="small" />
-                    </div>
+                    <div className="bg-yellow-600 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>
@@ -310,13 +291,11 @@ function StructuredTableQual() {
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillNoactionCell(row.currentPerformance) && (
-                    <div className="bg-red-500 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="cancel" size="small" />
-                    </div>
+                    <div className="bg-red-500 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>
@@ -354,10 +333,8 @@ function StructuredTableQual() {
                 {/* Perfomance Values */}
                 <Table.Cell positive={valFillHighCell(row.currentPerformance)}>
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
-                    <div className="bg-green-400 h-10 flex -m-3 items-center">
-                      <Icon color="green" name="circle outline" size="small" />
-                    </div>
+                    //
+                    <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                 </Table.Cell>
                 <Table.Cell
@@ -365,13 +342,12 @@ function StructuredTableQual() {
                   warning={valFillMediumCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center">
-                      {/* <Icon color="green" name="circle outline" size="small" /> */}
-                      <Icon color="orange" name="circle outline" size="small" />
+                      {/*  */}
                     </div>
                   )}
                 </Table.Cell>
@@ -381,13 +357,11 @@ function StructuredTableQual() {
                   warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillLowCell(row.currentPerformance) && (
-                    <div className="bg-yellow-600 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="circle outline" size="small" />
-                    </div>
+                    <div className="bg-yellow-600 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>
@@ -400,13 +374,11 @@ function StructuredTableQual() {
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
-                    // <Icon color="green" name="circle outline" size="small" />
+                    //
                     <div className="bg-green-400 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillNoactionCell(row.currentPerformance) && (
-                    <div className="bg-red-500 h-10 flex -m-3 items-center">
-                      <Icon color="yellow" name="cancel" size="small" />
-                    </div>
+                    <div className="bg-red-500 h-10 flex -m-3 items-center"></div>
                   )}
                   {valFillMediumCell(row.currentPerformance) && (
                     <div className="bg-yellow-200 h-10 flex -m-3 items-center"></div>

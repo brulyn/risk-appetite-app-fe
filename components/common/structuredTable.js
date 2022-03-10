@@ -115,7 +115,9 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>
+                  <p>{_.round(row.currentPerformance, 2)}%</p>
+                </Table.Cell>
                 <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
                 <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
@@ -158,7 +160,9 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>
+                  <p>{_.round(row.currentPerformance, 2)}%</p>
+                </Table.Cell>
                 <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
                 <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
@@ -203,7 +207,9 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>
+                  <p>{_.round(row.currentPerformance, 2)}%</p>
+                </Table.Cell>
                 <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
                 <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
@@ -343,7 +349,9 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>
+                  <p>{_.round(row.currentPerformance, 2)}%</p>
+                </Table.Cell>
                 <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
                 <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>
@@ -386,7 +394,9 @@ function StructuredTable() {
             return (
               <Table.Row key={row.metric}>
                 <Table.Cell>{row.metric}</Table.Cell>
-                <Table.Cell>{_.round(row.currentPerformance, 2)}%</Table.Cell>
+                <Table.Cell>
+                  <p>{_.round(row.currentPerformance, 2)}%</p>
+                </Table.Cell>
                 <Table.Cell>{_.round(row.previousPerformance, 2)}%</Table.Cell>
                 <Table.Cell>{_.round(row.riskTolerance, 2)}%</Table.Cell>
                 <Table.Cell>

@@ -1,5 +1,5 @@
 // import "element-theme-default";
-import "tailwindcss/tailwind.css";
+import "../styles.css";
 import { useState } from "react";
 import { UserContext } from "../contexts/userContext";
 import { QuaterContext } from "../contexts/quaterContext";

@@ -19,7 +19,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        body: ["Work Sans", "Raleway"],
+        body: ["Nunito"],
       },
     },
   },
