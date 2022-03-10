@@ -235,13 +235,13 @@ export default function SettingsView() {
     let negativeProps = [];
     let outOfRangeProps = [];
     _.forIn(presetValues, (v, key) => {
-      if (v.length == 0) {
+      if (v?.length == 0 || _.isUndefined(v)) {
         emptyProps.push(key);
       }
     });
 
     _.forIn(qualVals, (v, key) => {
-      if (v.length == 0) {
+      if (v?.length == 0 || _.isUndefined(v)) {
         emptyProps.push(key);
       }
     });
@@ -290,6 +290,7 @@ export default function SettingsView() {
             username: user.username,
             riskToleranceValues: presetValues,
             year,
+            createdBy: user.id,
           }),
         }),
 
@@ -307,6 +308,7 @@ export default function SettingsView() {
             companyName: user.selectedCompany,
             username: user.username,
             year,
+            createdBy: user.id,
           }),
         }),
 
@@ -324,6 +326,7 @@ export default function SettingsView() {
             companyName: user.selectedCompany,
             username: user.username,
             year,
+            createdBy: user.id,
           }),
         }),
 
@@ -341,6 +344,7 @@ export default function SettingsView() {
             companyName: user.selectedCompany,
             username: user.username,
             year,
+            createdBy: user.id,
           }),
         }),
 
@@ -357,6 +361,7 @@ export default function SettingsView() {
             companyName: user.selectedCompany,
             username: user.username,
             year,
+            createdBy: user.id,
           }),
         }),
       ])
