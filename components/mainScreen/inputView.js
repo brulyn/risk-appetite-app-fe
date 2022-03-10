@@ -3,7 +3,15 @@ import React, { useState, useEffect, useContext } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import readXlsxFile from "read-excel-file";
 import { Accordion, Button, Dropdown, Icon } from "semantic-ui-react";
-import { ConsoleIcon, CornerDialog, Dialog } from "evergreen-ui";
+import {
+  Checkbox,
+  classicTheme,
+  ConsoleIcon,
+  CornerDialog,
+  Dialog,
+  Switch,
+  ThemeProvider,
+} from "evergreen-ui";
 import QualitativeInput from "../common/qualitativeInput";
 import ToleranceTitle from "../common/toleranceTitle";
 import _ from "lodash";
@@ -23,12 +31,13 @@ export default function InputView() {
 
   const [queryCompany, setQueryCompany] = useState(user.selectedCompany);
   const [companies, setCompanies] = useState([]);
+  const [multipleOfThou, setMultipleOfThou] = useState(true);
 
   const [startDate, setStartDate] = useState(new Date());
   const [fetchingData, setfetchingData] = useState(false);
   const [fileName, setFileName] = useState("INPUT 1");
   const [file1Uploaded, setFile1Uploaded] = useState(true);
-  const [fileName2, setFileName2] = useState("Flash Report");
+  const [fileName2, setFileName2] = useState("Financial Report");
   const [dataUploaded, setDataUploaded] = useState(false);
   const [currentFigures, setCurrentFigures] = useState({});
   const [previousFigures, setPreviousFigures] = useState({});
@@ -631,7 +640,34 @@ export default function InputView() {
               author: user.username,
             });
 
-            sendBulkEmail();
+            createEvent("sofpDataSaved", {
+              title: "SOFP Data saved",
+              description: `SOFP data for ${queryCompany}, ${quater}-${year} saved`,
+              company: `${queryCompany}`,
+              quarter: `${quater}${year}`,
+              payload: {
+                currBalancesheetFigures,
+                prevBalancesheetFigures,
+                multipleOfThou,
+              },
+              author: user.username,
+            });
+
+            createEvent("sociDataSaved", {
+              title: "SOCI Data saved",
+              description: `SOCI data for ${queryCompany}, ${quater}-${year} saved`,
+              company: `${queryCompany}`,
+              quarter: `${quater}${year}`,
+              payload: {
+                currentFigures,
+                prevYtdFigures,
+                previousFigures,
+                multipleOfThou,
+              },
+              author: user.username,
+            });
+
+            // sendBulkEmail();
             // setErrorMessage("Data successfully saved.");
             setDialogIsShown(false);
           })
@@ -846,17 +882,32 @@ export default function InputView() {
               )}
             </div>
 
-            <div className="font-semibold text-gray-600 mt-10">
-              Quantitative Metrics
+            <div className="flex flex-row space-x-16 items-center mt-10">
+              <div className="font-semibold text-gray-600">
+                Quantitative Metrics
+              </div>
+
+              <div className="flex flex-row space-x-3 items-center">
+                <div className="font-normal text-gray-600">
+                  Statements in Thousands:
+                </div>
+                <ThemeProvider value={classicTheme}>
+                  <Checkbox
+                    // label="Controlled usage"
+                    checked={multipleOfThou}
+                    onChange={(e) => setMultipleOfThou(e.target.checked)}
+                  />
+                </ThemeProvider>
+              </div>
             </div>
 
-            <div className="flex flex-row w-3/5">
+            <div className="flex flex-row">
               <div className="flex h-16 pt-5 mr-10">
                 <label
                   className={
                     file1Uploaded
-                      ? "w-44 flex flex-row justify-center items-center bg-white text-blue-cvl-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue-cvl-900 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-cvl-900 hover:text-white"
-                      : "w-44 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
+                      ? "w-48 flex flex-row justify-center items-center bg-white text-blue-cvl-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue-cvl-900 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-cvl-900 hover:text-white"
+                      : "w-48 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
                   }
                 >
                   <svg
@@ -900,7 +951,7 @@ export default function InputView() {
                                     toUpper(trim(element)).replace(
                                       /\s\s+/g,
                                       " "
-                                    ) === toUpper(trim(record.title))
+                                    ) === toUpper(trim(record?.title))
                                 );
 
                                 let values = row.filter(
@@ -1083,7 +1134,7 @@ export default function InputView() {
                                           toUpper(trim(element)).replace(
                                             /\s\s+/g,
                                             " "
-                                          ) === toUpper(trim(section.title))
+                                          ) === toUpper(trim(section?.title))
                                       );
                                       let currentValue = 0;
                                       let previousValue = 0;
