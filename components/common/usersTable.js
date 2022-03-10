@@ -141,13 +141,6 @@ export default function UsersTable({
                     >
                       <XIcon className="h-5 w-5 text-red-400" />
                     </button>
-
-                    <button
-                      onClick={() => handleDelete(row)}
-                      className="flex items-center justify-evenly w-11 h-8 bg-red-400 rounded-full shadow-md cursor-pointer p-2 hover:scale-105 active:scale-95 active:shadow-sm"
-                    >
-                      <TrashIcon className="h-5 w-5 text-white" />
-                    </button>
                   </div>
                 </Table.Cell>
                 {/* <Table.Cell>{row.createdOn}</Table.Cell>
