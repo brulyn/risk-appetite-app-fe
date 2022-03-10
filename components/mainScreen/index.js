@@ -11,14 +11,17 @@ import { ToleranceContext } from "../../contexts/toleranceContext";
 import SettingsView from "./settingsView";
 import UsersView from "./usersView";
 import { toast, ToastContainer } from "react-toastify";
+import { CreatorsContext } from "../../contexts/creatorsContext";
 const host = `http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001`;
 
 export default function MainScreen() {
   const { view, setView } = useContext(ViewContext);
   const { user, setUser } = useContext(UserContext);
+
   const { globalQuater, setGlobalQuater } = useContext(QuaterContext);
   const { toleranceValues, setToleranceValues } = useContext(ToleranceContext);
   const [ratios, setRatios] = useState([]);
+  const [creators, setCreators] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -52,7 +55,8 @@ export default function MainScreen() {
           } else {
             setLoaded(true);
             // setLoaded(true);
-            setRatios(response);
+            setRatios(response?.allFiguresData);
+            setCreators(response?.dataCreators);
           }
         })
         .catch((err) => {
@@ -90,7 +94,8 @@ export default function MainScreen() {
             setRatios([]);
           } else {
             setLoaded(true);
-            setRatios(response);
+            setRatios(response?.allFiguresData);
+            setCreators(response?.dataCreators);
           }
         })
         .catch((err) => {
@@ -103,13 +108,15 @@ export default function MainScreen() {
   return (
     <div className="flex-1 bg-gray-50 pt-5 pl-5 ">
       <RatioContext.Provider value={{ ratios, setRatios }}>
-        <DataLoadedContext.Provider value={{ loaded, setLoaded }}>
-          {view === "dashboard" && <DashboardView />}
-          {view === "input" && <InputView />}
-          {view === "output" && <OutputView />}
-          {view === "users" && <UsersView />}
-          {view === "settings" && <SettingsView />}
-        </DataLoadedContext.Provider>
+        <CreatorsContext.Provider value={{ creators, setCreators }}>
+          <DataLoadedContext.Provider value={{ loaded, setLoaded }}>
+            {view === "dashboard" && <DashboardView />}
+            {view === "input" && <InputView />}
+            {view === "output" && <OutputView />}
+            {view === "users" && <UsersView />}
+            {view === "settings" && <SettingsView />}
+          </DataLoadedContext.Provider>
+        </CreatorsContext.Provider>
         <ToastContainer />
       </RatioContext.Provider>
     </div>

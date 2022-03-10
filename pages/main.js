@@ -19,17 +19,6 @@ export default function Home() {
     let storedUser = window.localStorage.getItem("user");
     let jsonStoreUser = JSON.parse(storedUser);
 
-    // window.localStorage.setItem(
-    //   "user",
-    //   JSON.stringify({
-    //     email: email,
-    //     username: email.split("@")[0],
-    //     password: password,
-    //     companyName: data.companyName,
-    //     selectedCompany: data.companyName,
-    //     profile: data.profile,
-    //   })
-    // );
     if (!user.username && !jsonStoreUser?.username) router.push("/");
     else if (jsonStoreUser?.username) {
       setUser({
