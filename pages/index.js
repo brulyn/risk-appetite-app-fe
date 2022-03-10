@@ -271,7 +271,7 @@ export default function Index() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-50">
+    <div className="flex justify-center items-center h-screen bg-gray-50 font-body">
       {!userLoggedIn && (
         <>
           <CornerDialog

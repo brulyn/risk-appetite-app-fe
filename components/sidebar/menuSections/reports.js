@@ -27,8 +27,8 @@ export default function Reports() {
       <div
         className={
           view === "reports"
-            ? "hidden md:block font-semibold text-blue-cvl-900"
-            : "hidden md:block font-semibold text-gray-100"
+            ? "hidden md:block font-medium text-blue-cvl-900"
+            : "hidden md:block font-medium text-gray-100"
         }
       >
         Reports

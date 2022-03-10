@@ -318,7 +318,7 @@ export default function UsersView() {
     <div className="flex flex-col pr-5">
       {/* Title */}
       <div className="flex flex-row items-center justify-between mb-5">
-        <div className="font-semibold text-gray-500">
+        <div className="font-medium text-gray-500">
           {portView === "list"
             ? "List of Users"
             : portView === "new"
@@ -387,7 +387,7 @@ export default function UsersView() {
             <ToleranceMetric name="Email" setValue={setEmail} value={email} />
 
             <div className="flex flex-col w-1/5 mt-2 mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Company
               </label>
               <Dropdown
@@ -409,7 +409,7 @@ export default function UsersView() {
             </div>
 
             <div className="flex flex-col w-1/5 mt-2 mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Profile
               </label>
               <Dropdown
@@ -431,7 +431,7 @@ export default function UsersView() {
             </div>
 
             <div className="flex flex-col mt-2">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Metrics to watch
               </label>
               <Dropdown
@@ -478,7 +478,7 @@ export default function UsersView() {
             <ToleranceMetric name="Email" setValue={setEmail} value={email} />
 
             <div className="flex flex-col w-1/5 mt-2 mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Company
               </label>
               <Dropdown
@@ -500,7 +500,7 @@ export default function UsersView() {
             </div>
 
             <div className="flex flex-col w-1/5 mt-2 mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Profile
               </label>
               <Dropdown
@@ -522,7 +522,7 @@ export default function UsersView() {
             </div>
 
             <div className="flex flex-col mt-2">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Metrics to watch
               </label>
               <Dropdown

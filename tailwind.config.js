@@ -18,6 +18,9 @@ module.exports = {
           "cvl-900": "#053566",
         },
       },
+      fontFamily: {
+        body: ["Work Sans", "Raleway"],
+      },
     },
   },
   variants: {

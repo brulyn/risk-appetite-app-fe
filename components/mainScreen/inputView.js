@@ -826,12 +826,12 @@ export default function InputView() {
           {dErrorMessage}
         </Dialog>
         {/* Title */}
-        {/* <div className="font-semibold text-gray-600">Input</div> */}
+        {/* <div className="font-medium text-gray-600">Input</div> */}
         {/* Input form */}
         <div className="mt-1 mb-10">
           <form>
             <div className="flex flex-row w-2/5 mt-2 mr-5">
-              {/* <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              {/* <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
               Reporting Date
             </label>
             <DatePicker
@@ -843,7 +843,7 @@ export default function InputView() {
             /> */}
 
               <div class="flex flex-col mr-5">
-                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                   Quarter
                 </label>
                 <Dropdown
@@ -861,7 +861,7 @@ export default function InputView() {
               </div>
 
               <div class="flex flex-col mr-5">
-                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                   Year
                 </label>
                 <input
@@ -882,7 +882,7 @@ export default function InputView() {
                 user.profile === "RD" ||
                 user.profile === "SROF") && (
                 <div class="flex flex-col mr-10">
-                  <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                  <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                     Company
                   </label>
                   <Dropdown
@@ -910,14 +910,11 @@ export default function InputView() {
 
             {(!loaded || (loaded && isFinancialCreator)) && (
               <div className="flex flex-row space-x-16 items-center mt-10">
-                <div className="font-semibold text-gray-600">
+                <div className="font-medium text-gray-600">
                   Quantitative Metrics
                 </div>
 
-                <div className="flex flex-row space-x-3 items-center">
-                  <div className="font-normal text-gray-600">
-                    Statements in Thousands:
-                  </div>
+                <div className="flex flex-row space-x-1 items-center">
                   <ThemeProvider value={classicTheme}>
                     <Checkbox
                       // label="Controlled usage"
@@ -925,6 +922,9 @@ export default function InputView() {
                       onChange={(e) => setMultipleOfThou(e.target.checked)}
                     />
                   </ThemeProvider>
+                  <div className="font-normal text-gray-600">
+                    Statements in Thousands
+                  </div>
                 </div>
               </div>
             )}
@@ -935,7 +935,7 @@ export default function InputView() {
                   <label
                     className={
                       file1Uploaded
-                        ? "w-48 flex flex-row justify-center items-center bg-white text-blue-cvl-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue-cvl-900 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-cvl-900 hover:text-white"
+                        ? "w-48 flex flex-row justify-center items-center bg-white text-blue-cvl-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue-cvl-900 cursor-pointer transition duration-150 ease-linear hover:bg-blue-cvl-700 hover:text-white"
                         : "w-48 flex flex-row justify-center items-center bg-white text-gray-400 rounded-lg shadow-lg tracking-wide uppercase border border-gray-400 cursor-not-allowed"
                     }
                   >
@@ -947,7 +947,7 @@ export default function InputView() {
                     >
                       <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                     </svg>
-                    <span className="pl-2 text-sm font-semibold leading-normal">
+                    <span className="pl-2 text-sm font-medium leading-normal">
                       {fileName2}
                     </span>
                     <input
@@ -1366,13 +1366,13 @@ export default function InputView() {
             )}
 
             {loaded && !isFinancialCreator && (
-              <div className="font-semibold text-red-400 mt-10">
+              <div className="font-medium text-red-400 mt-10">
                 Quantitative Data aleady saved by another user!
               </div>
             )}
 
             {(!loaded || (loaded && isNonFinancialCreator)) && (
-              <div className="font-semibold text-gray-600 mt-10">
+              <div className="font-medium text-gray-600 mt-10">
                 Qualitative Metrics (Implementation Level)
               </div>
             )}
@@ -1536,7 +1536,7 @@ export default function InputView() {
             )}
 
             {loaded && !isNonFinancialCreator && (
-              <div className="font-semibold text-red-400 mt-10">
+              <div className="font-medium text-red-400 mt-10">
                 Qualitative Data aleady saved by another user!
               </div>
             )}

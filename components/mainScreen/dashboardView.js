@@ -471,7 +471,7 @@ export default function DashboardView() {
       <div className="flex mt-2 mr-5">
         <div class="flex flex-col mr-5">
           <ToastContainer />
-          <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+          <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
             Quarter
           </label>
           <Dropdown
@@ -489,7 +489,7 @@ export default function DashboardView() {
         </div>
 
         <div class="flex flex-col mr-5">
-          <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+          <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
             Year
           </label>
           <input
@@ -510,7 +510,7 @@ export default function DashboardView() {
           user.profile === "RD" ||
           user.profile === "SROF") && (
           <div class="flex flex-col mr-5">
-            <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+            <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
               Company
             </label>
             <Dropdown
@@ -567,7 +567,7 @@ export default function DashboardView() {
             <div class="grid grid-cols-1 md:grid-cols-2 mt-5 mr-5 gap-5">
               {/* Liquidity */}
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Liquidity
                 </div>
                 <LineChart
@@ -602,7 +602,7 @@ export default function DashboardView() {
 
               {/* Profitability */}
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Profitability
                 </div>
                 <LineChart
@@ -661,7 +661,7 @@ export default function DashboardView() {
 
               {/* Operational Efficiency */}
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Operational Efficiency
                 </div>
                 <LineChart
@@ -705,7 +705,7 @@ export default function DashboardView() {
 
               {/* Credit risk */}
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Credit Risk
                 </div>
                 <LineChart
@@ -741,7 +741,7 @@ export default function DashboardView() {
 
               {/* Marketing */}
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Marketing
                 </div>
                 <LineChart
@@ -783,7 +783,7 @@ export default function DashboardView() {
 
               {/* Business Continuity */}
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Business Continuity
                 </div>
                 <LineChart
@@ -827,7 +827,7 @@ export default function DashboardView() {
             {/* Qualitative Trends */}
             <div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-4 mt-5 mr-5 gap-5">
               <div className="flex flex-col bg-white p-1 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Strategic
                 </div>
                 <AreaChart
@@ -871,7 +871,7 @@ export default function DashboardView() {
               </div>
 
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Financial
                 </div>
                 <AreaChart
@@ -915,7 +915,7 @@ export default function DashboardView() {
               </div>
 
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Operational
                 </div>
                 <AreaChart
@@ -959,7 +959,7 @@ export default function DashboardView() {
               </div>
 
               <div className="flex flex-col bg-white p-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-pointer items-center justify-evenly">
-                <div className="text-md font-semibold text-gray-600 uppercase">
+                <div className="text-md font-medium text-gray-600 uppercase">
                   Compliance
                 </div>
 
@@ -1009,7 +1009,7 @@ export default function DashboardView() {
                 user.profile === "RD" ||
                 user.profile === "SROF") && (
                 <div className="col-span-3 row-span-2">
-                  <div class="py-1 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                  <div class="py-1 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                     Top 5 Companies
                   </div>
                   <TopList

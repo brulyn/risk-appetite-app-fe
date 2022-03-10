@@ -38,7 +38,7 @@ export default function Home() {
       {user.username && (
         <ViewContext.Provider value={{ view, setView }}>
           <Navbar />
-          <div className="flex flex-row bg-gray-50">
+          <div className="flex flex-row bg-gray-50 font-body">
             <SideBar />
             <MainScreen />
             {/* <DetailsScreen /> */}

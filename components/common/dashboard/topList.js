@@ -301,26 +301,26 @@ export default function TopList({ scores, changeCompany, companyList }) {
                 <tr>
                   <th
                     scope="col"
-                    className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Company
                   </th>
 
                   <th
                     scope="col"
-                    className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider items-center"
+                    className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider items-center"
                   >
                     Avg Risk Score
                   </th>
                   <th
                     scope="col"
-                    className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Extreme
                   </th>
                   <th
                     scope="col"
-                    className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     High
                   </th>

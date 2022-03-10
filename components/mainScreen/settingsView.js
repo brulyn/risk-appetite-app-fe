@@ -417,7 +417,7 @@ export default function SettingsView() {
         {errorMessage}
       </CornerDialog>
       <ToastContainer />
-      {/* <div className="font-semibold text-gray-500">Settings</div> */}
+      {/* <div className="font-medium text-gray-500">Settings</div> */}
 
       {(user.profile === "Admin" ||
         user.profile === "EXCO" ||
@@ -426,7 +426,7 @@ export default function SettingsView() {
         user.profile === "SROF") && (
         <div className="flex flex-row w-2/5 mt-2 mr-5">
           <div class="flex flex-col mr-10">
-            <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+            <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
               Company
             </label>
             <Dropdown
@@ -451,7 +451,7 @@ export default function SettingsView() {
           </div>
 
           <div class="flex flex-col mr-5">
-            <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+            <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
               Year
             </label>
             <input
@@ -470,7 +470,7 @@ export default function SettingsView() {
       {!loading && (
         <div className="flex flex-row transition duration-150 ease-out">
           <div className="flex flex-col w-1/2">
-            <div className="font-semibold text-gray-600 mt-5">
+            <div className="font-medium text-gray-600 mt-5">
               Quantitative Metrics
             </div>
             <ToleranceInput
@@ -485,7 +485,7 @@ export default function SettingsView() {
           </div>
 
           <div className="flex flex-col w-1/2">
-            <div className="font-semibold text-gray-600 mt-5">
+            <div className="font-medium text-gray-600 mt-5">
               Qualitative Metrics
             </div>
             <Accordion>

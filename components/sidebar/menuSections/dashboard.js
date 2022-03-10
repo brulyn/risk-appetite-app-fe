@@ -27,8 +27,8 @@ export default function Dashboard() {
       <div
         className={
           view === "dashboard"
-            ? "hidden md:block font-semibold text-blue-cvl-900"
-            : "hidden md:block font-semibold text-gray-100"
+            ? "hidden md:block font-medium text-blue-cvl-900"
+            : "hidden md:block font-medium text-gray-100"
         }
       >
         Dashboard

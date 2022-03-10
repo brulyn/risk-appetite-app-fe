@@ -72,7 +72,7 @@ export default function OutputView() {
         <div className="mr-5">
           <div className="flex flex-row w-2/5 mt-2 mr-5">
             <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Quarter
               </label>
               <Dropdown
@@ -90,7 +90,7 @@ export default function OutputView() {
             </div>
 
             <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Year
               </label>
               <input
@@ -111,7 +111,7 @@ export default function OutputView() {
               user.profile === "RD" ||
               user.profile === "SROF") && (
               <div class="flex flex-col mr-5">
-                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                   Company
                 </label>
                 <Dropdown
@@ -164,7 +164,7 @@ export default function OutputView() {
         <div className="mr-5 mb-5">
           <div className="flex flex-row w-2/5 mt-2 mr-5">
             <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Quarter
               </label>
               <Dropdown
@@ -182,7 +182,7 @@ export default function OutputView() {
             </div>
 
             <div class="flex flex-col mr-5">
-              <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+              <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                 Year
               </label>
               <input
@@ -203,7 +203,7 @@ export default function OutputView() {
               user.profile === "RD" ||
               user.profile === "SROF") && (
               <div class="flex flex-col mr-5">
-                <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+                <label className="font-medium text-gray-500 text-sm mb-1 ml-1">
                   Company
                 </label>
                 <Dropdown

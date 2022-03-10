@@ -9,7 +9,7 @@ export default function ToleranceMetric({
 }) {
   return (
     <div className="flex flex-col w-2/3 mt-2">
-      <label className="font-semibold text-gray-500 text-sm mb-1 ml-1">
+      <label className="font-normal text-gray-500 text-sm mb-1 ml-1">
         {name}
       </label>
       <input
