@@ -39,9 +39,11 @@ export default function Home() {
         companyName: jsonStoreUser.companyName,
         selectedCompany: jsonStoreUser.companyName,
         profile: jsonStoreUser.profile,
+        id: user.id,
       });
     }
   }, []);
+
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       {user.username && (
