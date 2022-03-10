@@ -3,6 +3,7 @@ import React from "react";
 import { Progress } from "semantic-ui-react";
 import ToleranceMetric from "./toleranceMetric";
 import ToleranceTitle from "./toleranceTitle";
+import _ from "lodash";
 
 export default function TolQualitativeInput({
   title,
@@ -24,7 +25,10 @@ export default function TolQualitativeInput({
             value={value}
             error={
               validateQualVal &&
-              (value < 0 || value > 5 || value.toString().length < 1)
+              (value < 0 ||
+                value > 5 ||
+                value?.toString().length < 1 ||
+                _.isUndefined(value))
             }
             setError={setError}
           />
