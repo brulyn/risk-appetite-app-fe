@@ -1627,7 +1627,7 @@ export default function InputView() {
               </div>
             )}
           </form>
-          {/* {data && (
+          {dataCanBeRead && (
             <div className="flex flex-row space-x-2 items-center">
               <ThemeProvider value={classicTheme}>
                 <Checkbox
@@ -1643,7 +1643,7 @@ export default function InputView() {
                 I confirm the the data provided is correct.
               </div>
             </div>
-          )} */}
+          )}
           {confirmLegitData && (
             <div className="pt-5 mb-10">
               <Button
