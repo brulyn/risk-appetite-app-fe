@@ -691,7 +691,7 @@ export default function InputView() {
               author: user.username,
             });
 
-            // sendBulkEmail();
+            sendBulkEmail();
             // setErrorMessage("Data successfully saved.");
             setDialogIsShown(false);
           })
