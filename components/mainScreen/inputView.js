@@ -1366,6 +1366,91 @@ export default function InputView() {
               </div>
             )}
 
+            {(!loaded || (loaded && isFinancialCreator)) && (
+              <div className="grid grid-cols-4 mt-5 items-center">
+                <ToleranceMetric
+                  name="System Uptime (%) - Current"
+                  setValue={setSystemUptime}
+                  value={systemUptime}
+                  error={systemUptime.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="System Uptime (%) - Previous"
+                  setValue={setSystemUptimeP}
+                  value={systemUptimeP}
+                  error={systemUptimeP.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="Machinery Uptime (%) - Current"
+                  setValue={setMachineryUptime}
+                  value={machineryUptime}
+                  error={machineryUptime.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="Machinery Uptime (%) - Previous"
+                  setValue={setMachineryUptimeP}
+                  value={machineryUptimeP}
+                  error={machineryUptimeP.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="Market Share (%) - Current"
+                  setValue={setMarketShare}
+                  value={marketShare}
+                  error={marketShare.toString().length == 0}
+                />
+                <ToleranceMetric
+                  name="Market Share (%) - Previous"
+                  setValue={setMarketShareP}
+                  value={marketShareP}
+                  error={marketShareP.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="New Customers - Current"
+                  setValue={setNewCustomers}
+                  value={newCustomers}
+                  error={newCustomers.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="New Customers - Previous"
+                  setValue={setNewCustomersP}
+                  value={newCustomersP}
+                  error={newCustomersP.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="Employee Turnover (%) - Current"
+                  setValue={setEmployeeTurnover}
+                  value={employeeTurnover}
+                  error={employeeTurnover.toString().length == 0}
+                />
+                <ToleranceMetric
+                  name="Employee Turnover (%) - Previous"
+                  setValue={setEmployeeTurnoverP}
+                  value={employeeTurnoverP}
+                  error={employeeTurnoverP.toString().length == 0}
+                />
+
+                <ToleranceMetric
+                  name="Loss on major upheaval (%) - Current"
+                  setValue={setLossOnMajorUpheaval}
+                  value={lossOnMajorUpheaval}
+                  error={lossOnMajorUpheaval.toString().length == 0}
+                />
+                <ToleranceMetric
+                  name="Loss on major upheaval (%) - Previous"
+                  setValue={setLossOnMajorUpheavalP}
+                  value={lossOnMajorUpheavalP}
+                  error={lossOnMajorUpheavalP.toString().length == 0}
+                />
+              </div>
+            )}
+
             {loaded && !isFinancialCreator && (
               <div className="font-medium text-red-400 mt-10">
                 Quantitative Data aleady saved by another user!
@@ -1542,21 +1627,23 @@ export default function InputView() {
               </div>
             )}
           </form>
-          <div className="flex flex-row space-x-2 items-center">
-            <ThemeProvider value={classicTheme}>
-              <Checkbox
-                // label="Controlled usage"
-                checked={confirmLegitData}
-                onChange={(e) => setConfirmLegitData(e.target.checked)}
-              />
-            </ThemeProvider>
-            <div
-              className="font-normal text-gray-600 pt-1 cursor-pointer"
-              onClick={() => setConfirmLegitData(!confirmLegitData)}
-            >
-              I confirm the the data provided is correct.
+          {/* {data && (
+            <div className="flex flex-row space-x-2 items-center">
+              <ThemeProvider value={classicTheme}>
+                <Checkbox
+                  // label="Controlled usage"
+                  checked={confirmLegitData}
+                  onChange={(e) => setConfirmLegitData(e.target.checked)}
+                />
+              </ThemeProvider>
+              <div
+                className="font-normal text-gray-600 pt-1 cursor-pointer"
+                onClick={() => setConfirmLegitData(!confirmLegitData)}
+              >
+                I confirm the the data provided is correct.
+              </div>
             </div>
-          </div>
+          )} */}
           {confirmLegitData && (
             <div className="pt-5 mb-10">
               <Button
