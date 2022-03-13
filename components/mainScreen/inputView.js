@@ -770,6 +770,8 @@ export default function InputView() {
   }
 
   useEffect(() => {
+    setIsFinancialCreator(creators?.financialCreator === user.id);
+    setIsNonFinancialCreator(creators?.nonFinancialCreator === user.id);
     fetch(`http://${process.env.NEXT_PUBLIC_HOST_SERVER_IP}:3001/companies/`, {
       method: "GET",
       headers: new Headers({
@@ -1350,7 +1352,7 @@ export default function InputView() {
                             setFileName2("Error!");
                             setDialogIsShown(false);
                             setDmessageTitle("File format Issue!");
-                            setDerrorMessage(`${error}`);
+                            setDerrorMessage(`${err}`);
                             setDdialogIsShown(true);
                             setDataUploaded(false);
                           });
