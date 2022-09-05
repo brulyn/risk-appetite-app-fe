@@ -36,7 +36,7 @@ function StructuredTable() {
 
   const getRiskScoreLB = (performance, tolerance) => {
     let diff = performance - tolerance;
-    let diff_by_percent = (diff / tolerance) * 100;
+    let diff_by_percent = tolerance === 0 ? 0 : (diff / tolerance) * 100;
 
     if (diff_by_percent <= 0 || diff === 0 || tolerance === 0) return 0;
     else if (diff_by_percent <= 20 && diff_by_percent > 0) return 1;
