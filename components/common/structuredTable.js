@@ -38,7 +38,7 @@ function StructuredTable() {
     let diff = performance - tolerance;
     let diff_by_percent = (diff / tolerance) * 100;
 
-    if (diff_by_percent <= 0 || diff == 0) return 0;
+    if (diff_by_percent <= 0 || diff === 0 || tolerance === 0) return 0;
     else if (diff_by_percent <= 20 && diff_by_percent > 0) return 1;
     else if (diff_by_percent <= 30 && diff_by_percent > 20) return 2;
     else if (diff_by_percent <= 40 && diff_by_percent > 30) return 3;
