@@ -22,6 +22,8 @@ function StructuredTable() {
 
     if (signPerfomance == "minus" && signTolerance === "minus") {
       return getRiskScoreLB(Math.abs(performance), Math.abs(tolerance));
+    } else if (signPerfomance == "plus" && signTolerance === "minus") {
+      return 0;
     } else {
       if (performance / tolerance >= 1 || tolerance === 0) return 0;
       if (performance / tolerance >= 0.8 && performance / tolerance < 1)
