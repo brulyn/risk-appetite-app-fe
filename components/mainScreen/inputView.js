@@ -694,6 +694,9 @@ export default function InputView() {
             sendBulkEmail();
             // setErrorMessage("Data successfully saved.");
             setDialogIsShown(false);
+            setDataCanBeRead(false);
+            setConfirmLegitData(false);
+            setFileName2("FINANCIAL REPORT");
           })
           .catch((err) => {
             toast.error("Operation Failed!");
@@ -911,7 +914,7 @@ export default function InputView() {
               )}
             </div>
 
-            {(!loaded || (loaded && isFinancialCreator)) && (
+            {
               <div className="flex flex-row space-x-16 items-center mt-10">
                 <div className="font-medium text-gray-600">
                   Quantitative Metrics
@@ -930,9 +933,9 @@ export default function InputView() {
                   </div>
                 </div>
               </div>
-            )}
+            }
 
-            {(!loaded || (loaded && isFinancialCreator)) && (
+            {
               <div className="flex flex-row">
                 <div className="flex h-16 pt-5 mr-10">
                   <label
@@ -1364,9 +1367,9 @@ export default function InputView() {
                   </label>
                 </div>
               </div>
-            )}
+            }
 
-            {(!loaded || (loaded && isFinancialCreator)) && (
+            {
               <div className="grid grid-cols-4 mt-5 items-center">
                 <ToleranceMetric
                   name="System Uptime (%) - Current"
@@ -1449,20 +1452,20 @@ export default function InputView() {
                   error={lossOnMajorUpheavalP.toString().length == 0}
                 />
               </div>
-            )}
+            }
 
-            {loaded && !isFinancialCreator && (
+            {/* {loaded && !isFinancialCreator && (
               <div className="font-medium text-red-400 mt-10">
                 Quantitative Data aleady saved by another user!
               </div>
-            )}
+            )} */}
 
-            {(!loaded || (loaded && isNonFinancialCreator)) && (
+            {
               <div className="font-medium text-gray-600 mt-10">
                 Qualitative Metrics (Implementation Level)
               </div>
-            )}
-            {(!loaded || (loaded && isNonFinancialCreator)) && (
+            }
+            {
               <Accordion>
                 <Accordion.Title
                   active={activeIndex === 0}
@@ -1619,13 +1622,13 @@ export default function InputView() {
                   />
                 </Accordion.Content>
               </Accordion>
-            )}
+            }
 
-            {loaded && !isNonFinancialCreator && (
+            {/* {loaded && !isNonFinancialCreator && (
               <div className="font-medium text-red-400 mt-10">
                 Qualitative Data aleady saved by another user!
               </div>
-            )}
+            )} */}
           </form>
           {dataCanBeRead && (
             <div className="flex flex-row space-x-2 items-center">
