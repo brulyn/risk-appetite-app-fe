@@ -237,6 +237,7 @@ export default function Index() {
               .then((res) => res.json())
               .then((res) => {
                 if (res.error) {
+                  console.log(res);
                   toast.error("Error occured while sending email!");
                   setViewPort("login");
                   setDialogIsShown(false);
@@ -249,6 +250,7 @@ export default function Index() {
                 }
               })
               .catch((err) => {
+                console.log(err);
                 toast.error("Error occured while sending email!");
                 setViewPort("login");
                 setDialogIsShown(false);

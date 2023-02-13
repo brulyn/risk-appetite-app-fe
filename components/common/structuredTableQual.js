@@ -105,7 +105,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
                     //
@@ -121,7 +121,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
@@ -188,7 +188,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
                     //
@@ -204,7 +204,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
@@ -271,7 +271,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
                     //
@@ -287,7 +287,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
@@ -354,7 +354,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
                     //
@@ -370,7 +370,7 @@ function StructuredTableQual() {
                 <Table.Cell
                   positive={valFillHighCell(row.currentPerformance)}
                   warning={valFillMediumCell(row.currentPerformance)}
-                  warning={valFillLowCell(row.currentPerformance)}
+                  // warning={valFillLowCell(row.currentPerformance)}
                   error={valFillNoactionCell(row.currentPerformance)}
                 >
                   {valFillHighCell(row.currentPerformance) && (
